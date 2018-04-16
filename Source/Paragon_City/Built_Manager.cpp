@@ -44,16 +44,17 @@ void ABuilt_Manager::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	UGameUserSettings* UserSettings = new UGameUserSettings();
+	UGameUserSettings* UserSettings = UGameUserSettings::GetGameUserSettings();
 
 	Resolution_X = UserSettings->GetScreenResolution().X;
 	Resolution_Y = UserSettings->GetScreenResolution().Y;
 
 	PlayerController->GetMousePosition(Mouseposition_X, Mouseposition_Y);
 
-	if (Mouseposition_X > Resolution_X - 10)
+	UE_LOG(LogTemp, Warning, TEXT("%f"), Mouseposition_X);
+	if (Mouseposition_X > Resolution_X / 2)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Your message"));
+		UE_LOG(LogTemp, Warning, TEXT("Penis"));
 	}
 }
 

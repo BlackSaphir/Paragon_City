@@ -16,17 +16,9 @@ ABuilt_Manager::ABuilt_Manager()
 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	// Create camera boom
-	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
-	CameraBoom->bAbsoluteRotation = true; // Don't want arm to rotate when character does
-	CameraBoom->TargetArmLength = 800.f;
-	CameraBoom->RelativeRotation = FRotator(-60.f, 0.f, 0.f);
-	CameraBoom->bDoCollisionTest = false; // Don't want to pull camera in when it collides with level
 
-	// Create camera
-	TopDownCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("TopDownCamera"));
-	TopDownCameraComponent->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
-	TopDownCameraComponent->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
+	DefaultRootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
+	RootComponent = DefaultRootComponent;
 
 }
 
@@ -35,7 +27,7 @@ void ABuilt_Manager::BeginPlay()
 {
 	Super::BeginPlay();
 
-	PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+	Camera_Manager = NewObject<UCamera_Manager>();
 
 }
 
@@ -44,18 +36,7 @@ void ABuilt_Manager::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	UGameUserSettings* UserSettings = UGameUserSettings::GetGameUserSettings();
-
-	Resolution_X = UserSettings->GetScreenResolution().X;
-	Resolution_Y = UserSettings->GetScreenResolution().Y;
-
-	PlayerController->GetMousePosition(Mouseposition_X, Mouseposition_Y);
-
-	UE_LOG(LogTemp, Warning, TEXT("%f"), Mouseposition_X);
-	if (Mouseposition_X > Resolution_X / 2)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Penis"));
-	}
+	
 }
 
 // Called to bind functionality to input
@@ -63,5 +44,21 @@ void ABuilt_Manager::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	InputComponent->BindAxis("MoveRight", this, &ABuilt_Manager::MoveRight);
+
+}
+
+void ABuilt_Manager::MoveRight(float axisvalue)
+{
+	float distance = axisvalue * 10.0f;
+
+	FVector rightVector = UKismetMathLibrary::GetRightVector(FRotator(0, 0, 0));
+
+	FVector newLocation = GetActorLocation() + (rightVector * distance);
+
+	SetActorLocation(newLocation);
+
+
+	//Camera_Manager->MoveRight(axisvalue);
 }
 

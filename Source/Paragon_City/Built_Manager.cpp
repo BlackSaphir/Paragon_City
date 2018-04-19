@@ -20,6 +20,8 @@ ABuilt_Manager::ABuilt_Manager()
 	DefaultRootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
 	RootComponent = DefaultRootComponent;
 
+	
+
 }
 
 // Called when the game starts or when spawned
@@ -27,7 +29,12 @@ void ABuilt_Manager::BeginPlay()
 {
 	Super::BeginPlay();
 
-	Camera_Manager = NewObject<UCamera_Manager>();
+
+	if (Camera_Manager)
+	{
+		Camera_Manager->RegisterComponent();
+		Camera_Manager->AttachToComponent(DefaultRootComponent,  FAttachmentTransformRules::KeepRelativeTransform);
+	}
 
 }
 
@@ -50,15 +57,15 @@ void ABuilt_Manager::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 
 void ABuilt_Manager::MoveRight(float axisvalue)
 {
-	float distance = axisvalue * 10.0f;
+	/*float distance = axisvalue * 10.0f;
 
 	FVector rightVector = UKismetMathLibrary::GetRightVector(FRotator(0, 0, 0));
 
 	FVector newLocation = GetActorLocation() + (rightVector * distance);
 
-	SetActorLocation(newLocation);
+	SetActorLocation(newLocation);*/
 
 
-	//Camera_Manager->MoveRight(axisvalue);
+	Camera_Manager->MoveRight(axisvalue);
 }
 

@@ -23,6 +23,9 @@ public:
 	UPROPERTY(EditAnywhere)
 		class USceneComponent* DefaultRootComponent;
 
+	UPROPERTY(EditAnywhere)
+		class UCamera_Manager* Camera_Manager;
+
 	// Function
 
 protected:
@@ -39,9 +42,9 @@ private:
 
 	// Variable
 
-private:
 
-	UCamera_Manager* Camera_Manager;
+
+	
 
 
 };

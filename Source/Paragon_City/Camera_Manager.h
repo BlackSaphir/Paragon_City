@@ -40,7 +40,6 @@ public:
 	// Variable
 
 
-
 private:
 
 	APlayerController * PlayerController;

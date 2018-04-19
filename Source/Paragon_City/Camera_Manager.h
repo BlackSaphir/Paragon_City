@@ -4,11 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Camera/CameraComponent.h"
+#include "GameFramework/GameUserSettings.h"
 #include "Camera_Manager.generated.h"
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class PARAGON_CITY_API UCamera_Manager : public USceneComponent
+class PARAGON_CITY_API UCamera_Manager : public UActorComponent
 {
 	GENERATED_BODY()
 
@@ -18,38 +20,30 @@ public:
 
 	// Component
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Camera, meta = (AllowPrivateAccess = "true"))
-		class UCameraComponent* TopDownCamera;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-		class USpringArmComponent* CameraBoom;
+	
 
 
 	// Function
 
-protected:
-	virtual void BeginPlay() override;
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 public:
 
-	void MoveRight(float axisvalue);
+	void MoveRight(float axisvalue, float RightSpeed, UCameraComponent* Camera_Component);
+	void MoveForward(float axisvalue, float ForwardSpeed, UCameraComponent* Camera_Component);
 
 
 
 	// Variable
 
 
-private:
+public:
 
 	APlayerController * PlayerController;
-	float Resolution_Y;
-	float Resolution_X;
-	float Mouseposition_X;
-	float Mouseposition_Y;
 	UGameUserSettings* UserSettings;
-	//ABuilt_Manager* Manager;
+	float ResolutionX;
+	float ResolutionY;
+	float MousepositionX;
+	float MousepositionY;
 
-		
 	
 };

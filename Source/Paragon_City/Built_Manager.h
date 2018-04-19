@@ -23,8 +23,14 @@ public:
 	UPROPERTY(EditAnywhere)
 		class USceneComponent* DefaultRootComponent;
 
-	UPROPERTY(EditAnywhere)
-		class UCamera_Manager* Camera_Manager;
+
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Camera, meta = (AllowPrivateAccess = "true"))
+		class UCameraComponent* TopDownCamera;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+		class USpringArmComponent* CameraBoom;
+
 
 	// Function
 
@@ -39,12 +45,23 @@ private:
 	UFUNCTION()
 		void MoveRight(float axisvalue);
 
+	UFUNCTION()
+		void MoveForward(float axisvalue);
+
+
 
 	// Variable
 
+private:
 
+	UCamera_Manager * Camera_Manager;
 
-	
+	UPROPERTY(EditAnywhere)
+		float Rightspeed = 20.0f;
+
+	UPROPERTY(EditAnywhere)
+		float Forwardspeed = 20.0f;
+
 
 
 };

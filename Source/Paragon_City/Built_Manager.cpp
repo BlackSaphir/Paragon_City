@@ -10,6 +10,7 @@
 #include "Kismet/KismetMathLibrary.h"
 
 
+
 // Sets default values
 ABuilt_Manager::ABuilt_Manager()
 {
@@ -20,7 +21,19 @@ ABuilt_Manager::ABuilt_Manager()
 	DefaultRootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
 	RootComponent = DefaultRootComponent;
 
-	
+
+	// Create camera boom
+	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
+	CameraBoom->bAbsoluteRotation = true; // Don't want arm to rotate when character does
+	CameraBoom->TargetArmLength = 800.f;
+	CameraBoom->RelativeRotation = FRotator(-60.f, 0.f, 0.f);
+	CameraBoom->bDoCollisionTest = false; // Don't want to pull camera in when it collides with level
+
+										  // Create camera
+	TopDownCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("TopDownCamera"));
+	TopDownCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
+	TopDownCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
+
 
 }
 
@@ -29,12 +42,12 @@ void ABuilt_Manager::BeginPlay()
 {
 	Super::BeginPlay();
 
+	Camera_Manager = NewObject<UCamera_Manager>();
 
-	if (Camera_Manager)
-	{
-		Camera_Manager->RegisterComponent();
-		Camera_Manager->AttachToComponent(DefaultRootComponent,  FAttachmentTransformRules::KeepRelativeTransform);
-	}
+	Camera_Manager->UserSettings = UGameUserSettings::GetGameUserSettings();
+	Camera_Manager->ResolutionX = Camera_Manager->UserSettings->GetScreenResolution().X;
+	Camera_Manager->ResolutionY = Camera_Manager->UserSettings->GetScreenResolution().Y;
+	Camera_Manager->PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
 
 }
 
@@ -43,7 +56,7 @@ void ABuilt_Manager::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	
+	Camera_Manager->PlayerController->GetMousePosition(Camera_Manager->MousepositionX, Camera_Manager->MousepositionY);
 }
 
 // Called to bind functionality to input
@@ -52,20 +65,17 @@ void ABuilt_Manager::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 	InputComponent->BindAxis("MoveRight", this, &ABuilt_Manager::MoveRight);
+	InputComponent->BindAxis("MoveForward", this, &ABuilt_Manager::MoveForward);
 
 }
 
 void ABuilt_Manager::MoveRight(float axisvalue)
 {
-	/*float distance = axisvalue * 10.0f;
+	Camera_Manager->MoveRight(axisvalue, Rightspeed, TopDownCamera);
+}
 
-	FVector rightVector = UKismetMathLibrary::GetRightVector(FRotator(0, 0, 0));
-
-	FVector newLocation = GetActorLocation() + (rightVector * distance);
-
-	SetActorLocation(newLocation);*/
-
-
-	Camera_Manager->MoveRight(axisvalue);
+void ABuilt_Manager::MoveForward(float axisvalue)
+{
+	Camera_Manager->MoveForward(axisvalue, Forwardspeed, TopDownCamera);
 }
 

@@ -38,12 +38,13 @@ public:
 
 public:
 
-	APlayerController * PlayerController;
+	APlayerController* PlayerController;
 	UGameUserSettings* UserSettings;
 	float ResolutionX;
 	float ResolutionY;
 	float MousepositionX;
 	float MousepositionY;
+	bool bLockedX = false;
 
 	
 };

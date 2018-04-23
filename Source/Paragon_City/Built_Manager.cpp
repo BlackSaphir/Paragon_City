@@ -48,6 +48,8 @@ void ABuilt_Manager::BeginPlay()
 	Camera_Manager->ResolutionX = Camera_Manager->UserSettings->GetScreenResolution().X;
 	Camera_Manager->ResolutionY = Camera_Manager->UserSettings->GetScreenResolution().Y;
 	Camera_Manager->PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+	//Camera_Manager->PlayerController->bShowMouseCursor = false;
+
 
 }
 
@@ -56,7 +58,11 @@ void ABuilt_Manager::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	Camera_Manager->PlayerController->GetMousePosition(Camera_Manager->MousepositionX, Camera_Manager->MousepositionY);
+	if (Camera_Manager->bLockedX == false)
+	{
+		Camera_Manager->PlayerController->GetMousePosition(Camera_Manager->MousepositionX, Camera_Manager->MousepositionY);
+		
+	}
 }
 
 // Called to bind functionality to input

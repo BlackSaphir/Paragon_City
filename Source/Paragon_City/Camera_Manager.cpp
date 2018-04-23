@@ -12,6 +12,7 @@ UCamera_Manager::UCamera_Manager()
 	PrimaryComponentTick.bCanEverTick = true;
 	bWantsInitializeComponent = true;
 
+
 }
 
 
@@ -20,14 +21,17 @@ UCamera_Manager::UCamera_Manager()
 void UCamera_Manager::MoveRight(float axisvalue, float Rightspeed, UCameraComponent* Camera_Component)
 {
 
-	UE_LOG(LogTemp, Warning, TEXT("%f"), MousepositionX);
-	UE_LOG(LogTemp, Warning, TEXT("%f"), ResolutionX);
+	//UE_LOG(LogTemp, Warning, TEXT("%f"), MousepositionX);
+	//UE_LOG(LogTemp, Warning, TEXT("%f"), ResolutionX);
 
 	if (Camera_Component != nullptr)
 	{
-		if (MousepositionX > ResolutionX / 2  )
+		if (MousepositionX > ResolutionX / 2 + 100)
 		{
-			float distance = axisvalue * Rightspeed;
+			//bLockedX = true;
+
+
+			float distance = 10 * Rightspeed;
 
 			FVector rightVector = UKismetMathLibrary::GetRightVector(FRotator(0, 0, 0));
 
@@ -35,9 +39,17 @@ void UCamera_Manager::MoveRight(float axisvalue, float Rightspeed, UCameraCompon
 
 			Camera_Component->SetWorldLocation(newLocation);
 
+
+			UE_LOG(LogTemp, Warning, TEXT("%s"), *Camera_Component->GetComponentLocation().ToString());
+
+			UE_LOG(LogTemp, Warning, TEXT("Rechts Rechts"));
 		}
-		else if (MousepositionX < ResolutionX / 2)
+		else
 		{
+			//bLockedX = false;
+
+
+
 			float distance = axisvalue * Rightspeed;
 
 			FVector rightVector = UKismetMathLibrary::GetRightVector(FRotator(0, 0, 0));
@@ -45,6 +57,32 @@ void UCamera_Manager::MoveRight(float axisvalue, float Rightspeed, UCameraCompon
 			FVector newLocation = Camera_Component->GetComponentLocation() + (rightVector * distance);
 
 			Camera_Component->SetWorldLocation(newLocation);
+			UE_LOG(LogTemp, Warning, TEXT("%s"), *Camera_Component->GetComponentLocation().ToString());
+
+			//UE_LOG(LogTemp, Warning, TEXT("Rechts"));
+		}
+		
+		if (MousepositionX < ResolutionX / 2 - 100)
+		{
+			float distance = 10 * Rightspeed;
+
+			FVector rightVector = UKismetMathLibrary::GetRightVector(FRotator(0, 0, 0));
+
+			FVector newLocation = Camera_Component->GetComponentLocation() + (rightVector * distance);
+
+			Camera_Component->SetWorldLocation(newLocation);
+			UE_LOG(LogTemp, Warning, TEXT("Links"));
+		}
+		else
+		{
+			float distance = 10 * Rightspeed;
+
+			FVector rightVector = UKismetMathLibrary::GetRightVector(FRotator(0, 0, 0));
+
+			FVector newLocation = Camera_Component->GetComponentLocation() + (rightVector * distance);
+
+			Camera_Component->SetWorldLocation(newLocation);
+			UE_LOG(LogTemp, Warning, TEXT("Links Links"));
 		}
 
 

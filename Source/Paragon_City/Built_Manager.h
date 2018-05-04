@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
-#include "Camera_Manager.h"
 #include "Built_Manager.generated.h"
 
 UCLASS()
@@ -54,7 +53,6 @@ private:
 
 private:
 
-	UCamera_Manager * Camera_Manager;
 
 	UPROPERTY(EditAnywhere)
 		float Rightspeed = 20.0f;

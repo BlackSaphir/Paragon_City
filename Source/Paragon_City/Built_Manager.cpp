@@ -42,13 +42,7 @@ void ABuilt_Manager::BeginPlay()
 {
 	Super::BeginPlay();
 
-	Camera_Manager = NewObject<UCamera_Manager>();
-
-	Camera_Manager->UserSettings = UGameUserSettings::GetGameUserSettings();
-	Camera_Manager->ResolutionX = Camera_Manager->UserSettings->GetScreenResolution().X;
-	Camera_Manager->ResolutionY = Camera_Manager->UserSettings->GetScreenResolution().Y;
-	Camera_Manager->PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
-	//Camera_Manager->PlayerController->bShowMouseCursor = false;
+	
 
 
 }
@@ -58,11 +52,6 @@ void ABuilt_Manager::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (Camera_Manager->bLockedX == false)
-	{
-		Camera_Manager->PlayerController->GetMousePosition(Camera_Manager->MousepositionX, Camera_Manager->MousepositionY);
-		
-	}
 }
 
 // Called to bind functionality to input
@@ -77,11 +66,9 @@ void ABuilt_Manager::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 
 void ABuilt_Manager::MoveRight(float axisvalue)
 {
-	Camera_Manager->MoveRight(axisvalue, Rightspeed, TopDownCamera);
 }
 
 void ABuilt_Manager::MoveForward(float axisvalue)
 {
-	Camera_Manager->MoveForward(axisvalue, Forwardspeed, TopDownCamera);
 }
 

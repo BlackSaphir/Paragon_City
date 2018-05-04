@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "Built_Manager.h"
 #include "Paragon_CityPlayerController.generated.h"
 
 UCLASS()
@@ -14,30 +15,26 @@ class AParagon_CityPlayerController : public APlayerController
 public:
 	AParagon_CityPlayerController();
 
-protected:
-	/** True if the controlled character should navigate to the mouse cursor. */
-	uint32 bMoveToMouseCursor : 1;
+	// Function
 
-	// Begin PlayerController interface
+private:
+
+
 	virtual void PlayerTick(float DeltaTime) override;
 	virtual void SetupInputComponent() override;
-	// End PlayerController interface
+	virtual bool InputTouch(uint32 Handle, ETouchType::Type Type, const FVector2D& TouchLocation, FDateTime DeviceTimestamp, uint32 TouchpadIndex) override;
+	void MoveRightTouch(const ETouchIndex::Type FingerIndex,  FVector Location);
 
-	/** Resets HMD orientation in VR. */
-	void OnResetVR();
 
-	/** Navigate player to the current mouse cursor location. */
-	void MoveToMouseCursor();
+	// Variable
 
-	/** Navigate player to the current touch location. */
-	void MoveToTouchLocation(const ETouchIndex::Type FingerIndex, const FVector Location);
+private:
+
+	ABuilt_Manager* BuiltManager;
+
+
 	
-	/** Navigate player to the given world location. */
-	void SetNewMoveDestination(const FVector DestLocation);
-
-	/** Input handlers for SetDestination action. */
-	void OnSetDestinationPressed();
-	void OnSetDestinationReleased();
+	
 };
 
 

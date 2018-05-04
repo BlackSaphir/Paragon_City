@@ -15,13 +15,18 @@ UCamera_Manager::UCamera_Manager()
 
 }
 
+void UCamera_Manager::BeginPlay()
+{
+	Super::BeginPlay();
+	//UserSettings = UGameUserSettings::GetGameUserSettings();
+
+}
 
 #if PLATFORM_WINDOWS
 
 void UCamera_Manager::MoveRight(float axisvalue, float Rightspeed, UCameraComponent* Camera_Component)
 {
 
-	//UE_LOG(LogTemp, Warning, TEXT("%f"), MousepositionX);
 	//UE_LOG(LogTemp, Warning, TEXT("%f"), ResolutionX);
 
 	if (Camera_Component != nullptr)
@@ -31,7 +36,7 @@ void UCamera_Manager::MoveRight(float axisvalue, float Rightspeed, UCameraCompon
 			//bLockedX = true;
 
 
-			float distance = 10 * Rightspeed;
+			float distance = 2 * Rightspeed;
 
 			FVector rightVector = UKismetMathLibrary::GetRightVector(FRotator(0, 0, 0));
 
@@ -59,12 +64,13 @@ void UCamera_Manager::MoveRight(float axisvalue, float Rightspeed, UCameraCompon
 			Camera_Component->SetWorldLocation(newLocation);
 			UE_LOG(LogTemp, Warning, TEXT("%s"), *Camera_Component->GetComponentLocation().ToString());
 
-			//UE_LOG(LogTemp, Warning, TEXT("Rechts"));
+			UE_LOG(LogTemp, Warning, TEXT("Rechts"));
+			UE_LOG(LogTemp, Warning, TEXT("%f"), MousepositionX);
 		}
-		
+
 		if (MousepositionX < ResolutionX / 2 - 100)
 		{
-			float distance = 10 * Rightspeed;
+			float distance = 2 * Rightspeed;
 
 			FVector rightVector = UKismetMathLibrary::GetRightVector(FRotator(0, 0, 0));
 
@@ -75,7 +81,7 @@ void UCamera_Manager::MoveRight(float axisvalue, float Rightspeed, UCameraCompon
 		}
 		else
 		{
-			float distance = 10 * Rightspeed;
+			float distance = axisvalue * Rightspeed;
 
 			FVector rightVector = UKismetMathLibrary::GetRightVector(FRotator(0, 0, 0));
 
@@ -103,6 +109,7 @@ void UCamera_Manager::MoveForward(float axisvalue, float ForwardSpeed, UCameraCo
 		Camera_Component->SetWorldLocation(newLocation);
 	}
 }
+
 
 
 #endif

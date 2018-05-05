@@ -31,7 +31,8 @@ private:
 private:
 
 	ABuilt_Manager* BuiltManager;
-
+	FVector WorldLoc;
+	FVector WorldDir;
 
 	
 	

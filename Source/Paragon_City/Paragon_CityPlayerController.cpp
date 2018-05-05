@@ -37,8 +37,9 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 	case ETouchType::Began:
 		break;
 	case ETouchType::Moved:
-		break;
-		//MoveRightTouch(ETouchIndex::Touch1, FVector(TouchLocation.X, TouchLocation.Y, 1.0f));
+		DeprojectScreenPositionToWorld(TouchLocation.X, TouchLocation.Y, WorldLoc, WorldDir);
+
+		MoveRightTouch(ETouchIndex::Touch1, WorldLoc);
 	case ETouchType::Stationary:
 		break;
 	case ETouchType::Ended:
@@ -57,15 +58,14 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 
 void AParagon_CityPlayerController::MoveRightTouch(const ETouchIndex::Type FingerIndex,  FVector Location)
 {
-	
 
 	float distance = 2 * 1;
 
 	FVector rightVector = UKismetMathLibrary::GetRightVector(FRotator(0, 0, 0));
 
-	FVector newLocation = BuiltManager->GetTargetLocation() + (rightVector * distance);
+	FVector newLocation = Location;
 
-	BuiltManager->SetActorLocation(newLocation);
+	BuiltManager->SetActorLocation(WorldLoc);
 
 	UE_LOG(LogTemp, Warning, TEXT("%s"), *BuiltManager->GetTargetLocation().ToString());
 

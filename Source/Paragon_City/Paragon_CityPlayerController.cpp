@@ -4,6 +4,7 @@
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Engine/World.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "GameFramework/SpringArmComponent.h"
 
 AParagon_CityPlayerController::AParagon_CityPlayerController()
 {
@@ -26,7 +27,7 @@ void AParagon_CityPlayerController::SetupInputComponent()
 
 
 	// support touch devices 
-	InputComponent->BindTouch(EInputEvent::IE_Pressed, this, &AParagon_CityPlayerController::MoveRightTouch);
+	//InputComponent->BindTouch(EInputEvent::IE_Pressed, this, &AParagon_CityPlayerController::MoveRightTouch);
 
 }
 
@@ -37,9 +38,9 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 	case ETouchType::Began:
 		break;
 	case ETouchType::Moved:
-		DeprojectScreenPositionToWorld(TouchLocation.X, TouchLocation.Y, WorldLoc, WorldDir);
+		//DeprojectScreenPositionToWorld(TouchLocation.X, TouchLocation.Y, WorldLoc, WorldDir);
 
-		MoveRightTouch(ETouchIndex::Touch1, WorldLoc);
+		//MoveRightTouch(ETouchIndex::Touch1, WorldLoc);
 	case ETouchType::Stationary:
 		break;
 	case ETouchType::Ended:
@@ -65,9 +66,11 @@ void AParagon_CityPlayerController::MoveRightTouch(const ETouchIndex::Type Finge
 
 	FVector newLocation = Location;
 
-	BuiltManager->SetActorLocation(WorldLoc);
+	BuiltManager->SetActorRelativeLocation(Location);
 
-	UE_LOG(LogTemp, Warning, TEXT("%s"), *BuiltManager->GetTargetLocation().ToString());
+	UE_LOG(LogTemp, Warning, TEXT(" Built_Manager_Loc %s"), *BuiltManager->GetTargetLocation().ToString());
+	UE_LOG(LogTemp, Warning, TEXT(" Touch Location %s"), *Location.ToString());
+
 
 	UE_LOG(LogTemp, Warning, TEXT("Moved"));
 }

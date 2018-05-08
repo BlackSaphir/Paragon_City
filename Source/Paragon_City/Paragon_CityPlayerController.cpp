@@ -31,7 +31,7 @@ void AParagon_CityPlayerController::SetupInputComponent()
 
 }
 
-bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type Type, const FVector2D & TouchLocation, FDateTime DeviceTimestamp, uint32 TouchpadIndex)
+/*bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type Type, const FVector2D & TouchLocation, FDateTime DeviceTimestamp, uint32 TouchpadIndex)
 {
 	switch (Type)
 	{
@@ -53,7 +53,7 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 
 
 	return false;
-}
+}*/
 
 
 

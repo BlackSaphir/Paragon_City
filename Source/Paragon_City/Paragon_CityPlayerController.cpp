@@ -31,29 +31,29 @@ void AParagon_CityPlayerController::SetupInputComponent()
 
 }
 
-/*bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type Type, const FVector2D & TouchLocation, FDateTime DeviceTimestamp, uint32 TouchpadIndex)
-{
-	switch (Type)
-	{
-	case ETouchType::Began:
-		break;
-	case ETouchType::Moved:
-		//DeprojectScreenPositionToWorld(TouchLocation.X, TouchLocation.Y, WorldLoc, WorldDir);
-
-		//MoveRightTouch(ETouchIndex::Touch1, WorldLoc);
-	case ETouchType::Stationary:
-		break;
-	case ETouchType::Ended:
-		break;
-	case ETouchType::NumTypes:
-		break;
-	default:
-		break;
-	}
-
-
-	return false;
-}*/
+//bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type Type, const FVector2D & TouchLocation, FDateTime DeviceTimestamp, uint32 TouchpadIndex)
+//{
+//	switch (Type)
+//	{
+//	case ETouchType::Began:
+//		break;
+//	case ETouchType::Moved:
+//		//DeprojectScreenPositionToWorld(TouchLocation.X, TouchLocation.Y, WorldLoc, WorldDir);
+//
+//		//MoveRightTouch(ETouchIndex::Touch1, WorldLoc);
+//	case ETouchType::Stationary:
+//		break;
+//	case ETouchType::Ended:
+//		break;
+//	case ETouchType::NumTypes:
+//		break;
+//	default:
+//		break;
+//	}
+//
+//
+//	return false;
+//}
 
 
 

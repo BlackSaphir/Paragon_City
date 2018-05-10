@@ -9,42 +9,47 @@
 AParagon_CityPlayerController::AParagon_CityPlayerController()
 {
 	bShowMouseCursor = true;
-	BuiltManager = NewObject<ABuilt_Manager>();
+	builtManager = NewObject<ABuilt_Manager>();
+}
+
+
+void AParagon_CityPlayerController::BeginPlay()
+{
+	Super::BeginPlay();
+	builtManager = NewObject<ABuilt_Manager>();
 }
 
 void AParagon_CityPlayerController::PlayerTick(float DeltaTime)
 {
 	Super::PlayerTick(DeltaTime);
 
+	if (bIsPressed == true)
+	{
+		GetInputTouchState(ETouchIndex::Touch1, inputVector.X, inputVector.Y, bIsCurrentlyPressed);
 
+		MoveRightTouch();
+		MoveLeftTouch();
+	}
 }
 
-void AParagon_CityPlayerController::SetupInputComponent()
-{
-	// set up gameplay key bindings
-	Super::SetupInputComponent();
-
-
-
-	// support touch devices 
-	//InputComponent->BindTouch(EInputEvent::IE_Pressed, this, &AParagon_CityPlayerController::MoveRightTouch);
-
-}
 
 //bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type Type, const FVector2D & TouchLocation, FDateTime DeviceTimestamp, uint32 TouchpadIndex)
 //{
 //	switch (Type)
 //	{
 //	case ETouchType::Began:
-//		break;
-//	case ETouchType::Moved:
-//		//DeprojectScreenPositionToWorld(TouchLocation.X, TouchLocation.Y, WorldLoc, WorldDir);
+//		bDoOnce = true;
+//		DeprojectScreenPositionToWorld(TouchLocation.X, TouchLocation.Y, worldLoc, worldDir);
 //
-//		//MoveRightTouch(ETouchIndex::Touch1, WorldLoc);
+//		Pressed(ETouchIndex::Touch1, worldLoc);
+//	case ETouchType::Moved:
+//		break;
 //	case ETouchType::Stationary:
 //		break;
 //	case ETouchType::Ended:
-//		break;
+//		DeprojectScreenPositionToWorld(TouchLocation.X, TouchLocation.Y, worldLoc, worldDir);
+//
+//		Released(ETouchIndex::Touch1, worldLoc);
 //	case ETouchType::NumTypes:
 //		break;
 //	default:
@@ -56,24 +61,47 @@ void AParagon_CityPlayerController::SetupInputComponent()
 //}
 
 
+void AParagon_CityPlayerController::Pressed(const ETouchIndex::Type FingerIndex, FVector Location)
+{
+	if (bDoOnce == true)
+	{
+		bIsPressed = true;
+		
+		touchStart.X = Location.Y;
+		touchStart.Y = Location.X;
+	}
+}
 
-void AParagon_CityPlayerController::MoveRightTouch(const ETouchIndex::Type FingerIndex,  FVector Location)
+void AParagon_CityPlayerController::Released(const ETouchIndex::Type FingerIndex, FVector Location)
+{
+	bDoOnce = false;
+	bIsPressed = false;
+}
+
+void AParagon_CityPlayerController::MoveRightTouch()
+{
+	if (touchStart.Y - inputVector.X > 20.0f || touchStart.Y - inputVector.X < -20.0f)
+	{
+		touchEnd.X = inputVector.Y;
+		touchEnd.Y = inputVector.X;
+		
+		if (touchEnd.X < touchStart.X)
+		{
+			
+			finalLocation = UKismetMathLibrary::MakeVector(0, (touchStart.Y - touchEnd.Y) * 0.1f, 0);
+
+			builtManager->CameraBoom->SetWorldLocation(builtManager->CameraBoom->GetComponentLocation() + finalLocation);
+			UE_LOG(LogTemp, Warning, TEXT("%s"), *finalLocation.ToString());
+		}
+	}
+
+}
+
+void AParagon_CityPlayerController::MoveLeftTouch()
 {
 
-	float distance = 2 * 1;
-
-	FVector rightVector = UKismetMathLibrary::GetRightVector(FRotator(0, 0, 0));
-
-	FVector newLocation = Location;
-
-	BuiltManager->SetActorRelativeLocation(Location);
-
-	UE_LOG(LogTemp, Warning, TEXT(" Built_Manager_Loc %s"), *BuiltManager->GetTargetLocation().ToString());
-	UE_LOG(LogTemp, Warning, TEXT(" Touch Location %s"), *Location.ToString());
-
-
-	UE_LOG(LogTemp, Warning, TEXT("Moved"));
 }
+
 
 
 

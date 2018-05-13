@@ -22,11 +22,10 @@ private:
 
 	virtual void PlayerTick(float DeltaTime) override;
 	virtual void BeginPlay() override;
-	//virtual bool InputTouch(uint32 Handle, ETouchType::Type Type, const FVector2D& TouchLocation, FDateTime DeviceTimestamp, uint32 TouchpadIndex) override;
+	virtual bool InputTouch(uint32 Handle, ETouchType::Type Type, const FVector2D& TouchLocation, FDateTime DeviceTimestamp, uint32 TouchpadIndex) override;
 	void MoveRightTouch();
 	void MoveLeftTouch();
 	void Pressed(const ETouchIndex::Type FingerIndex, FVector Location);
-	void Released(const ETouchIndex::Type FingerIndex, FVector Location);
 
 
 	// Variable
@@ -34,7 +33,8 @@ private:
 private:
 
 	ABuilt_Manager* builtManager;
-	FVector worldLoc;
+	FVector worldLocStart;
+	FVector worldLocEnd;
 	FVector worldDir;
 	FVector2D touchStart;
 	FVector2D touchEnd;
@@ -42,6 +42,8 @@ private:
 	FVector2D Penis;
 	FVector finalLocation;
 
+	float inputX;
+	float InputY;
 	float breakVectorX;
 	float breakVectorY;
 

@@ -32,7 +32,7 @@ private:
 
 private:
 
-	ABuilt_Manager* builtManager;
+	ABuilt_Manager* builtManager = NULL;
 	FVector worldLocStart;
 	FVector worldLocEnd;
 	FVector worldDir;
@@ -41,6 +41,7 @@ private:
 	FVector2D inputVector;
 	FVector2D Penis;
 	FVector finalLocation;
+	FVector currentCameraBoomLocation;
 
 	float inputX;
 	float InputY;

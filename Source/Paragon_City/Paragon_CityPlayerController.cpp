@@ -15,7 +15,7 @@ AParagon_CityPlayerController::AParagon_CityPlayerController()
 
 void AParagon_CityPlayerController::BeginPlay()
 {
-	Super::BeginPlay();
+	Super::BeginPlay();	
 }
 
 // set InputVector and call MoveRight
@@ -30,9 +30,10 @@ void AParagon_CityPlayerController::PlayerTick(float DeltaTime)
 		//inputVector = UKismetMathLibrary::MakeVector2D(inputX, InputY);
 		inputVector.X = inputX;
 		inputVector.Y = InputY;
-		UE_LOG(LogTemp, Warning, TEXT("bIsCurrentlyPressed: %s"), (bIsCurrentlyPressed ? TEXT("true") : TEXT ("false")));
+		UE_LOG(LogTemp, Warning, TEXT("bIsCurrentlyPressed: %s"), (bIsCurrentlyPressed ? TEXT("true") : TEXT("false")));
 		UE_LOG(LogTemp, Warning, TEXT("inputVector: %s"), *inputVector.ToString());
 		UE_LOG(LogTemp, Warning, TEXT("touchstart: %s"), *touchStart.ToString());
+		UE_LOG(LogTemp, Warning, TEXT("touchend: %s"), *touchEnd.ToString());
 		MoveRightTouch();
 		MoveLeftTouch();
 	}
@@ -48,12 +49,21 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 		//DeprojectScreenPositionToWorld(TouchLocation.X, TouchLocation.Y, worldLocStart, worldDir);
 
 		// set Touchlocation
-		touchStart.X = TouchLocation.Y;
-		touchStart.Y = TouchLocation.X;
-		bDoOnce = true;
 		bIsPressed = true;
+		bDoOnce = true;
+		/*touchStart.X = TouchLocation.Y;
+		touchStart.Y = TouchLocation.X;*/
+
+		touchStart.X = TouchLocation.X;
+		touchStart.Y = TouchLocation.Y;
+
 		//Pressed(ETouchIndex::Touch1, worldLocStart);
 	case ETouchType::Moved:
+
+		UE_LOG(LogTemp, Warning, TEXT("MOVING"));
+		touchEnd.X = TouchLocation.X;
+		UE_LOG(LogTemp, Warning, TEXT("TouchEndMOVING: %s"), *touchEnd.ToString());
+		bIsCurrentlyPressed = true;		
 		break;
 	case ETouchType::Stationary:
 		break;
@@ -88,16 +98,20 @@ void AParagon_CityPlayerController::MoveRightTouch()
 {
 	if (touchStart.Y - inputVector.X > 20.0f || touchStart.Y - inputVector.X < -20.0f)
 	{
-		touchEnd.X = inputVector.Y;
-		touchEnd.Y = inputVector.X;
+		/*touchEnd.X = inputVector.Y;
+		touchEnd.Y = inputVector.X;*/
 
-		if (touchEnd.X < touchStart.X)
+		if (touchEnd.X > touchStart.X)
 		{
-			// ERROR? : finalLocation wrong
-			finalLocation = UKismetMathLibrary::MakeVector(0, (touchStart.Y - touchEnd.Y) * 0.1f, 0) * (-1.0f);
 
-			builtManager->CameraBoom->SetWorldLocation(builtManager->CameraBoom->GetComponentLocation() + finalLocation);
+			// ERROR? : finalLocation wrong -----> Hast start - end gerechnet
+			finalLocation = UKismetMathLibrary::MakeVector((touchEnd.X - touchStart.X)/* * 0.1f*/, 0, 0) /** (-1.0f)*/;
+
+			currentCameraBoomLocation = builtManager->CameraBoom->GetComponentLocation() + finalLocation;
+			builtManager->CameraBoom->SetWorldLocation(currentCameraBoomLocation /*builtManager->CameraBoom->GetComponentLocation() + finalLocation*/);
+			//builtManager->SetActorLocation(builtManager->GetActorLocation() + finalLocation);
 			UE_LOG(LogTemp, Warning, TEXT("finalLocation: %s"), *finalLocation.ToString());
+			UE_LOG(LogTemp, Warning, TEXT("cameraBoomLocation: %s"), *currentCameraBoomLocation.ToString() /*builtManager->CameraBoom->GetComponentLocation() + finalLocation).ToString()*/);
 		}
 	}
 

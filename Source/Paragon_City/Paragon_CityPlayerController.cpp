@@ -16,15 +16,16 @@ AParagon_CityPlayerController::AParagon_CityPlayerController()
 void AParagon_CityPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-	builtManager = NewObject<ABuilt_Manager>();
 }
 
+// set InputVector and call MoveRight
 void AParagon_CityPlayerController::PlayerTick(float DeltaTime)
 {
 	Super::PlayerTick(DeltaTime);
 
 	if (bIsPressed == true)
 	{
+		// ERROR: bIsCurrentlyPressed always false after first time
 		GetInputTouchState(ETouchIndex::Touch1, inputX, InputY, bIsCurrentlyPressed);
 		//inputVector = UKismetMathLibrary::MakeVector2D(inputX, InputY);
 		inputVector.X = inputX;
@@ -44,8 +45,9 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 	{
 	case ETouchType::Began:
 
-		DeprojectScreenPositionToWorld(TouchLocation.X, TouchLocation.Y, worldLocStart, worldDir);
+		//DeprojectScreenPositionToWorld(TouchLocation.X, TouchLocation.Y, worldLocStart, worldDir);
 
+		// set Touchlocation
 		touchStart.X = TouchLocation.Y;
 		touchStart.Y = TouchLocation.X;
 		bDoOnce = true;
@@ -69,7 +71,7 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 	return false;
 }
 
-
+// not called atm
 void AParagon_CityPlayerController::Pressed(const ETouchIndex::Type FingerIndex, FVector Location)
 {
 	if (bDoOnce == true)
@@ -81,7 +83,7 @@ void AParagon_CityPlayerController::Pressed(const ETouchIndex::Type FingerIndex,
 	}
 }
 
-
+// check if touch goes right
 void AParagon_CityPlayerController::MoveRightTouch()
 {
 	if (touchStart.Y - inputVector.X > 20.0f || touchStart.Y - inputVector.X < -20.0f)
@@ -91,7 +93,7 @@ void AParagon_CityPlayerController::MoveRightTouch()
 
 		if (touchEnd.X < touchStart.X)
 		{
-
+			// ERROR? : finalLocation wrong
 			finalLocation = UKismetMathLibrary::MakeVector(0, (touchStart.Y - touchEnd.Y) * 0.1f, 0) * (-1.0f);
 
 			builtManager->CameraBoom->SetWorldLocation(builtManager->CameraBoom->GetComponentLocation() + finalLocation);

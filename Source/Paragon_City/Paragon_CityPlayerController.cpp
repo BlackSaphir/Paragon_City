@@ -12,11 +12,18 @@ AParagon_CityPlayerController::AParagon_CityPlayerController(/*const FObjectInit
 	bShowMouseCursor = true;
 	/*static ConstructorHelpers::FObjectFinder<ABuilt_Manager> buildManager_BP(TEXT("/Game/Blueprints/Character/BP_Built_Manager"));
 	builtManager = buildManager_BP.Object;*/
-	ConstructorHelpers::FObjectFinder<UObject>builtManager_BP = ConstructorHelpers::FObjectFinder<UObject>(TEXT("Blueprint'/Game/Blueprints/Character/BP_Built_Manager.BP_Built_Manager'"));
+	//Teste das mal ob deine Widgets mit angezeigt werden WTF Was war das? :D lol Ich habe keine Ahnung was das für ein Fehler war
+	const ConstructorHelpers::FObjectFinder<UBlueprint> builtManager_BP (TEXT("Blueprint'/Game/Blueprints/Character/BP_Built_Manager.BP_Built_Manager'"));
 	if (builtManager_BP.Succeeded())
 	{
+		UE_LOG(LogTemp, Warning, TEXT("Blueprint found"));
+		//Könnte zum Crash führen lol :)
+		// Ich wollte schon fragen ob das Kunst ist oder weg kann
+		//Den Builtmanager musst du jetzt mit dem Pawn ersetzen!
+		//Weil wie will man etwas possesen was nicht da ist?
+		//Die Engine wird dir da instant Crashen Weil keine World da ist genau! Also alles in BeginPlay Nur das Spawnen jetzt musst du mal google wie du dein Blueprint bzw die Subclass zum instanzieren nutzen kannst
 		builtManager = builtManager_BP.Object;
-		builtManager = Cast<APawn>(GetPawn());
+		builtManagerSubClass = builtManager->GeneratedClass;
 	}
 }
 
@@ -28,9 +35,15 @@ void AParagon_CityPlayerController::BeginPlay()
 	FActorSpawnParameters Penis;
 	myGameMode = (AParagon_CityGameMode*)GetWorld()->GetAuthGameMode();
 	UnPossess();
-	//builtManager = GetWorld()->SpawnActor<ABuilt_Manager>(ABuilt_Manager::StaticClass(), CubePlacement, Penis);
-	myGameMode->SetDefaultPawnClass(builtManager->GetClass());
-	//Possess(builtManager);
+	//Imo weiß ich auch nicht weiter
+	// Probier ich morgen mal weiter. Also irgendwie auf die Built Class kommen oder? Ja du braucht halt die UClass den zu findenden Objekts
+	// K mal schauen. Danke dir <3 
+	// Immer gern :)
+	//Dann ne gute Nacht
+	// Dir auch 
+	builtManagerPawn = GetWorld()->SpawnActor<ABuilt_Manager>(builtManager->GetBlueprintClass(), CubePlacement, Penis);
+	myGameMode->SetDefaultPawnClass(builtManagerSubClass);
+	Possess(builtManagerPawn);
 }
 
 // set InputVector and call MoveRight
@@ -92,7 +105,7 @@ void AParagon_CityPlayerController::MoveRightTouch()
 	if (dist > distance && touchEnd.X > touchStart.X)
 	{
 		finalLocation = UKismetMathLibrary::MakeVector2D(0, ((touchEnd.X - touchStart.X) * speedMultiplier));
-		builtManager->SetActorLocation(FVector(builtManager->GetActorLocation().X + finalLocation.X, builtManager->GetActorLocation().Y + finalLocation.Y, 0));
+		builtManagerPawn->SetActorLocation(FVector(builtManagerPawn->GetActorLocation().X + finalLocation.X, builtManagerPawn->GetActorLocation().Y + finalLocation.Y, 0));
 	}
 }
 
@@ -103,7 +116,7 @@ void AParagon_CityPlayerController::MoveLeftTouch()
 	if (dist > distance && touchEnd.X < touchStart.X)
 	{
 		finalLocation = UKismetMathLibrary::MakeVector2D(0, (touchEnd.X - touchStart.X) * speedMultiplier);
-		builtManager->SetActorLocation(FVector(builtManager->GetActorLocation().X + finalLocation.X, builtManager->GetActorLocation().Y + finalLocation.Y, 0));
+		builtManagerPawn->SetActorLocation(FVector(builtManagerPawn->GetActorLocation().X + finalLocation.X, builtManagerPawn->GetActorLocation().Y + finalLocation.Y, 0));
 	}
 }
 
@@ -114,7 +127,7 @@ void AParagon_CityPlayerController::MoveUpTouch()
 	if (dist > distance && touchEnd.Y < touchStart.Y)
 	{
 		finalLocation = UKismetMathLibrary::MakeVector2D((touchStart.Y - touchEnd.Y)* speedMultiplier, 0);
-		builtManager->SetActorLocation(FVector(builtManager->GetActorLocation().X + finalLocation.X, builtManager->GetActorLocation().Y + finalLocation.Y, 0));
+		builtManagerPawn->SetActorLocation(FVector(builtManagerPawn->GetActorLocation().X + finalLocation.X, builtManagerPawn->GetActorLocation().Y + finalLocation.Y, 0));
 	}
 }
 
@@ -125,7 +138,7 @@ void AParagon_CityPlayerController::MoveDownTouch()
 	if (dist > distance && touchEnd.Y > touchStart.Y)
 	{
 		finalLocation = UKismetMathLibrary::MakeVector2D((touchStart.Y - touchEnd.Y)* speedMultiplier, 0);
-		builtManager->SetActorLocation(FVector(builtManager->GetActorLocation().X + finalLocation.X, builtManager->GetActorLocation().Y + finalLocation.Y, 0));
+		builtManagerPawn->SetActorLocation(FVector(builtManagerPawn->GetActorLocation().X + finalLocation.X, builtManagerPawn->GetActorLocation().Y + finalLocation.Y, 0));
 	}
 }
 

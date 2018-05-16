@@ -65,7 +65,10 @@ public:
 	UPROPERTY(EditAnywhere, Category = Touch)
 		float speedMultiplier = 0.1f;
 
-		TSoftObjectPtr<ABuilt_Manager> builtManager;
+		// TSoftClassPtr? 
+		UBlueprint* builtManager;
+		TSubclassOf<APawn> builtManagerSubClass;
+		ABuilt_Manager* builtManagerPawn;
 };
 
 

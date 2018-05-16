@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
 #include "Built_Manager.h"
-#include "MyActor.h"
+#include "Paragon_CityGameMode.h"
 #include "Paragon_CityPlayerController.generated.h"
 
 UCLASS()
@@ -26,16 +26,14 @@ private:
 	virtual bool InputTouch(uint32 Handle, ETouchType::Type Type, const FVector2D& TouchLocation, FDateTime DeviceTimestamp, uint32 TouchpadIndex) override;
 	void MoveRightTouch();
 	void MoveLeftTouch();
-	void FuckUnrealTouch(ETouchType::Type Type, const FVector2D & TouchLocation);
-	void Pressed(const ETouchIndex::Type FingerIndex, FVector Location);
+	void MoveUpTouch();
+	void MoveDownTouch();
+
 
 
 	// Variable
 
 private:
-
-	static ABuilt_Manager* builtManager;
-	AMyActor* Actor_Cube;
 	FVector worldLocStart;
 	FVector worldLocEnd;
 	FVector worldDir;
@@ -43,7 +41,7 @@ private:
 	FVector2D touchEnd;
 	FVector2D inputVector;
 	FVector2D Penis;
-	FVector finalLocation;
+	FVector2D finalLocation;
 	FVector currentCameraBoomLocation;
 
 	float inputX;
@@ -54,13 +52,20 @@ private:
 	bool bIsCurrentlyPressed;
 	bool bDoOnce;
 
+	class AParagon_CityGameMode *myGameMode;
+
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		bool bIsPressed;
-	
-	
-	
+
+	UPROPERTY(EditAnywhere, Category = Touch)
+		float distance = 10.0f;
+
+	UPROPERTY(EditAnywhere, Category = Touch)
+		float speedMultiplier = 0.1f;
+
+		TSoftObjectPtr<ABuilt_Manager> builtManager;
 };
 
 

@@ -13,6 +13,7 @@ class AParagon_CityGameMode : public AGameModeBase
 
 public:
 	AParagon_CityGameMode();
+	void SetDefaultPawnClass(TSubclassOf<APawn> pawn);
 };
 
 

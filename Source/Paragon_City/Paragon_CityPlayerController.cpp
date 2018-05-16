@@ -4,24 +4,33 @@
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Engine/World.h"
 #include "Kismet/KismetMathLibrary.h"
-#include "Kismet/GameplayStatics.h"
-#include "Paragon_CityGameMode.h"
-#include "GameFramework/SpringArmComponent.h"
+#include "UObject/ConstructorHelpers.h"
 
-AParagon_CityPlayerController::AParagon_CityPlayerController()
+
+AParagon_CityPlayerController::AParagon_CityPlayerController(/*const FObjectInitializer & buildManager_Init) :Super(buildManager_Init*/)
 {
 	bShowMouseCursor = true;
-	//builtManager = NewObject<ABuilt_Manager>();
-	//builtManager = Cast<ABuilt_Manager>(AParagon_CityGameMode->DefaultPawnClass->GetDefaultObject());
+	/*static ConstructorHelpers::FObjectFinder<ABuilt_Manager> buildManager_BP(TEXT("/Game/Blueprints/Character/BP_Built_Manager"));
+	builtManager = buildManager_BP.Object;*/
+	ConstructorHelpers::FObjectFinder<UObject>builtManager_BP = ConstructorHelpers::FObjectFinder<UObject>(TEXT("Blueprint'/Game/Blueprints/Character/BP_Built_Manager.BP_Built_Manager'"));
+	if (builtManager_BP.Succeeded())
+	{
+		builtManager = builtManager_BP.Object;
+		builtManager = Cast<APawn>(GetPawn());
+	}
 }
 
 
 void AParagon_CityPlayerController::BeginPlay()
 {
-	Super::BeginPlay();	
-	FTransform CubePlacement(FVector(0,0,0));
+	Super::BeginPlay();
+	FTransform CubePlacement(FVector(0, 0, 0));
 	FActorSpawnParameters Penis;
+	myGameMode = (AParagon_CityGameMode*)GetWorld()->GetAuthGameMode();
+	UnPossess();
 	//builtManager = GetWorld()->SpawnActor<ABuilt_Manager>(ABuilt_Manager::StaticClass(), CubePlacement, Penis);
+	myGameMode->SetDefaultPawnClass(builtManager->GetClass());
+	//Possess(builtManager);
 }
 
 // set InputVector and call MoveRight
@@ -31,19 +40,13 @@ void AParagon_CityPlayerController::PlayerTick(float DeltaTime)
 
 	if (bIsPressed == true)
 	{
-		
-		// ERROR: bIsCurrentlyPressed always false after first time
 		GetInputTouchState(ETouchIndex::Touch1, inputX, InputY, bIsCurrentlyPressed);
-		//inputVector = UKismetMathLibrary::MakeVector2D(inputX, InputY);
 		inputVector.X = inputX;
 		inputVector.Y = InputY;
-		UE_LOG(LogTemp, Warning, TEXT("bIsCurrentlyPressed: %s"), (bIsCurrentlyPressed ? TEXT("true") : TEXT("false")));
-		UE_LOG(LogTemp, Warning, TEXT("inputVector: %s"), *inputVector.ToString());
-		UE_LOG(LogTemp, Warning, TEXT("touchstart: %s"), *touchStart.ToString());
-		UE_LOG(LogTemp, Warning, TEXT("touchend: %s"), *touchEnd.ToString());
-
 		MoveRightTouch();
 		MoveLeftTouch();
+		MoveUpTouch();
+		MoveDownTouch();
 	}
 }
 
@@ -53,101 +56,80 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 	switch (Type)
 	{
 	case ETouchType::Began:
-
-		//DeprojectScreenPositionToWorld(TouchLocation.X, TouchLocation.Y, worldLocStart, worldDir);
-
 		// set Touchlocation
 		bIsPressed = true;
 		bDoOnce = true;
-		/*touchStart.X = TouchLocation.Y;
-		touchStart.Y = TouchLocation.X;*/
-
 		touchStart.X = TouchLocation.X;
 		touchStart.Y = TouchLocation.Y;
-
-		//Pressed(ETouchIndex::Touch1, worldLocStart);
 	case ETouchType::Moved:
-
-		UE_LOG(LogTemp, Warning, TEXT("MOVING"));
 		touchEnd.X = TouchLocation.X;
-		UE_LOG(LogTemp, Warning, TEXT("TouchEndMOVING: %s"), *touchEnd.ToString());
-		bIsCurrentlyPressed = true;	
-		//FuckUnrealTouch(Type, TouchLocation);
+		touchEnd.Y = TouchLocation.Y;
+		UE_LOG(LogTemp, Warning, TEXT("Moved"));
 		break;
 	case ETouchType::Stationary:
+		UE_LOG(LogTemp, Warning, TEXT("Stat"));
 		break;
 	case ETouchType::Ended:
-
 		bIsPressed = false;
 		bDoOnce = false;
+		break;
 	case ETouchType::NumTypes:
 		break;
 	default:
 		break;
 	}
 
-
 	return false;
 }
 
-// not called atm
-void AParagon_CityPlayerController::Pressed(const ETouchIndex::Type FingerIndex, FVector Location)
-{
-	if (bDoOnce == true)
-	{
-		//touchStart.X = Location.Y;
-		//touchStart.Y = Location.X;
-		bIsPressed = true;
-
-	}
-}
 
 // check if touch goes right
 void AParagon_CityPlayerController::MoveRightTouch()
 {
-	if (touchStart.Y - inputVector.X > 20.0f || touchStart.Y - inputVector.X < -20.0f)
+
+	float dist = FVector2D::Distance(FVector2D(touchStart.X, 0), FVector2D(touchEnd.X, 0));
+
+	if (dist > distance && touchEnd.X > touchStart.X)
 	{
-		/*touchEnd.X = inputVector.Y;
-		touchEnd.Y = inputVector.X;*/
-
-		if (touchEnd.X > touchStart.X)
-		{
-
-			// ERROR? : finalLocation wrong -----> Hast start - end gerechnet
-			finalLocation = UKismetMathLibrary::MakeVector((touchEnd.X - touchStart.X)/* * 0.1f*/, 0, 0) /** (-1.0f)*/;
-			
-			//Actor_Cube->SetActorLocation(Actor_Cube->GetActorLocation() + finalLocation);
-			builtManager->SetActorLocation(builtManager->GetActorLocation() + finalLocation);
-
-
-			//currentCameraBoomLocation = builtManager->CameraBoom->GetComponentLocation() + finalLocation;
-			//builtManager->CameraBoom->SetWorldLocation(currentCameraBoomLocation /*builtManager->CameraBoom->GetComponentLocation() + finalLocation*/);
-			////builtManager->SetActorLocation(builtManager->GetActorLocation() + finalLocation);
-			//UE_LOG(LogTemp, Warning, TEXT("finalLocation: %s"), *finalLocation.ToString());
-			//UE_LOG(LogTemp, Warning, TEXT("cameraBoomLocation: %s"), *currentCameraBoomLocation.ToString() /*builtManager->CameraBoom->GetComponentLocation() + finalLocation).ToString()*/);
-
-		}
+		finalLocation = UKismetMathLibrary::MakeVector2D(0, ((touchEnd.X - touchStart.X) * speedMultiplier));
+		builtManager->SetActorLocation(FVector(builtManager->GetActorLocation().X + finalLocation.X, builtManager->GetActorLocation().Y + finalLocation.Y, 0));
 	}
-
 }
 
 void AParagon_CityPlayerController::MoveLeftTouch()
 {
+	float dist = FVector2D::Distance(FVector2D(touchStart.X, 0), FVector2D(touchEnd.X, 0));
 
-}
-
-void AParagon_CityPlayerController::FuckUnrealTouch(ETouchType::Type Type, const FVector2D & TouchLocation)
-{
-	/*if (PlayerInput)
+	if (dist > distance && touchEnd.X < touchStart.X)
 	{
-		if (ETouchIndex::Touch1)
-		{
-			inputVector.X = TouchLocation.X;
-			inputVector.Y = TouchLocation.Y;
-			bIsCurrentlyPressed = 
-		}
-	}*/
+		finalLocation = UKismetMathLibrary::MakeVector2D(0, (touchEnd.X - touchStart.X) * speedMultiplier);
+		builtManager->SetActorLocation(FVector(builtManager->GetActorLocation().X + finalLocation.X, builtManager->GetActorLocation().Y + finalLocation.Y, 0));
+	}
 }
+
+void AParagon_CityPlayerController::MoveUpTouch()
+{
+	float dist = FVector2D::Distance(FVector2D(0, touchStart.Y), FVector2D(0, touchEnd.Y));
+
+	if (dist > distance && touchEnd.Y < touchStart.Y)
+	{
+		finalLocation = UKismetMathLibrary::MakeVector2D((touchStart.Y - touchEnd.Y)* speedMultiplier, 0);
+		builtManager->SetActorLocation(FVector(builtManager->GetActorLocation().X + finalLocation.X, builtManager->GetActorLocation().Y + finalLocation.Y, 0));
+	}
+}
+
+void AParagon_CityPlayerController::MoveDownTouch()
+{
+	float dist = FVector2D::Distance(FVector2D(0, touchStart.Y), FVector2D(0, touchEnd.Y));
+
+	if (dist > distance && touchEnd.Y > touchStart.Y)
+	{
+		finalLocation = UKismetMathLibrary::MakeVector2D((touchStart.Y - touchEnd.Y)* speedMultiplier, 0);
+		builtManager->SetActorLocation(FVector(builtManager->GetActorLocation().X + finalLocation.X, builtManager->GetActorLocation().Y + finalLocation.Y, 0));
+	}
+}
+
+
 
 
 

@@ -1,9 +1,9 @@
 // Copyright 1998-2018 Epic Games, Inc. All Rights Reserved.
 
 #include "Paragon_CityGameMode.h"
-#include "Paragon_CityPlayerController.h"
 #include "Paragon_CityCharacter.h"
 #include "Built_Manager.h"
+#include "Paragon_CityPlayerController.h"
 #include "UObject/ConstructorHelpers.h"
 
 AParagon_CityGameMode::AParagon_CityGameMode()
@@ -14,7 +14,6 @@ AParagon_CityGameMode::AParagon_CityGameMode()
 
 	// set default pawn class to our Blueprinted character
 	//static ConstructorHelpers::FClassFinder<UBlueprint> PlayerPawnBPClass(TEXT("Blueprint'/Game/Blueprints/Character/BP_Built_Manager'"));
-	DefaultPawnClass = ABuilt_Manager::StaticClass();
 	//<ABuilt_Manager> PlayerPawnBPClass = AParagon_CityPlayerController.builtManager;
 	/*if (PlayerPawnBPClass.Class != NULL)
 	{
@@ -34,4 +33,9 @@ AParagon_CityGameMode::AParagon_CityGameMode()
 	}
 
 #endif
+}
+
+void AParagon_CityGameMode::SetDefaultPawnClass(TSubclassOf<APawn> pawn)
+{
+	DefaultPawnClass = pawn;
 }

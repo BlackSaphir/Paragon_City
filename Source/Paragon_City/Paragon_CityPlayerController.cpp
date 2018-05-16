@@ -4,18 +4,24 @@
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Engine/World.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Kismet/GameplayStatics.h"
+#include "Paragon_CityGameMode.h"
 #include "GameFramework/SpringArmComponent.h"
 
 AParagon_CityPlayerController::AParagon_CityPlayerController()
 {
 	bShowMouseCursor = true;
-	builtManager = NewObject<ABuilt_Manager>();
+	//builtManager = NewObject<ABuilt_Manager>();
+	//builtManager = Cast<ABuilt_Manager>(AParagon_CityGameMode->DefaultPawnClass->GetDefaultObject());
 }
 
 
 void AParagon_CityPlayerController::BeginPlay()
 {
 	Super::BeginPlay();	
+	FTransform CubePlacement(FVector(0,0,0));
+	FActorSpawnParameters Penis;
+	//builtManager = GetWorld()->SpawnActor<ABuilt_Manager>(ABuilt_Manager::StaticClass(), CubePlacement, Penis);
 }
 
 // set InputVector and call MoveRight
@@ -25,6 +31,7 @@ void AParagon_CityPlayerController::PlayerTick(float DeltaTime)
 
 	if (bIsPressed == true)
 	{
+		
 		// ERROR: bIsCurrentlyPressed always false after first time
 		GetInputTouchState(ETouchIndex::Touch1, inputX, InputY, bIsCurrentlyPressed);
 		//inputVector = UKismetMathLibrary::MakeVector2D(inputX, InputY);
@@ -34,6 +41,7 @@ void AParagon_CityPlayerController::PlayerTick(float DeltaTime)
 		UE_LOG(LogTemp, Warning, TEXT("inputVector: %s"), *inputVector.ToString());
 		UE_LOG(LogTemp, Warning, TEXT("touchstart: %s"), *touchStart.ToString());
 		UE_LOG(LogTemp, Warning, TEXT("touchend: %s"), *touchEnd.ToString());
+
 		MoveRightTouch();
 		MoveLeftTouch();
 	}
@@ -63,7 +71,8 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 		UE_LOG(LogTemp, Warning, TEXT("MOVING"));
 		touchEnd.X = TouchLocation.X;
 		UE_LOG(LogTemp, Warning, TEXT("TouchEndMOVING: %s"), *touchEnd.ToString());
-		bIsCurrentlyPressed = true;		
+		bIsCurrentlyPressed = true;	
+		//FuckUnrealTouch(Type, TouchLocation);
 		break;
 	case ETouchType::Stationary:
 		break;
@@ -106,12 +115,17 @@ void AParagon_CityPlayerController::MoveRightTouch()
 
 			// ERROR? : finalLocation wrong -----> Hast start - end gerechnet
 			finalLocation = UKismetMathLibrary::MakeVector((touchEnd.X - touchStart.X)/* * 0.1f*/, 0, 0) /** (-1.0f)*/;
+			
+			//Actor_Cube->SetActorLocation(Actor_Cube->GetActorLocation() + finalLocation);
+			builtManager->SetActorLocation(builtManager->GetActorLocation() + finalLocation);
 
-			currentCameraBoomLocation = builtManager->CameraBoom->GetComponentLocation() + finalLocation;
-			builtManager->CameraBoom->SetWorldLocation(currentCameraBoomLocation /*builtManager->CameraBoom->GetComponentLocation() + finalLocation*/);
-			//builtManager->SetActorLocation(builtManager->GetActorLocation() + finalLocation);
-			UE_LOG(LogTemp, Warning, TEXT("finalLocation: %s"), *finalLocation.ToString());
-			UE_LOG(LogTemp, Warning, TEXT("cameraBoomLocation: %s"), *currentCameraBoomLocation.ToString() /*builtManager->CameraBoom->GetComponentLocation() + finalLocation).ToString()*/);
+
+			//currentCameraBoomLocation = builtManager->CameraBoom->GetComponentLocation() + finalLocation;
+			//builtManager->CameraBoom->SetWorldLocation(currentCameraBoomLocation /*builtManager->CameraBoom->GetComponentLocation() + finalLocation*/);
+			////builtManager->SetActorLocation(builtManager->GetActorLocation() + finalLocation);
+			//UE_LOG(LogTemp, Warning, TEXT("finalLocation: %s"), *finalLocation.ToString());
+			//UE_LOG(LogTemp, Warning, TEXT("cameraBoomLocation: %s"), *currentCameraBoomLocation.ToString() /*builtManager->CameraBoom->GetComponentLocation() + finalLocation).ToString()*/);
+
 		}
 	}
 
@@ -120,6 +134,19 @@ void AParagon_CityPlayerController::MoveRightTouch()
 void AParagon_CityPlayerController::MoveLeftTouch()
 {
 
+}
+
+void AParagon_CityPlayerController::FuckUnrealTouch(ETouchType::Type Type, const FVector2D & TouchLocation)
+{
+	/*if (PlayerInput)
+	{
+		if (ETouchIndex::Touch1)
+		{
+			inputVector.X = TouchLocation.X;
+			inputVector.Y = TouchLocation.Y;
+			bIsCurrentlyPressed = 
+		}
+	}*/
 }
 
 

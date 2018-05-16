@@ -3,6 +3,7 @@
 #include "Paragon_CityGameMode.h"
 #include "Paragon_CityPlayerController.h"
 #include "Paragon_CityCharacter.h"
+#include "Built_Manager.h"
 #include "UObject/ConstructorHelpers.h"
 
 AParagon_CityGameMode::AParagon_CityGameMode()
@@ -12,11 +13,13 @@ AParagon_CityGameMode::AParagon_CityGameMode()
 	PlayerControllerClass = AParagon_CityPlayerController::StaticClass();
 
 	// set default pawn class to our Blueprinted character
-	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/TopDownCPP/Blueprints/TopDownCharacter"));
-	if (PlayerPawnBPClass.Class != NULL)
+	//static ConstructorHelpers::FClassFinder<UBlueprint> PlayerPawnBPClass(TEXT("Blueprint'/Game/Blueprints/Character/BP_Built_Manager'"));
+	DefaultPawnClass = ABuilt_Manager::StaticClass();
+	//<ABuilt_Manager> PlayerPawnBPClass = AParagon_CityPlayerController.builtManager;
+	/*if (PlayerPawnBPClass.Class != NULL)
 	{
 		DefaultPawnClass = PlayerPawnBPClass.Class;
-	}
+	}*/
 #endif
 
 #if PLATFORM_IOS

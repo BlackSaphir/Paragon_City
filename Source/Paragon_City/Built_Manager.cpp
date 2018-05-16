@@ -24,6 +24,7 @@ ABuilt_Manager::ABuilt_Manager()
 
 	// Create camera boom
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
+	CameraBoom->SetupAttachment(RootComponent);
 	CameraBoom->bAbsoluteRotation = true; // Don't want arm to rotate when character does
 	CameraBoom->TargetArmLength = 800.f;
 	CameraBoom->RelativeRotation = FRotator(-60.f, 0.f, 0.f);

@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
 #include "Built_Manager.h"
+#include "MyActor.h"
 #include "Paragon_CityPlayerController.generated.h"
 
 UCLASS()
@@ -25,6 +26,7 @@ private:
 	virtual bool InputTouch(uint32 Handle, ETouchType::Type Type, const FVector2D& TouchLocation, FDateTime DeviceTimestamp, uint32 TouchpadIndex) override;
 	void MoveRightTouch();
 	void MoveLeftTouch();
+	void FuckUnrealTouch(ETouchType::Type Type, const FVector2D & TouchLocation);
 	void Pressed(const ETouchIndex::Type FingerIndex, FVector Location);
 
 
@@ -32,7 +34,8 @@ private:
 
 private:
 
-	ABuilt_Manager* builtManager = NULL;
+	static ABuilt_Manager* builtManager;
+	AMyActor* Actor_Cube;
 	FVector worldLocStart;
 	FVector worldLocEnd;
 	FVector worldDir;
@@ -48,9 +51,14 @@ private:
 	float breakVectorX;
 	float breakVectorY;
 
-	bool bIsPressed;
 	bool bIsCurrentlyPressed;
 	bool bDoOnce;
+
+public:
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool bIsPressed;
+	
 	
 	
 };

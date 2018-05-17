@@ -22,7 +22,8 @@ public:
 	UPROPERTY(EditAnywhere)
 		class USceneComponent* DefaultRootComponent;
 
-
+	UFUNCTION(BlueprintImplementableEvent)
+		void SecondBeginPlay();
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		class UCameraComponent* TopDownCamera;

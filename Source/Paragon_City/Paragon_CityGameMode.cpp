@@ -11,6 +11,7 @@ AParagon_CityGameMode::AParagon_CityGameMode()
 #if PLATFORM_WINDOWS
 	// use our custom PlayerController class
 	PlayerControllerClass = AParagon_CityPlayerController::StaticClass();
+	DefaultPawnClass.GetDefaultObject()->Destroy();
 
 	// set default pawn class to our Blueprinted character
 	//static ConstructorHelpers::FClassFinder<UBlueprint> PlayerPawnBPClass(TEXT("Blueprint'/Game/Blueprints/Character/BP_Built_Manager'"));
@@ -34,6 +35,7 @@ AParagon_CityGameMode::AParagon_CityGameMode()
 
 #endif
 }
+
 
 void AParagon_CityGameMode::SetDefaultPawnClass(TSubclassOf<APawn> pawn)
 {

@@ -53,6 +53,7 @@ private:
 	bool bDoOnce;
 
 	class AParagon_CityGameMode *myGameMode;
+	APawn* defaultPawn;
 
 public:
 

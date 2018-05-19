@@ -14,7 +14,6 @@ AParagon_CityPlayerController::AParagon_CityPlayerController(/*const FObjectInit
 	const ConstructorHelpers::FObjectFinder<UBlueprint> builtManager_BP (TEXT("Blueprint'/Game/Blueprints/Character/BP_Built_Manager.BP_Built_Manager'"));
 	if (builtManager_BP.Succeeded())
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Blueprint found"));
 		builtManager = builtManager_BP.Object;
 		builtManagerSubClass = (UClass*)builtManager->GeneratedClass;
 	}
@@ -67,10 +66,8 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 	case ETouchType::Moved:
 		touchEnd.X = TouchLocation.X;
 		touchEnd.Y = TouchLocation.Y;
-		UE_LOG(LogTemp, Warning, TEXT("Moved"));
 		break;
 	case ETouchType::Stationary:
-		UE_LOG(LogTemp, Warning, TEXT("Stat"));
 		break;
 	case ETouchType::Ended:
 		bIsPressed = false;

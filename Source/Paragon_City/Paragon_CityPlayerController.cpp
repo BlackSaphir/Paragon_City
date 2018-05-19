@@ -10,6 +10,10 @@
 AParagon_CityPlayerController::AParagon_CityPlayerController(/*const FObjectInitializer & buildManager_Init) :Super(buildManager_Init*/)
 {
 	bShowMouseCursor = true;
+	bEnableClickEvents = true;
+	bEnableTouchEvents = true;
+	bEnableMouseOverEvents = true;
+	bEnableTouchOverEvents = true;
 	
 	const ConstructorHelpers::FObjectFinder<UBlueprint> builtManager_BP (TEXT("Blueprint'/Game/Blueprints/Character/BP_Built_Manager.BP_Built_Manager'"));
 	if (builtManager_BP.Succeeded())

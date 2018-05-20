@@ -14,8 +14,8 @@ AParagon_CityPlayerController::AParagon_CityPlayerController(/*const FObjectInit
 	bEnableTouchEvents = true;
 	bEnableMouseOverEvents = true;
 	bEnableTouchOverEvents = true;
-	
-	const ConstructorHelpers::FObjectFinder<UBlueprint> builtManager_BP (TEXT("Blueprint'/Game/Blueprints/Character/BP_Built_Manager.BP_Built_Manager'"));
+
+	const ConstructorHelpers::FObjectFinder<UBlueprint> builtManager_BP(TEXT("Blueprint'/Game/Blueprints/Character/BP_Built_Manager.BP_Built_Manager'"));
 	if (builtManager_BP.Succeeded())
 	{
 		builtManager = builtManager_BP.Object;
@@ -44,7 +44,7 @@ void AParagon_CityPlayerController::PlayerTick(float DeltaTime)
 {
 	Super::PlayerTick(DeltaTime);
 
-	if (bIsPressed == true)
+	if (bIsPressed == true && !bMovingBuilding)
 	{
 		GetInputTouchState(ETouchIndex::Touch1, inputX, InputY, bIsCurrentlyPressed);
 		inputVector.X = inputX;
@@ -53,6 +53,7 @@ void AParagon_CityPlayerController::PlayerTick(float DeltaTime)
 		MoveLeftTouch();
 		MoveUpTouch();
 		MoveDownTouch();
+
 	}
 }
 

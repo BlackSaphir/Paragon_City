@@ -60,6 +60,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		bool bIsPressed;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool bMovingBuilding;
+
 	UPROPERTY(EditAnywhere, Category = Touch)
 		float distance = 10.0f;
 

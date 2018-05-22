@@ -70,7 +70,7 @@ public:
 		float speedMultiplier = 0.1f;
 
 		// TSoftClassPtr? 
-		UBlueprint* builtManager;
+		UClass* builtManager;
 		TSubclassOf<APawn> builtManagerSubClass;
 		ABuilt_Manager* builtManagerPawn;
 };

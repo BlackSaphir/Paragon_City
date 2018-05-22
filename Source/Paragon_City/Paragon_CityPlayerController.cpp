@@ -15,11 +15,11 @@ AParagon_CityPlayerController::AParagon_CityPlayerController(/*const FObjectInit
 	bEnableMouseOverEvents = true;
 	bEnableTouchOverEvents = true;
 
-	const ConstructorHelpers::FObjectFinder<UBlueprint> builtManager_BP(TEXT("Blueprint'/Game/Blueprints/Character/BP_Built_Manager.BP_Built_Manager'"));
+	const ConstructorHelpers::FObjectFinder<UClass> builtManager_BP(TEXT("Class'/Game/Blueprints/Character/BP_Built_Manager.BP_Built_Manager_C'"));
 	if (builtManager_BP.Succeeded())
 	{
 		builtManager = builtManager_BP.Object;
-		builtManagerSubClass = (UClass*)builtManager->GeneratedClass;
+		builtManagerSubClass = builtManager;
 	}
 }
 

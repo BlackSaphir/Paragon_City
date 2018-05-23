@@ -50,7 +50,6 @@ private:
 	float breakVectorY;
 
 	bool bIsCurrentlyPressed;
-	bool bDoOnce;
 
 	class AParagon_CityGameMode *myGameMode;
 	APawn* defaultPawn;

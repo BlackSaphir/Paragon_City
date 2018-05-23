@@ -4,6 +4,7 @@
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Engine/World.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Kismet/GameplayStatics.h"
 #include "UObject/ConstructorHelpers.h"
 
 
@@ -14,6 +15,7 @@ AParagon_CityPlayerController::AParagon_CityPlayerController(/*const FObjectInit
 	bEnableTouchEvents = true;
 	bEnableMouseOverEvents = true;
 	bEnableTouchOverEvents = true;
+	bBlockInput = false;
 
 	const ConstructorHelpers::FObjectFinder<UClass> builtManager_BP(TEXT("Class'/Game/Blueprints/Character/BP_Built_Manager.BP_Built_Manager_C'"));
 	if (builtManager_BP.Succeeded())
@@ -44,7 +46,7 @@ void AParagon_CityPlayerController::PlayerTick(float DeltaTime)
 {
 	Super::PlayerTick(DeltaTime);
 
-	if (bIsPressed == true && !bMovingBuilding)
+	if (bIsPressed && !bMovingBuilding)
 	{
 		GetInputTouchState(ETouchIndex::Touch1, inputX, InputY, bIsCurrentlyPressed);
 		inputVector.X = inputX;
@@ -60,14 +62,25 @@ void AParagon_CityPlayerController::PlayerTick(float DeltaTime)
 
 bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type Type, const FVector2D & TouchLocation, FDateTime DeviceTimestamp, uint32 TouchpadIndex)
 {
+	FHitResult hitResult;
+
 	switch (Type)
 	{
 	case ETouchType::Began:
 		// set Touchlocation
-		bIsPressed = true;
-		bDoOnce = true;
-		touchStart.X = TouchLocation.X;
-		touchStart.Y = TouchLocation.Y;
+		GetHitResultUnderCursorByChannel(ETraceTypeQuery::TraceTypeQuery1, true, hitResult);
+
+		if (hitResult.GetActor()->ActorHasTag("Building"))
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Deine Mama"));
+		}
+		else
+		{
+			bIsPressed = true;
+			UE_LOG(LogTemp, Warning, TEXT("FingerIndex: %d"), Handle);
+			touchStart.X = TouchLocation.X;
+			touchStart.Y = TouchLocation.Y;
+		}
 	case ETouchType::Moved:
 		touchEnd.X = TouchLocation.X;
 		touchEnd.Y = TouchLocation.Y;
@@ -75,8 +88,7 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 	case ETouchType::Stationary:
 		break;
 	case ETouchType::Ended:
-		bIsPressed = false;
-		bDoOnce = false;
+		bIsPressed = false;		
 		break;
 	case ETouchType::NumTypes:
 		break;

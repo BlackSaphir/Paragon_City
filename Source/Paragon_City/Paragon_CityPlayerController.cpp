@@ -6,6 +6,8 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "Kismet/GameplayStatics.h"
 #include "UObject/ConstructorHelpers.h"
+#include "Components/PrimitiveComponent.h"
+
 
 
 AParagon_CityPlayerController::AParagon_CityPlayerController(/*const FObjectInitializer & buildManager_Init) :Super(buildManager_Init*/)
@@ -72,6 +74,8 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 
 		if (hitResult.GetActor()->ActorHasTag("Building"))
 		{
+			primitive_Comp = hitResult.GetComponent();
+			primitive_Comp->DispatchOnInputTouchBegin(ETouchIndex::Touch1);
 			UE_LOG(LogTemp, Warning, TEXT("Deine Mama"));
 		}
 		else

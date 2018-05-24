@@ -72,6 +72,7 @@ public:
 		UClass* builtManager;
 		TSubclassOf<APawn> builtManagerSubClass;
 		ABuilt_Manager* builtManagerPawn;
+		UPrimitiveComponent* primitive_Comp;
 };
 
 

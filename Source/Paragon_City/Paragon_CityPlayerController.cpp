@@ -92,6 +92,10 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 	case ETouchType::Stationary:
 		break;
 	case ETouchType::Ended:
+		if (primitive_Comp != nullptr)
+		{
+			primitive_Comp->DispatchOnInputTouchEnd(ETouchIndex::Touch1);
+		}
 		bIsPressed = false;		
 		break;
 	case ETouchType::NumTypes:

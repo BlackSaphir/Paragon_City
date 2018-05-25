@@ -35,32 +35,10 @@ public:
 	// Function
 
 protected:
-
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
 private:
-
-	UFUNCTION()
-		void MoveRight(float axisvalue);
-
-	UFUNCTION()
-		void MoveForward(float axisvalue);
-
-
-
 	// Variable
 
 private:
-
-
-	UPROPERTY(EditAnywhere)
-		float Rightspeed = 20.0f;
-
-	UPROPERTY(EditAnywhere)
-		float Forwardspeed = 20.0f;
-
-
-
 };

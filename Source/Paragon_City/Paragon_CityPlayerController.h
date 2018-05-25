@@ -35,31 +35,25 @@ private:
 	// Variable
 
 private:
-	FVector worldLocStart;
-	FVector worldLocEnd;
-	FVector worldDir;
 	FVector2D touchStart;
 	FVector2D touchEnd;
 	FVector2D inputVector;
-	FVector2D Penis;
 	FVector2D finalLocation;
-	FVector currentCameraBoomLocation;
 
 	FVector2D firstFingerTouchStart;
 	FVector2D firstFingerTouchEnd;
 	FVector2D secondFingerTouchStart;
 	FVector2D secondFingerTouchEnd;
 
+	float screenX;
+	float screenY;
+	FVector worldLoc;
+	FVector worldDir;
 
 
 	float inputX;
 	float InputY;
-	float breakVectorX;
-	float breakVectorY;
 	int fingerCount = 0;
-
-	bool bIsCurrentlyPressed;
-
 	class AParagon_CityGameMode *myGameMode;
 	APawn* defaultPawn;
 

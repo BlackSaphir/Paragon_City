@@ -49,14 +49,14 @@ private:
 	FVector2D firstFingerTouchEnd;
 	FVector2D secondFingerTouchStart;
 	FVector2D secondFingerTouchEnd;
-	
 
-	int fingerCount = 0;
+
 
 	float inputX;
 	float InputY;
 	float breakVectorX;
 	float breakVectorY;
+	int fingerCount = 0;
 
 	bool bIsCurrentlyPressed;
 
@@ -77,11 +77,11 @@ public:
 	UPROPERTY(EditAnywhere, Category = Touch)
 		float speedMultiplier = 0.1f;
 
-		// TSoftClassPtr? 
-		UClass* builtManager;
-		TSubclassOf<APawn> builtManagerSubClass;
-		ABuilt_Manager* builtManagerPawn;
-		UPrimitiveComponent* primitive_Comp;
+	// TSoftClassPtr? 
+	UClass* builtManager;
+	TSubclassOf<APawn> builtManagerSubClass;
+	ABuilt_Manager* builtManagerPawn;
+	UPrimitiveComponent* primitive_Comp;
 };
 
 

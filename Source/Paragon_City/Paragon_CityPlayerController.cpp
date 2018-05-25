@@ -59,7 +59,7 @@ void AParagon_CityPlayerController::PlayerTick(float DeltaTime)
 		MoveDownTouch();
 	}
 
-	if (fingerCount == 2)
+	if (fingerCount == 2 && !bMovingBuilding)
 	{
 		Zoom();
 	}
@@ -77,7 +77,6 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 		GetHitResultUnderCursorByChannel(ETraceTypeQuery::TraceTypeQuery1, true, hitResult);
 		//UE_LOG(LogTemp, Warning, TEXT("FingerIndex: %d"), Handle);
 		fingerCount++;
-
 		if (fingerCount == 1)
 		{
 			firstFingerTouchStart = TouchLocation;
@@ -102,7 +101,6 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 			}
 		}
 	case ETouchType::Moved:
-
 		if (Handle == 0)
 		{
 			firstFingerTouchEnd = TouchLocation;
@@ -129,7 +127,6 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 	default:
 		break;
 	}
-
 	return false;
 }
 
@@ -139,7 +136,6 @@ void AParagon_CityPlayerController::MoveRightTouch()
 {
 
 	float dist = FVector2D::Distance(FVector2D(touchStart.X, 0), FVector2D(touchEnd.X, 0));
-
 	if (dist > distance && touchEnd.X > touchStart.X)
 	{
 		finalLocation = UKismetMathLibrary::MakeVector2D(0, ((touchEnd.X - touchStart.X) * speedMultiplier));
@@ -150,7 +146,6 @@ void AParagon_CityPlayerController::MoveRightTouch()
 void AParagon_CityPlayerController::MoveLeftTouch()
 {
 	float dist = FVector2D::Distance(FVector2D(touchStart.X, 0), FVector2D(touchEnd.X, 0));
-
 	if (dist > distance && touchEnd.X < touchStart.X)
 	{
 		finalLocation = UKismetMathLibrary::MakeVector2D(0, (touchEnd.X - touchStart.X) * speedMultiplier);
@@ -191,22 +186,25 @@ void AParagon_CityPlayerController::Zoom()
 	DeprojectScreenPositionToWorld(center.X, center.Y, worldLoc, worldDir);
 	if (deltaDistance > 25)
 	{
-		//builtManagerPawn->SetActorLocation(FVector(FMath::Lerp(  builtManagerPawn->GetActorLocation().X, worldLoc.X, 0.1f), FMath::Lerp(builtManagerPawn->GetActorLocation().Y, worldLoc.Y, 0.1f), builtManagerPawn->GetActorLocation().Z - 10.0f));
-		//builtManagerPawn->SetActorLocation(FVector(builtManagerPawn->GetActorLocation().X,builtManagerPawn->GetActorLocation().Y, builtManagerPawn->GetActorLocation().Z - 10.0f));
-		builtManagerPawn->SetActorLocation(FVector(worldLoc.X, worldLoc.Y, builtManagerPawn->GetActorLocation().Z - 10.0f));
-
-		UE_LOG(LogTemp, Warning, TEXT("ScreenLoc: %s"), *center.ToString());
-		UE_LOG(LogTemp, Warning, TEXT("WorldLoc: %s"), *worldLoc.ToString());
-
+		if (builtManagerPawn->GetActorLocation().Z > 0.0f)
+		{
+			//builtManagerPawn->SetActorLocation(FVector(FMath::Lerp(  builtManagerPawn->GetActorLocation().X, worldLoc.X, 0.1f), FMath::Lerp(builtManagerPawn->GetActorLocation().Y, worldLoc.Y, 0.1f), builtManagerPawn->GetActorLocation().Z - 10.0f));
+			//builtManagerPawn->SetActorLocation(FVector(builtManagerPawn->GetActorLocation().X,builtManagerPawn->GetActorLocation().Y, builtManagerPawn->GetActorLocation().Z - 10.0f));
+			builtManagerPawn->SetActorLocation(FVector(worldLoc.X, worldLoc.Y, builtManagerPawn->GetActorLocation().Z - 20.0f));
+			UE_LOG(LogTemp, Warning, TEXT("ScreenLoc: %s"), *center.ToString());
+			UE_LOG(LogTemp, Warning, TEXT("WorldLoc: %s"), *worldLoc.ToString());
+		}
 	}
 	else if (deltaDistance < -25)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("ScreenLoc: %s"), *center.ToString());
-		UE_LOG(LogTemp, Warning, TEXT("WorldLoc: %s"), *worldLoc.ToString());
-		//builtManagerPawn->SetActorLocation(FVector(FMath::Lerp(builtManagerPawn->GetActorLocation().X, worldLoc.X, 0.1f), FMath::Lerp( builtManagerPawn->GetActorLocation().Y, worldLoc.Y, 0.1f), builtManagerPawn->GetActorLocation().Z + 10.0f));
-		//builtManagerPawn->SetActorLocation(FVector(builtManagerPawn->GetActorLocation().X, builtManagerPawn->GetActorLocation().Y, builtManagerPawn->GetActorLocation().Z + 10.0f));
-		builtManagerPawn->SetActorLocation(FVector(worldLoc.X,  worldLoc.Y, builtManagerPawn->GetActorLocation().Z + 10.0f));
-
+		if (builtManagerPawn->GetActorLocation().Z < 2000.0f)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("ScreenLoc: %s"), *center.ToString());
+			UE_LOG(LogTemp, Warning, TEXT("WorldLoc: %s"), *worldLoc.ToString());
+			//builtManagerPawn->SetActorLocation(FVector(FMath::Lerp(builtManagerPawn->GetActorLocation().X, worldLoc.X, 0.1f), FMath::Lerp( builtManagerPawn->GetActorLocation().Y, worldLoc.Y, 0.1f), builtManagerPawn->GetActorLocation().Z + 10.0f));
+			//builtManagerPawn->SetActorLocation(FVector(builtManagerPawn->GetActorLocation().X, builtManagerPawn->GetActorLocation().Y, builtManagerPawn->GetActorLocation().Z + 10.0f));
+			builtManagerPawn->SetActorLocation(FVector(builtManagerPawn->GetActorLocation().X, builtManagerPawn->GetActorLocation().Y, builtManagerPawn->GetActorLocation().Z + 20.0f));
+		}
 	}
 }
 

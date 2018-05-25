@@ -27,12 +27,13 @@ ABuilt_Manager::ABuilt_Manager()
 	CameraBoom->SetupAttachment(RootComponent);
 	CameraBoom->bAbsoluteRotation = true; // Don't want arm to rotate when character does
 	CameraBoom->TargetArmLength = 800.f;
-	CameraBoom->RelativeRotation = FRotator(-60.f, 0.f, 0.f);
+	CameraBoom->RelativeRotation = FRotator(-90.f, 0.f, 0.f);
 	CameraBoom->bDoCollisionTest = false; // Don't want to pull camera in when it collides with level
 
 										  // Create camera
 	TopDownCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("TopDownCamera"));
 	TopDownCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
+	TopDownCamera->RelativeRotation = FRotator(30.0f, 0.f, 0.f);
 	TopDownCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
 

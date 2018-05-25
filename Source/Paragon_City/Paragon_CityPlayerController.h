@@ -28,6 +28,7 @@ private:
 	void MoveLeftTouch();
 	void MoveUpTouch();
 	void MoveDownTouch();
+	void Zoom();
 
 
 
@@ -43,6 +44,14 @@ private:
 	FVector2D Penis;
 	FVector2D finalLocation;
 	FVector currentCameraBoomLocation;
+
+	FVector2D firstFingerTouchStart;
+	FVector2D firstFingerTouchEnd;
+	FVector2D secondFingerTouchStart;
+	FVector2D secondFingerTouchEnd;
+	
+
+	int fingerCount = 0;
 
 	float inputX;
 	float InputY;

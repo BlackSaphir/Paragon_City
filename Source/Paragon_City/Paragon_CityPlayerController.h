@@ -30,6 +30,8 @@ private:
 	void MoveDownTouch();
 	void Zoom();
 
+	void Move();
+
 
 
 	// Variable
@@ -50,6 +52,7 @@ private:
 	FVector worldLoc;
 	FVector worldDir;
 
+	FVector touchDIr;
 
 	float inputX;
 	float InputY;
@@ -66,7 +69,7 @@ public:
 		bool bMovingBuilding;
 
 	UPROPERTY(EditAnywhere, Category = Touch)
-		float distance = 10.0f;
+		float distance = 20.0f;
 
 	UPROPERTY(EditAnywhere, Category = Touch)
 		float speedMultiplier = 0.1f;

@@ -52,11 +52,15 @@ private:
 	float screenY;
 	FVector worldLoc;
 	FVector worldDir;
-
 	FVector touchDIr;
+
+	FVector ForwardVectorManipulated;
 
 	float inputX;
 	float InputY;
+
+	float angleDiff;
+	float dist;
 	int fingerCount = 0;
 	class AParagon_CityGameMode *myGameMode;
 	APawn* defaultPawn;

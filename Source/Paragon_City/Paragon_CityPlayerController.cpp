@@ -49,6 +49,7 @@ void AParagon_CityPlayerController::BeginPlay()
 	FActorSpawnParameters SpawnParam;
 	gameViewCamera = GetWorld()->SpawnActor<AGameView_Camera>(gameViewCamera->GetClass(), FVector(0, 0, 900), FRotator(300, 0, 0), SpawnParam);
 	SetViewTarget(gameViewCamera);
+
 }
 
 // set InputVector and call MoveRight
@@ -148,7 +149,7 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 // check if touch goes right
 void AParagon_CityPlayerController::MoveRightTouch()
 {
-	float dist = FVector2D::Distance(FVector2D(touchStart.X, 0), FVector2D(touchEnd.X, 0));
+	dist = FVector2D::Distance(FVector2D(touchStart.X, 0), FVector2D(touchEnd.X, 0));
 	if (dist > distance && touchEnd.X > touchStart.X)
 	{
 		/*finalLocation = UKismetMathLibrary::MakeVector2D(0, ((touchEnd.X - touchStart.X) * speedMultiplier));
@@ -163,7 +164,7 @@ void AParagon_CityPlayerController::MoveRightTouch()
 
 void AParagon_CityPlayerController::MoveLeftTouch()
 {
-	float dist = FVector2D::Distance(FVector2D(touchStart.X, 0), FVector2D(touchEnd.X, 0));
+	dist = FVector2D::Distance(FVector2D(touchStart.X, 0), FVector2D(touchEnd.X, 0));
 	if (dist > distance && touchEnd.X < touchStart.X)
 	{
 		/*finalLocation = UKismetMathLibrary::MakeVector2D(0, (touchEnd.X - touchStart.X) * speedMultiplier);
@@ -175,7 +176,7 @@ void AParagon_CityPlayerController::MoveLeftTouch()
 
 void AParagon_CityPlayerController::MoveUpTouch()
 {
-	float dist = FVector2D::Distance(FVector2D(0, touchStart.Y), FVector2D(0, touchEnd.Y));
+	dist = FVector2D::Distance(FVector2D(0, touchStart.Y), FVector2D(0, touchEnd.Y));
 
 	if (dist > distance && touchEnd.Y < touchStart.Y)
 	{
@@ -184,26 +185,32 @@ void AParagon_CityPlayerController::MoveUpTouch()
 		//builtManagerPawn->SetActorRelativeLocation(FVector(builtManagerPawn->GetActorLocation().X * builtManagerPawn->GetActorForwardVector().Y + 10, builtManagerPawn->GetActorLocation().Y, builtManagerPawn->GetActorLocation().Z));
 		//UE_LOG(LogTemp, Warning, TEXT("forward Vector: %s"), *builtManagerPawn->GetActorForwardVector().ToString());
 
-		gameViewCamera->SetActorLocation(gameViewCamera->GetActorLocation() + (gameViewCamera->GetActorForwardVector() * 10));
+		angleDiff = 360 + gameViewCamera->GetActorRotation().Pitch;
+		ForwardVectorManipulated = UKismetMathLibrary::RotateAngleAxis(gameViewCamera->GetActorForwardVector(), angleDiff, FVector(0, 1, 0));
+		gameViewCamera->SetActorLocation(gameViewCamera->GetActorLocation() + (ForwardVectorManipulated * 10));
+		UE_LOG(LogTemp, Warning, TEXT("Pitch: %f"), gameViewCamera->GetActorRotation().Pitch);
 	}
 }
 
 void AParagon_CityPlayerController::MoveDownTouch()
 {
-	float dist = FVector2D::Distance(FVector2D(0, touchStart.Y), FVector2D(0, touchEnd.Y));
+	dist = FVector2D::Distance(FVector2D(0, touchStart.Y), FVector2D(0, touchEnd.Y));
 
 	if (dist > distance && touchEnd.Y > touchStart.Y)
 	{
 		/*finalLocation = UKismetMathLibrary::MakeVector2D((touchStart.Y - touchEnd.Y)* speedMultiplier, 0);
 		builtManagerPawn->SetActorRelativeLocation(FVector(builtManagerPawn->GetActorLocation().X + finalLocation.X, builtManagerPawn->GetActorLocation().Y + finalLocation.Y, builtManagerPawn->GetActorLocation().Z));*/
 		//builtManagerPawn->SetActorRelativeLocation(FVector(builtManagerPawn->GetActorLocation().X * builtManagerPawn->GetActorForwardVector().Y - 10, builtManagerPawn->GetActorLocation().Y, builtManagerPawn->GetActorLocation().Z));
-		gameViewCamera->SetActorLocation(gameViewCamera->GetActorLocation() - (gameViewCamera->GetActorForwardVector() * 10));
+
+		angleDiff = 360 + gameViewCamera->GetActorRotation().Pitch;
+		ForwardVectorManipulated = UKismetMathLibrary::RotateAngleAxis(gameViewCamera->GetActorForwardVector(), angleDiff, FVector(0, 1, 0));
+		gameViewCamera->SetActorLocation(gameViewCamera->GetActorLocation() - (ForwardVectorManipulated * 10));
 	}
 }
 
 void AParagon_CityPlayerController::Zoom()
 {
-	float dist1 = FVector2D::Distance(secondFingerTouchStart, firstFingerTouchStart);
+	/*float dist1 = FVector2D::Distance(secondFingerTouchStart, firstFingerTouchStart);
 	float dist2 = FVector2D::Distance(secondFingerTouchEnd, firstFingerTouchEnd);
 	float deltaDistance = dist2 - dist1;
 	if (deltaDistance > 25)
@@ -219,12 +226,12 @@ void AParagon_CityPlayerController::Zoom()
 		{
 			builtManagerPawn->CameraBoom->TargetArmLength = builtManagerPawn->CameraBoom->TargetArmLength + 10.0f;
 		}
-	}
+	}*/
 }
 
 void AParagon_CityPlayerController::Move()
 {
-	float dist = FVector2D::Distance(touchStart, touchEnd);
+	dist = FVector2D::Distance(touchStart, touchEnd);
 
 	touchDIr = FVector((touchEnd.Y - touchStart.Y)*(-1), touchEnd.X - touchStart.X, 0);
 

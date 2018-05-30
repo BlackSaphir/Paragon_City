@@ -1,6 +1,7 @@
 // Copyright 1998-2018 Epic Games, Inc. All Rights Reserved.
 
 #include "Paragon_CityPlayerController.h"
+#include "Runtime/AppleARKit/Source/AppleARKit/Public/AppleARKitCamera.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Engine/World.h"
 #include "Kismet/KismetMathLibrary.h"
@@ -21,6 +22,7 @@ AParagon_CityPlayerController::AParagon_CityPlayerController(/*const FObjectInit
 	bEnableTouchOverEvents = true;
 	bBlockInput = false;
 	bAutoManageActiveCameraTarget = false;
+	
 	//PlayerCameraManager = nullptr;
 
 	const ConstructorHelpers::FObjectFinder<UClass> builtManager_BP(TEXT("Class'/Game/Blueprints/Character/BP_Built_Manager.BP_Built_Manager_C'"));
@@ -50,6 +52,7 @@ void AParagon_CityPlayerController::BeginPlay()
 	gameViewCamera = GetWorld()->SpawnActor<AGameView_Camera>(gameViewCamera->GetClass(), FVector(0, 0, 900), FRotator(300, 0, 0), SpawnParam);
 	SetViewTarget(gameViewCamera);
 
+	FAppleARKitCamera();
 }
 
 // set InputVector and call MoveRight
@@ -157,8 +160,6 @@ void AParagon_CityPlayerController::MoveRightTouch()
 		//builtManagerPawn->SetActorRelativeLocation(FVector(builtManagerPawn->GetActorLocation().X, builtManagerPawn->GetActorLocation().Y * builtManagerPawn->GetActorForwardVector().Y + 10, builtManagerPawn->GetActorLocation().Z));
 		/*UE_LOG(LogTemp, Warning, TEXT("Right Vector: %s"), *builtManagerPawn->GetActorRightVector().ToString());*/
 		gameViewCamera->SetActorLocation(gameViewCamera->GetActorLocation() + (gameViewCamera->GetActorRightVector() * 10));
-
-
 	}
 }
 

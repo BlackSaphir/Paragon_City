@@ -20,8 +20,8 @@ AParagon_CityPlayerController::AParagon_CityPlayerController(/*const FObjectInit
 	bEnableMouseOverEvents = true;
 	bEnableTouchOverEvents = true;
 	bBlockInput = false;
-	/*bAutoManageActiveCameraTarget = false;
-	PlayerCameraManager = nullptr;*/
+	bAutoManageActiveCameraTarget = false;
+	//PlayerCameraManager = nullptr;
 
 	const ConstructorHelpers::FObjectFinder<UClass> builtManager_BP(TEXT("Class'/Game/Blueprints/Character/BP_Built_Manager.BP_Built_Manager_C'"));
 	if (builtManager_BP.Succeeded())
@@ -62,12 +62,12 @@ void AParagon_CityPlayerController::PlayerTick(float DeltaTime)
 		//GetInputTouchState(ETouchIndex::Touch1, inputX, InputY, bIsCurrentlyPressed);
 		//inputVector.X = inputX;
 		//inputVector.Y = InputY;
-		/*MoveRightTouch();
+		MoveRightTouch();
 		MoveLeftTouch();
 		MoveUpTouch();
-		MoveDownTouch();*/
+		MoveDownTouch();
 
-		Move();
+		//Move();
 
 	}
 
@@ -155,7 +155,7 @@ void AParagon_CityPlayerController::MoveRightTouch()
 		builtManagerPawn->SetActorRelativeLocation(FVector(builtManagerPawn->GetActorLocation().X + finalLocation.X, builtManagerPawn->GetActorLocation().Y + finalLocation.Y, builtManagerPawn->GetActorLocation().Z));*/
 		//builtManagerPawn->SetActorRelativeLocation(FVector(builtManagerPawn->GetActorLocation().X, builtManagerPawn->GetActorLocation().Y * builtManagerPawn->GetActorForwardVector().Y + 10, builtManagerPawn->GetActorLocation().Z));
 		/*UE_LOG(LogTemp, Warning, TEXT("Right Vector: %s"), *builtManagerPawn->GetActorRightVector().ToString());*/
-		builtManagerPawn->SetActorLocation(builtManagerPawn->GetActorLocation() + (builtManagerPawn->GetActorRightVector() * 10));
+		gameViewCamera->SetActorLocation(gameViewCamera->GetActorLocation() + (gameViewCamera->GetActorRightVector() * 10));
 
 
 	}
@@ -169,7 +169,7 @@ void AParagon_CityPlayerController::MoveLeftTouch()
 		/*finalLocation = UKismetMathLibrary::MakeVector2D(0, (touchEnd.X - touchStart.X) * speedMultiplier);
 		builtManagerPawn->SetActorRelativeLocation(FVector(builtManagerPawn->GetActorLocation().X + finalLocation.X, builtManagerPawn->GetActorLocation().Y + finalLocation.Y, builtManagerPawn->GetActorLocation().Z));*/
 		//builtManagerPawn->SetActorRelativeLocation(FVector(builtManagerPawn->GetActorLocation().X, builtManagerPawn->GetActorLocation().Y * builtManagerPawn->GetActorForwardVector().Y - 10, builtManagerPawn->GetActorLocation().Z));
-		builtManagerPawn->SetActorLocation(builtManagerPawn->GetActorLocation() - (builtManagerPawn->GetActorRightVector() * 10));
+		gameViewCamera->SetActorLocation(gameViewCamera->GetActorLocation() - (gameViewCamera->GetActorRightVector() * 10));
 	}
 }
 
@@ -184,7 +184,7 @@ void AParagon_CityPlayerController::MoveUpTouch()
 		//builtManagerPawn->SetActorRelativeLocation(FVector(builtManagerPawn->GetActorLocation().X * builtManagerPawn->GetActorForwardVector().Y + 10, builtManagerPawn->GetActorLocation().Y, builtManagerPawn->GetActorLocation().Z));
 		//UE_LOG(LogTemp, Warning, TEXT("forward Vector: %s"), *builtManagerPawn->GetActorForwardVector().ToString());
 
-		builtManagerPawn->SetActorLocation(builtManagerPawn->GetActorLocation() + (builtManagerPawn->GetActorForwardVector() * 10));
+		gameViewCamera->SetActorLocation(gameViewCamera->GetActorLocation() + (gameViewCamera->GetActorForwardVector() * 10));
 	}
 }
 
@@ -197,7 +197,7 @@ void AParagon_CityPlayerController::MoveDownTouch()
 		/*finalLocation = UKismetMathLibrary::MakeVector2D((touchStart.Y - touchEnd.Y)* speedMultiplier, 0);
 		builtManagerPawn->SetActorRelativeLocation(FVector(builtManagerPawn->GetActorLocation().X + finalLocation.X, builtManagerPawn->GetActorLocation().Y + finalLocation.Y, builtManagerPawn->GetActorLocation().Z));*/
 		//builtManagerPawn->SetActorRelativeLocation(FVector(builtManagerPawn->GetActorLocation().X * builtManagerPawn->GetActorForwardVector().Y - 10, builtManagerPawn->GetActorLocation().Y, builtManagerPawn->GetActorLocation().Z));
-		builtManagerPawn->SetActorLocation(builtManagerPawn->GetActorLocation() - (builtManagerPawn->GetActorForwardVector() * 10));
+		gameViewCamera->SetActorLocation(gameViewCamera->GetActorLocation() - (gameViewCamera->GetActorForwardVector() * 10));
 	}
 }
 

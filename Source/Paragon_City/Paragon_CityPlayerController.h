@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
 #include "Built_Manager.h"
+#include "GameView_Camera.h"
 #include "Paragon_CityGameMode.h"
 #include "Paragon_CityPlayerController.generated.h"
 
@@ -59,6 +60,8 @@ private:
 	int fingerCount = 0;
 	class AParagon_CityGameMode *myGameMode;
 	APawn* defaultPawn;
+	AGameView_Camera * gameViewCamera;
+
 
 public:
 

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "Camera/CameraActor.h"
 #include "Built_Manager.generated.h"
 
 UCLASS()
@@ -25,8 +26,8 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 		void SecondBeginPlay();
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Camera, meta = (AllowPrivateAccess = "true"))
-		class UCameraComponent* TopDownCamera;
+	/*UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Camera, meta = (AllowPrivateAccess = "true"))
+		class UCameraComponent* TopDownCamera;*/
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		class USpringArmComponent* CameraBoom;
@@ -38,7 +39,9 @@ protected:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 private:
+	void SpawnCamera();
+	
 	// Variable
-
 private:
+	
 };

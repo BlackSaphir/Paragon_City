@@ -29,16 +29,18 @@ ABuilt_Manager::ABuilt_Manager()
 	CameraBoom->bDoCollisionTest = false; // Don't want to pull camera in when it collides with level
 
 										  // Create camera
-	TopDownCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("TopDownCamera"));
-	TopDownCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
-	TopDownCamera->RelativeRotation = FRotator(0.f, 0.f, 0.f);
-	TopDownCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
+	//TopDownCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("TopDownCamera"));
+	//TopDownCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
+	//TopDownCamera->RelativeRotation = FRotator(0.f, 0.f, 0.f);
+	//TopDownCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 }
 
 // Called when the game starts or when spawned
 void ABuilt_Manager::BeginPlay()
 {
 	Super::BeginPlay();
+	
+	
 }
 
 // Called every frame

@@ -45,6 +45,10 @@ void AParagon_CityPlayerController::BeginPlay()
 	Possess(builtManagerPawn);
 	defaultPawn->Destroy();
 	builtManagerPawn->SecondBeginPlay();
+	gameViewCamera = NewObject<AGameView_Camera>();
+	FActorSpawnParameters SpawnParam;
+	gameViewCamera = GetWorld()->SpawnActor<AGameView_Camera>(gameViewCamera->GetClass(), FVector(0, 0, 900), FRotator(300, 0, 0), SpawnParam);
+	SetViewTarget(gameViewCamera);
 }
 
 // set InputVector and call MoveRight
@@ -58,12 +62,12 @@ void AParagon_CityPlayerController::PlayerTick(float DeltaTime)
 		//GetInputTouchState(ETouchIndex::Touch1, inputX, InputY, bIsCurrentlyPressed);
 		//inputVector.X = inputX;
 		//inputVector.Y = InputY;
-		MoveRightTouch();
+		/*MoveRightTouch();
 		MoveLeftTouch();
 		MoveUpTouch();
-		MoveDownTouch();
+		MoveDownTouch();*/
 
-		//Move();
+		Move();
 
 	}
 
@@ -226,7 +230,7 @@ void AParagon_CityPlayerController::Move()
 
 	if (dist > distance)
 	{
-		builtManagerPawn->SetActorRelativeLocation(builtManagerPawn->GetActorLocation() + touchDIr*speedMultiplier);
+		gameViewCamera->SetActorRelativeLocation(gameViewCamera->GetActorLocation() + touchDIr*speedMultiplier);
 	}
 }
 

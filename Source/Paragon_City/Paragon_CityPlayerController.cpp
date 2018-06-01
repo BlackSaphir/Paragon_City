@@ -1,7 +1,7 @@
 // Copyright 1998-2018 Epic Games, Inc. All Rights Reserved.
 
 #include "Paragon_CityPlayerController.h"
-#include "Runtime/AppleARKit/Source/AppleARKit/Public/AppleARKitCamera.h"
+//#include "Runtime/AppleARKit/Source/AppleARKit/Public/AppleARKitCamera.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Engine/World.h"
 #include "Kismet/KismetMathLibrary.h"
@@ -52,7 +52,7 @@ void AParagon_CityPlayerController::BeginPlay()
 	gameViewCamera = GetWorld()->SpawnActor<AGameView_Camera>(gameViewCamera->GetClass(), FVector(0, 0, 900), FRotator(300, 0, 0), SpawnParam);
 	SetViewTarget(gameViewCamera);
 
-	FAppleARKitCamera();
+	//FAppleARKitCamera();
 }
 
 // set InputVector and call MoveRight

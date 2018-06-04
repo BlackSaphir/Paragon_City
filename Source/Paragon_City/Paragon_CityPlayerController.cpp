@@ -10,6 +10,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/PrimitiveComponent.h"
+#include "ARBlueprintLibrary.h"
 
 
 
@@ -31,6 +32,8 @@ AParagon_CityPlayerController::AParagon_CityPlayerController(/*const FObjectInit
 		builtManager = builtManager_BP.Object;
 		builtManagerSubClass = builtManager;
 	}
+
+	building_Widget = NewObject<UW_Building>();
 }
 
 
@@ -52,20 +55,17 @@ void AParagon_CityPlayerController::BeginPlay()
 	gameViewCamera = GetWorld()->SpawnActor<AGameView_Camera>(gameViewCamera->GetClass(), FVector(0, 0, 900), FRotator(300, 0, 0), SpawnParam);
 	SetViewTarget(gameViewCamera);
 
-	//FAppleARKitCamera();
+
 }
 
 // set InputVector and call MoveRight
 void AParagon_CityPlayerController::PlayerTick(float DeltaTime)
 {
 	Super::PlayerTick(DeltaTime);
-	//builtManagerPawn->SetActorRotation(builtManagerPawn->TopDownCamera->GetComponentRotation());
-	//UE_LOG(LogTemp, Warning, TEXT("%d"), fingerCount);
+
 	if (bIsPressed && !bMovingBuilding && fingerCount == 1)
 	{
-		//GetInputTouchState(ETouchIndex::Touch1, inputX, InputY, bIsCurrentlyPressed);
-		//inputVector.X = inputX;
-		//inputVector.Y = InputY;
+
 		MoveRightTouch();
 		MoveLeftTouch();
 		MoveUpTouch();
@@ -90,8 +90,7 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 	{
 	case ETouchType::Began:
 		// set Touchlocation
-		//builtManagerPawn->SetActorRotation(builtManagerPawn->CameraBoom->GetComponentRotation());
-		//UE_LOG(LogTemp, Warning, TEXT("öcyvksdnjdökjf: %s"), *builtManagerPawn->GetActorRotation().ToString());
+
 		GetHitResultUnderCursorByChannel(ETraceTypeQuery::TraceTypeQuery1, true, hitResult);
 		fingerCount++;
 		if (fingerCount == 1)
@@ -116,9 +115,12 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 				touchStart.Y = TouchLocation.Y;
 			}
 		}
+		else if(building_Widget->bIsARSession == true)
+		{
+			building_Widget->SpawnFloor();
+		}
 	case ETouchType::Moved:
 		DeprojectScreenPositionToWorld(screenX, screenY, worldLoc, worldDir);
-		//UE_LOG(LogTemp, Warning, TEXT("World Dir: %s"), *worldDir.ToString());
 		if (Handle == 0)
 		{
 			firstFingerTouchEnd = TouchLocation;
@@ -155,10 +157,7 @@ void AParagon_CityPlayerController::MoveRightTouch()
 	dist = FVector2D::Distance(FVector2D(touchStart.X, 0), FVector2D(touchEnd.X, 0));
 	if (dist > distance && touchEnd.X > touchStart.X)
 	{
-		/*finalLocation = UKismetMathLibrary::MakeVector2D(0, ((touchEnd.X - touchStart.X) * speedMultiplier));
-		builtManagerPawn->SetActorRelativeLocation(FVector(builtManagerPawn->GetActorLocation().X + finalLocation.X, builtManagerPawn->GetActorLocation().Y + finalLocation.Y, builtManagerPawn->GetActorLocation().Z));*/
-		//builtManagerPawn->SetActorRelativeLocation(FVector(builtManagerPawn->GetActorLocation().X, builtManagerPawn->GetActorLocation().Y * builtManagerPawn->GetActorForwardVector().Y + 10, builtManagerPawn->GetActorLocation().Z));
-		/*UE_LOG(LogTemp, Warning, TEXT("Right Vector: %s"), *builtManagerPawn->GetActorRightVector().ToString());*/
+
 		gameViewCamera->SetActorLocation(gameViewCamera->GetActorLocation() + (gameViewCamera->GetActorRightVector() * 10));
 	}
 }
@@ -168,9 +167,7 @@ void AParagon_CityPlayerController::MoveLeftTouch()
 	dist = FVector2D::Distance(FVector2D(touchStart.X, 0), FVector2D(touchEnd.X, 0));
 	if (dist > distance && touchEnd.X < touchStart.X)
 	{
-		/*finalLocation = UKismetMathLibrary::MakeVector2D(0, (touchEnd.X - touchStart.X) * speedMultiplier);
-		builtManagerPawn->SetActorRelativeLocation(FVector(builtManagerPawn->GetActorLocation().X + finalLocation.X, builtManagerPawn->GetActorLocation().Y + finalLocation.Y, builtManagerPawn->GetActorLocation().Z));*/
-		//builtManagerPawn->SetActorRelativeLocation(FVector(builtManagerPawn->GetActorLocation().X, builtManagerPawn->GetActorLocation().Y * builtManagerPawn->GetActorForwardVector().Y - 10, builtManagerPawn->GetActorLocation().Z));
+	
 		gameViewCamera->SetActorLocation(gameViewCamera->GetActorLocation() - (gameViewCamera->GetActorRightVector() * 10));
 	}
 }
@@ -181,10 +178,7 @@ void AParagon_CityPlayerController::MoveUpTouch()
 
 	if (dist > distance && touchEnd.Y < touchStart.Y)
 	{
-		/*finalLocation = UKismetMathLibrary::MakeVector2D((touchStart.Y - touchEnd.Y)* speedMultiplier, 0);
-		builtManagerPawn->SetActorRelativeLocation(FVector(builtManagerPawn->GetActorLocation().X + finalLocation.X, builtManagerPawn->GetActorLocation().Y + finalLocation.Y, builtManagerPawn->GetActorLocation().Z));*/
-		//builtManagerPawn->SetActorRelativeLocation(FVector(builtManagerPawn->GetActorLocation().X * builtManagerPawn->GetActorForwardVector().Y + 10, builtManagerPawn->GetActorLocation().Y, builtManagerPawn->GetActorLocation().Z));
-		//UE_LOG(LogTemp, Warning, TEXT("forward Vector: %s"), *builtManagerPawn->GetActorForwardVector().ToString());
+
 
 		angleDiff = 360 + gameViewCamera->GetActorRotation().Pitch;
 		ForwardVectorManipulated = UKismetMathLibrary::RotateAngleAxis(gameViewCamera->GetActorForwardVector(), angleDiff, FVector(0, 1, 0));
@@ -199,10 +193,7 @@ void AParagon_CityPlayerController::MoveDownTouch()
 
 	if (dist > distance && touchEnd.Y > touchStart.Y)
 	{
-		/*finalLocation = UKismetMathLibrary::MakeVector2D((touchStart.Y - touchEnd.Y)* speedMultiplier, 0);
-		builtManagerPawn->SetActorRelativeLocation(FVector(builtManagerPawn->GetActorLocation().X + finalLocation.X, builtManagerPawn->GetActorLocation().Y + finalLocation.Y, builtManagerPawn->GetActorLocation().Z));*/
-		//builtManagerPawn->SetActorRelativeLocation(FVector(builtManagerPawn->GetActorLocation().X * builtManagerPawn->GetActorForwardVector().Y - 10, builtManagerPawn->GetActorLocation().Y, builtManagerPawn->GetActorLocation().Z));
-
+	
 		angleDiff = 360 + gameViewCamera->GetActorRotation().Pitch;
 		ForwardVectorManipulated = UKismetMathLibrary::RotateAngleAxis(gameViewCamera->GetActorForwardVector(), angleDiff, FVector(0, 1, 0));
 		gameViewCamera->SetActorLocation(gameViewCamera->GetActorLocation() - (ForwardVectorManipulated * 10));

@@ -6,6 +6,7 @@
 #include "GameFramework/PlayerController.h"
 #include "Built_Manager.h"
 #include "GameView_Camera.h"
+#include "W_Building.h"
 #include "Paragon_CityGameMode.h"
 #include "Paragon_CityPlayerController.generated.h"
 
@@ -30,8 +31,11 @@ private:
 	void MoveUpTouch();
 	void MoveDownTouch();
 	void Zoom();
-
 	void Move();
+
+public:
+
+
 
 
 
@@ -65,6 +69,7 @@ private:
 	class AParagon_CityGameMode *myGameMode;
 	APawn* defaultPawn;
 	AGameView_Camera * gameViewCamera;
+	UW_Building* building_Widget;
 
 
 public:

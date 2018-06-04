@@ -11,7 +11,11 @@
 #include "Camera/CameraComponent.h"
 #include "Components/PrimitiveComponent.h"
 #include "ARBlueprintLibrary.h"
+#include "Public/AppleARKitAnchor.h"
+#include "Public/AppleARKitHitTestResult.h"
 
+
+#define GETENUMSTRING(etype, evalue) ( (FindObject<UEnum>(ANY_PACKAGE, TEXT(etype), true) != nullptr) ? FindObject<UEnum>(ANY_PACKAGE, TEXT(etype), true)->GetNameStringByIndex((int32)evalue) : FString("Invalid - are you sure enum uses UENUM() macro?") )
 
 
 AParagon_CityPlayerController::AParagon_CityPlayerController(/*const FObjectInitializer & buildManager_Init) :Super(buildManager_Init*/)
@@ -55,7 +59,10 @@ void AParagon_CityPlayerController::BeginPlay()
 	gameViewCamera = GetWorld()->SpawnActor<AGameView_Camera>(gameViewCamera->GetClass(), FVector(0, 0, 900), FRotator(300, 0, 0), SpawnParam);
 	SetViewTarget(gameViewCamera);
 
+	FAppleARKitHitTestResult ARHitTestResult;
 
+	EAppleARKitHitTestResultType UseEnum = ARHitTestResult.Type;
+	UE_LOG(LogTemp, Warning, TEXT("lkösadjfkdsjflksadjf: %f"), *GETENUMSTRING("EAppleARKitHitTestResultType", UseEnum));
 }
 
 // set InputVector and call MoveRight
@@ -85,6 +92,8 @@ void AParagon_CityPlayerController::PlayerTick(float DeltaTime)
 bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type Type, const FVector2D & TouchLocation, FDateTime DeviceTimestamp, uint32 TouchpadIndex)
 {
 	FHitResult hitResult;
+
+	
 
 	switch (Type)
 	{

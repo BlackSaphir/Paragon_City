@@ -8,6 +8,7 @@
 #include "GameView_Camera.h"
 #include "W_Building.h"
 #include "Paragon_CityGameMode.h"
+#include "Public/AppleARKitHitTestResult.h"
 #include "Paragon_CityPlayerController.generated.h"
 
 UCLASS()
@@ -32,6 +33,7 @@ private:
 	void MoveDownTouch();
 	void Zoom();
 	void Move();
+	void SpawnFloor();
 
 public:
 
@@ -54,22 +56,25 @@ private:
 
 	float screenX;
 	float screenY;
+	float inputX;
+	float InputY;
+	float angleDiff;
+	float dist;
+
+	int fingerCount = 0;
+
 	FVector worldLoc;
 	FVector worldDir;
 	FVector touchDIr;
-
 	FVector ForwardVectorManipulated;
 
-	float inputX;
-	float InputY;
 
-	float angleDiff;
-	float dist;
-	int fingerCount = 0;
+	FAppleARKitHitTestResult ARHitTestResult;
 	class AParagon_CityGameMode *myGameMode;
 	APawn* defaultPawn;
 	AGameView_Camera * gameViewCamera;
 	UW_Building* building_Widget;
+	EAppleARKitHitTestResultType UseEnum = ARHitTestResult.Type;
 
 
 public:
@@ -85,6 +90,8 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = Touch)
 		float speedMultiplier = 0.1f;
+
+	
 
 	// TSoftClassPtr? 
 	UClass* builtManager;

@@ -11,8 +11,7 @@
 #include "Camera/CameraComponent.h"
 #include "Components/PrimitiveComponent.h"
 #include "ARBlueprintLibrary.h"
-#include "Public/AppleARKitAnchor.h"
-#include "Public/AppleARKitHitTestResult.h"
+#include "Public/AppleARKitPlaneAnchor.h"
 
 
 #define GETENUMSTRING(etype, evalue) ( (FindObject<UEnum>(ANY_PACKAGE, TEXT(etype), true) != nullptr) ? FindObject<UEnum>(ANY_PACKAGE, TEXT(etype), true)->GetNameStringByIndex((int32)evalue) : FString("Invalid - are you sure enum uses UENUM() macro?") )
@@ -27,7 +26,7 @@ AParagon_CityPlayerController::AParagon_CityPlayerController(/*const FObjectInit
 	bEnableTouchOverEvents = true;
 	bBlockInput = false;
 	bAutoManageActiveCameraTarget = false;
-	
+
 	//PlayerCameraManager = nullptr;
 
 	const ConstructorHelpers::FObjectFinder<UClass> builtManager_BP(TEXT("Class'/Game/Blueprints/Character/BP_Built_Manager.BP_Built_Manager_C'"));
@@ -58,11 +57,6 @@ void AParagon_CityPlayerController::BeginPlay()
 	FActorSpawnParameters SpawnParam;
 	gameViewCamera = GetWorld()->SpawnActor<AGameView_Camera>(gameViewCamera->GetClass(), FVector(0, 0, 900), FRotator(300, 0, 0), SpawnParam);
 	SetViewTarget(gameViewCamera);
-
-	FAppleARKitHitTestResult ARHitTestResult;
-
-	EAppleARKitHitTestResultType UseEnum = ARHitTestResult.Type;
-	UE_LOG(LogTemp, Warning, TEXT("lkösadjfkdsjflksadjf: %f"), *GETENUMSTRING("EAppleARKitHitTestResultType", UseEnum));
 }
 
 // set InputVector and call MoveRight
@@ -93,14 +87,17 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 {
 	FHitResult hitResult;
 
-	
+
 
 	switch (Type)
 	{
 	case ETouchType::Began:
 		// set Touchlocation
 
-		GetHitResultUnderCursorByChannel(ETraceTypeQuery::TraceTypeQuery1, true, hitResult);
+		/*GetHitResultUnderCursorByChannel(ETraceTypeQuery::TraceTypeQuery1, true, hitResult);
+
+		UE_LOG(LogTemp, Warning, TEXT("ARHitTestResult: %f"), *GETENUMSTRING("EAppleARKitHitTestResultType", UseEnum));*/
+
 		fingerCount++;
 		if (fingerCount == 1)
 		{
@@ -124,9 +121,9 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 				touchStart.Y = TouchLocation.Y;
 			}
 		}
-		else if(building_Widget->bIsARSession == true)
+		else if (building_Widget->bIsARSession == true)
 		{
-			building_Widget->SpawnFloor();
+			SpawnFloor();
 		}
 	case ETouchType::Moved:
 		DeprojectScreenPositionToWorld(screenX, screenY, worldLoc, worldDir);
@@ -176,7 +173,7 @@ void AParagon_CityPlayerController::MoveLeftTouch()
 	dist = FVector2D::Distance(FVector2D(touchStart.X, 0), FVector2D(touchEnd.X, 0));
 	if (dist > distance && touchEnd.X < touchStart.X)
 	{
-	
+
 		gameViewCamera->SetActorLocation(gameViewCamera->GetActorLocation() - (gameViewCamera->GetActorRightVector() * 10));
 	}
 }
@@ -192,7 +189,6 @@ void AParagon_CityPlayerController::MoveUpTouch()
 		angleDiff = 360 + gameViewCamera->GetActorRotation().Pitch;
 		ForwardVectorManipulated = UKismetMathLibrary::RotateAngleAxis(gameViewCamera->GetActorForwardVector(), angleDiff, FVector(0, 1, 0));
 		gameViewCamera->SetActorLocation(gameViewCamera->GetActorLocation() + (ForwardVectorManipulated * 10));
-		UE_LOG(LogTemp, Warning, TEXT("Pitch: %f"), gameViewCamera->GetActorRotation().Pitch);
 	}
 }
 
@@ -202,7 +198,7 @@ void AParagon_CityPlayerController::MoveDownTouch()
 
 	if (dist > distance && touchEnd.Y > touchStart.Y)
 	{
-	
+
 		angleDiff = 360 + gameViewCamera->GetActorRotation().Pitch;
 		ForwardVectorManipulated = UKismetMathLibrary::RotateAngleAxis(gameViewCamera->GetActorForwardVector(), angleDiff, FVector(0, 1, 0));
 		gameViewCamera->SetActorLocation(gameViewCamera->GetActorLocation() - (ForwardVectorManipulated * 10));
@@ -238,8 +234,16 @@ void AParagon_CityPlayerController::Move()
 
 	if (dist > distance)
 	{
-		gameViewCamera->SetActorRelativeLocation(gameViewCamera->GetActorLocation() + touchDIr*speedMultiplier);
+		gameViewCamera->SetActorRelativeLocation(gameViewCamera->GetActorLocation() + touchDIr * speedMultiplier);
 	}
+}
+
+void AParagon_CityPlayerController::SpawnFloor()
+{
+	FActorSpawnParameters spawnParamFloor;
+	UAppleARKitPlaneAnchor* planeAnchor = NewObject<UAppleARKitPlaneAnchor>();
+	GetWorld()->SpawnActor<AActor>(builtManagerPawn->Floor, planeAnchor->GetCenter(), FRotator(0,0,0), spawnParamFloor);
+	building_Widget->bIsARSession = false;
 }
 
 

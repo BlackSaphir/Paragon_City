@@ -36,13 +36,13 @@ AParagon_CityPlayerController::AParagon_CityPlayerController(/*const FObjectInit
 		builtManagerSubClass = builtManager;
 	}
 
-	building_Widget = NewObject<UW_Building>();
 }
 
 
 void AParagon_CityPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
+	building_Widget = NewObject<UW_Building>();
 	FTransform cubePlacement(FVector(0, 0, 0));
 	FActorSpawnParameters spawnParas;
 	myGameMode = (AParagon_CityGameMode*)GetWorld()->GetAuthGameMode();
@@ -63,6 +63,7 @@ void AParagon_CityPlayerController::BeginPlay()
 void AParagon_CityPlayerController::PlayerTick(float DeltaTime)
 {
 	Super::PlayerTick(DeltaTime);
+
 
 	if (bIsPressed && !bMovingBuilding && fingerCount == 1)
 	{
@@ -94,11 +95,15 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 	case ETouchType::Began:
 		// set Touchlocation
 
-		/*GetHitResultUnderCursorByChannel(ETraceTypeQuery::TraceTypeQuery1, true, hitResult);
+		GetHitResultUnderCursorByChannel(ETraceTypeQuery::TraceTypeQuery1, true, hitResult);
 
-		UE_LOG(LogTemp, Warning, TEXT("ARHitTestResult: %f"), *GETENUMSTRING("EAppleARKitHitTestResultType", UseEnum));*/
+		//UE_LOG(LogTemp, Warning, TEXT("ARHitTestResult: %f"), *GETENUMSTRING("EAppleARKitHitTestResultType", UseEnum));
 
 		fingerCount++;
+		if (bIsARSession == true)
+		{
+			SpawnFloor();
+		}
 		if (fingerCount == 1)
 		{
 			firstFingerTouchStart = TouchLocation;
@@ -121,10 +126,7 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 				touchStart.Y = TouchLocation.Y;
 			}
 		}
-		else if (building_Widget->bIsARSession == true)
-		{
-			SpawnFloor();
-		}
+		
 	case ETouchType::Moved:
 		DeprojectScreenPositionToWorld(screenX, screenY, worldLoc, worldDir);
 		if (Handle == 0)
@@ -243,7 +245,7 @@ void AParagon_CityPlayerController::SpawnFloor()
 	FActorSpawnParameters spawnParamFloor;
 	UAppleARKitPlaneAnchor* planeAnchor = NewObject<UAppleARKitPlaneAnchor>();
 	GetWorld()->SpawnActor<AActor>(builtManagerPawn->Floor, planeAnchor->GetCenter(), FRotator(0,0,0), spawnParamFloor);
-	building_Widget->bIsARSession = false;
+	bIsARSession = false;
 }
 
 

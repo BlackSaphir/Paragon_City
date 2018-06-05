@@ -91,6 +91,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = Touch)
 		float speedMultiplier = 0.1f;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool bIsARSession = false;
+
 	
 
 	// TSoftClassPtr? 

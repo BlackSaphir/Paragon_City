@@ -244,7 +244,7 @@ void AParagon_CityPlayerController::SpawnFloor()
 {
 	FActorSpawnParameters spawnParamFloor;
 	UAppleARKitPlaneAnchor* planeAnchor = NewObject<UAppleARKitPlaneAnchor>();
-	GetWorld()->SpawnActor<AActor>(builtManagerPawn->Floor, planeAnchor->GetCenter(), FRotator(0,0,0), spawnParamFloor);
+	GetWorld()->SpawnActor<AActor>(builtManagerPawn->Floor, FVector(planeAnchor->GetCenter().X, planeAnchor->GetCenter().Y, 500), FRotator(0,0,0), spawnParamFloor);
 	bIsARSession = false;
 }
 

@@ -76,6 +76,12 @@ private:
 	UW_Building* building_Widget;
 	EAppleARKitHitTestResultType UseEnum = ARHitTestResult.Type;
 
+	// TSoftClassPtr? 
+	UClass* builtManager;
+	TSubclassOf<APawn> builtManagerSubClass;
+	ABuilt_Manager* builtManagerPawn;
+	UPrimitiveComponent* primitive_Comp;
+	TArray<UARTrackedGeometry*> trackedGeometries;
 
 public:
 
@@ -91,13 +97,11 @@ public:
 	UPROPERTY(EditAnywhere, Category = Touch)
 		float speedMultiplier = 0.1f;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool bIsARSession = false;
+
 	
 
-	// TSoftClassPtr? 
-	UClass* builtManager;
-	TSubclassOf<APawn> builtManagerSubClass;
-	ABuilt_Manager* builtManagerPawn;
-	UPrimitiveComponent* primitive_Comp;
 };
 
 

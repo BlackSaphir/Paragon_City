@@ -16,9 +16,5 @@ class PARAGON_CITY_API UW_Building : public UUserWidget
 
 public:
 
-		UPROPERTY(BlueprintReadWrite)
-		bool bIsARSession = false;
-	
-		UFUNCTION(BlueprintImplementableEvent)
-			void SpawnFloor();
+		
 };

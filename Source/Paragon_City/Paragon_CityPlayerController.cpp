@@ -1,7 +1,6 @@
 // Copyright 1998-2018 Epic Games, Inc. All Rights Reserved.
 
 #include "Paragon_CityPlayerController.h"
-//#include "Runtime/AppleARKit/Source/AppleARKit/Public/AppleARKitCamera.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Engine/World.h"
 #include "Kismet/KismetMathLibrary.h"
@@ -36,13 +35,13 @@ AParagon_CityPlayerController::AParagon_CityPlayerController(/*const FObjectInit
 		builtManagerSubClass = builtManager;
 	}
 
-	building_Widget = NewObject<UW_Building>();
 }
 
 
 void AParagon_CityPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
+	building_Widget = NewObject<UW_Building>();
 	FTransform cubePlacement(FVector(0, 0, 0));
 	FActorSpawnParameters spawnParas;
 	myGameMode = (AParagon_CityGameMode*)GetWorld()->GetAuthGameMode();
@@ -63,6 +62,7 @@ void AParagon_CityPlayerController::BeginPlay()
 void AParagon_CityPlayerController::PlayerTick(float DeltaTime)
 {
 	Super::PlayerTick(DeltaTime);
+
 
 	if (bIsPressed && !bMovingBuilding && fingerCount == 1)
 	{
@@ -94,11 +94,15 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 	case ETouchType::Began:
 		// set Touchlocation
 
-		/*GetHitResultUnderCursorByChannel(ETraceTypeQuery::TraceTypeQuery1, true, hitResult);
+		GetHitResultUnderCursorByChannel(ETraceTypeQuery::TraceTypeQuery1, true, hitResult);
 
-		UE_LOG(LogTemp, Warning, TEXT("ARHitTestResult: %f"), *GETENUMSTRING("EAppleARKitHitTestResultType", UseEnum));*/
+		//UE_LOG(LogTemp, Warning, TEXT("ARHitTestResult: %f"), *GETENUMSTRING("EAppleARKitHitTestResultType", UseEnum));
 
 		fingerCount++;
+		if (bIsARSession == true)
+		{
+			SpawnFloor();
+		}
 		if (fingerCount == 1)
 		{
 			firstFingerTouchStart = TouchLocation;
@@ -121,10 +125,7 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 				touchStart.Y = TouchLocation.Y;
 			}
 		}
-		else if (building_Widget->bIsARSession == true)
-		{
-			SpawnFloor();
-		}
+		
 	case ETouchType::Moved:
 		DeprojectScreenPositionToWorld(screenX, screenY, worldLoc, worldDir);
 		if (Handle == 0)
@@ -240,10 +241,17 @@ void AParagon_CityPlayerController::Move()
 
 void AParagon_CityPlayerController::SpawnFloor()
 {
+	/*for (int i = 0; i < UARBlueprintLibrary::GetAllGeometries().Max(); i++)
+	{
+		trackedGeometries[i] = UARBlueprintLibrary::GetAllGeometries().Top();
+		
+	}*/
+	
+	//trackedGeometries[0] = Cast<UAppleARKitAnchor>( trackedGeometries.Top());
+
 	FActorSpawnParameters spawnParamFloor;
-	UAppleARKitPlaneAnchor* planeAnchor = NewObject<UAppleARKitPlaneAnchor>();
-	GetWorld()->SpawnActor<AActor>(builtManagerPawn->Floor, planeAnchor->GetCenter(), FRotator(0,0,0), spawnParamFloor);
-	building_Widget->bIsARSession = false;
+	GetWorld()->SpawnActor<AActor>(builtManagerPawn->Floor,FVector(ARHitTestResult.Transform.GetLocation().X, ARHitTestResult.Transform.GetLocation().Y, ARHitTestResult.Transform.GetLocation().Z) , FRotator(0,0,0), spawnParamFloor);
+	bIsARSession = false;
 }
 
 

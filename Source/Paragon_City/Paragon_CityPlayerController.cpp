@@ -97,13 +97,14 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 
 		GetHitResultUnderCursorByChannel(ETraceTypeQuery::TraceTypeQuery1, true, hitResult);
 
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("ARHitTestResult: %f"), *GETENUMSTRING("EAppleARKitHitTestResultType", UseEnum)));
 		//UE_LOG(LogTemp, Warning, TEXT("ARHitTestResult: %f"), *GETENUMSTRING("EAppleARKitHitTestResultType", UseEnum));
 
 		fingerCount++;
 		if (bIsARSession == true)
 		{
-			SpawnARFloor();
-			//SpawnFloor();
+			//SpawnARFloor();
+			SpawnFloor();
 		}
 		if (fingerCount == 1)
 		{
@@ -254,7 +255,8 @@ void AParagon_CityPlayerController::SpawnFloor()
 	FActorSpawnParameters spawnParamFloor;
 	GetWorld()->SpawnActor<AActor>(builtManagerPawn->Floor,FVector(ARHitTestResult.Transform.GetLocation().X, ARHitTestResult.Transform.GetLocation().Y, ARHitTestResult.Transform.GetLocation().Z) , FRotator(0,0,0), spawnParamFloor);
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("ARHitTestResult: %f"), *GETENUMSTRING("EAppleARKitHitTestResultType", UseEnum)));
-	bIsARSession = false;
+	UE_LOG(LogTemp, Warning, TEXT("ARHitResult: %f"), *GETENUMSTRING("EAppleARKitHitTestResultType", UseEnum));
+	//bIsARSession = false;
 }
 
 

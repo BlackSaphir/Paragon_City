@@ -10,7 +10,9 @@ AParagon_CityGameMode::AParagon_CityGameMode()
 {
 #if PLATFORM_WINDOWS
 	
-	PlayerControllerClass = AParagon_CityPlayerController::StaticClass();
+	const ConstructorHelpers::FObjectFinder<UClass> playerController_BP(TEXT("Class'/Game/Blueprints/Character/BP_Paragon_CityPlayerController.BP_Paragon_CityPlayerController_C'"));
+
+	PlayerControllerClass = playerController_BP.Object;
 	
 #endif
 

@@ -11,6 +11,7 @@
 #include "Components/PrimitiveComponent.h"
 #include "ARBlueprintLibrary.h"
 #include "Public/AppleARKitPlaneAnchor.h"
+#include "Runtime/Engine/Classes/Engine/Engine.h"
 
 
 #define GETENUMSTRING(etype, evalue) ( (FindObject<UEnum>(ANY_PACKAGE, TEXT(etype), true) != nullptr) ? FindObject<UEnum>(ANY_PACKAGE, TEXT(etype), true)->GetNameStringByIndex((int32)evalue) : FString("Invalid - are you sure enum uses UENUM() macro?") )
@@ -251,6 +252,7 @@ void AParagon_CityPlayerController::SpawnFloor()
 
 	FActorSpawnParameters spawnParamFloor;
 	GetWorld()->SpawnActor<AActor>(builtManagerPawn->Floor,FVector(ARHitTestResult.Transform.GetLocation().X, ARHitTestResult.Transform.GetLocation().Y, ARHitTestResult.Transform.GetLocation().Z) , FRotator(0,0,0), spawnParamFloor);
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("ARHitTestResult: %f"), *GETENUMSTRING("EAppleARKitHitTestResultType", UseEnum)));
 	bIsARSession = false;
 }
 

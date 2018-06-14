@@ -102,7 +102,8 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 		fingerCount++;
 		if (bIsARSession == true)
 		{
-			SpawnFloor();
+			SpawnARFloor();
+			//SpawnFloor();
 		}
 		if (fingerCount == 1)
 		{

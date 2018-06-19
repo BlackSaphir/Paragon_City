@@ -9,6 +9,7 @@
 #include "W_Building.h"
 #include "Paragon_CityGameMode.h"
 #include "Public/AppleARKitHitTestResult.h"
+#include "ARTrackable.h"
 #include "Paragon_CityPlayerController.generated.h"
 
 UCLASS()
@@ -34,6 +35,13 @@ private:
 	void Zoom();
 	void Move();
 	void SpawnFloor();
+	void GetAppleARPlane();
+
+
+	//const TSharedPtr<FARSystemBase, ESPMode::ThreadSafe>& ARSystem();
+	//static TSharedPtr<FARSystemBase, ESPMode::ThreadSafe> ThisARSystem();
+
+
 
 public:
 
@@ -83,7 +91,8 @@ private:
 	TSubclassOf<APawn> builtManagerSubClass;
 	ABuilt_Manager* builtManagerPawn;
 	UPrimitiveComponent* primitive_Comp;
-	TArray<UARTrackedGeometry*> trackedGeometries;
+	TArray<UARPlaneGeometry*> trackedGeometries;
+	FVector spawnLocation;
 
 public:
 

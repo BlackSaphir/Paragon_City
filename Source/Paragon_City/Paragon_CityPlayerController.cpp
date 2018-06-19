@@ -103,7 +103,7 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 		if (bIsARSession == true)
 		{
 			//SpawnARFloor();
-            GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Penis1")));
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Penis1")));
 			SpawnFloor();
 		}
 		if (fingerCount == 1)
@@ -128,7 +128,7 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 				touchStart.Y = TouchLocation.Y;
 			}
 		}
-		
+
 	case ETouchType::Moved:
 		DeprojectScreenPositionToWorld(screenX, screenY, worldLoc, worldDir);
 		if (Handle == 0)
@@ -244,19 +244,38 @@ void AParagon_CityPlayerController::Move()
 
 void AParagon_CityPlayerController::SpawnFloor()
 {
-	/*for (int i = 0; i < UARBlueprintLibrary::GetAllGeometries().Max(); i++)
+	FActorSpawnParameters spawnParamFloor;
+	for (int i = 0; i < UARBlueprintLibrary::GetAllGeometries().Max(); i++)
 	{
-		trackedGeometries[i] = UARBlueprintLibrary::GetAllGeometries().Top();
-		
-	}*/
-	
+		trackedGeometries[i] = Cast<UARPlaneGeometry>(UARBlueprintLibrary::GetAllGeometries().Top());
+		spawnLocation = trackedGeometries[i]->GetCenter();
+	}
+
+	GetWorld()->SpawnActor<AActor>(builtManagerPawn->Floor, FVector(spawnLocation.X, spawnLocation.Y, 100), FRotator(0, 0, 0), spawnParamFloor);
 	//trackedGeometries[0] = Cast<UAppleARKitAnchor>( trackedGeometries.Top());
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Penis2")));
-    FActorSpawnParameters spawnParamFloor;
-	GetWorld()->SpawnActor<AActor>(builtManagerPawn->Floor,FVector(ARHitTestResult.Transform.GetLocation().X, ARHitTestResult.Transform.GetLocation().Y, ARHitTestResult.Transform.GetLocation().Z) , FRotator(0,0,0), spawnParamFloor);
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("ARHitTestResult: %f"), *GETENUMSTRING("EAppleARKitHitTestResultType", UseEnum)));
 	//bIsARSession = false;
 }
+
+void AParagon_CityPlayerController::GetAppleARPlane()
+{
+	TArray<UAppleARKitPlaneAnchor*>PlaneGeometries;
+
+	//auto ARSystem = 
+
+
+}
+
+//const TSharedPtr<FARSystemBase, ESPMode::ThreadSafe>& AParagon_CityPlayerController::ARSystem()
+//{
+//	// TODO: insert return statement here
+//}
+//
+//TSharedPtr<FARSystemBase, ESPMode::ThreadSafe> AParagon_CityPlayerController::ThisARSystem()
+//{
+//	return TSharedPtr<FARSystemBase, ESPMode::ThreadSafe>();
+//}
 
 
 

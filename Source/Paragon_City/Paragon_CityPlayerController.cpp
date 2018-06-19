@@ -100,10 +100,11 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 		//UE_LOG(LogTemp, Warning, TEXT("ARHitTestResult: %f"), *GETENUMSTRING("EAppleARKitHitTestResultType", UseEnum));
 
 		fingerCount++;
+            GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Penis1")));
 		if (bIsARSession == true)
 		{
-			//SpawnARFloor();
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Penis1")));
+			SpawnARFloor();
+			
 			SpawnFloor();
 		}
 		if (fingerCount == 1)
@@ -251,7 +252,7 @@ void AParagon_CityPlayerController::SpawnFloor()
 		spawnLocation = trackedGeometries[i]->GetCenter();
 	}
 
-	GetWorld()->SpawnActor<AActor>(builtManagerPawn->Floor, FVector(spawnLocation.X, spawnLocation.Y, 100), FRotator(0, 0, 0), spawnParamFloor);
+	GetWorld()->SpawnActor<AActor>(builtManagerPawn->Floor, FVector(spawnLocation.X, spawnLocation.Y, spawnLocation.Z), FRotator(0, 0, 0), spawnParamFloor);
 	//trackedGeometries[0] = Cast<UAppleARKitAnchor>( trackedGeometries.Top());
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Penis2")));
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("ARHitTestResult: %f"), *GETENUMSTRING("EAppleARKitHitTestResultType", UseEnum)));

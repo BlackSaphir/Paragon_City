@@ -99,12 +99,14 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 
 		//UE_LOG(LogTemp, Warning, TEXT("ARHitTestResult: %f"), *GETENUMSTRING("EAppleARKitHitTestResultType", UseEnum));
 
+		
+
 		fingerCount++;
-            GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Penis1")));
-		if (bIsARSession == true)
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Penis1")));
+		if (UGameplayStatics::GetCurrentLevelName(GetWorld()) == "AR_Level")
 		{
-			SpawnARFloor();
-			
+			//SpawnARFloor();
+
 			SpawnFloor();
 		}
 		if (fingerCount == 1)

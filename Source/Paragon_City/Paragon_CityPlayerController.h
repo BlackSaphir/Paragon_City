@@ -77,6 +77,7 @@ private:
 	FVector worldDir;
 	FVector touchDIr;
 	FVector ForwardVectorManipulated;
+	FVector spawnLocation;
 
 
 	FAppleARKitHitTestResult ARHitTestResult;
@@ -92,7 +93,6 @@ private:
 	ABuilt_Manager* builtManagerPawn;
 	UPrimitiveComponent* primitive_Comp;
 	TArray<UARPlaneGeometry*> trackedGeometries;
-	FVector spawnLocation;
 
 public:
 

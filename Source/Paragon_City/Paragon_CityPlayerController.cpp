@@ -269,15 +269,18 @@ void AParagon_CityPlayerController::Move()
 void AParagon_CityPlayerController::SpawnARFloor()
 {
 	FActorSpawnParameters spawnParamFloor;
-	for (int i = 0; i < UARBlueprintLibrary::GetAllGeometries().Max(); i++)
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(UARBlueprintLibrary::GetAllGeometries().Max()));
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Top: %s")), UARBlueprintLibrary::GetAllGeometries().Top());
+	/*for (int i = 0; i < UARBlueprintLibrary::GetAllGeometries().Max(); i++)
 	{
 		trackedGeometries[i] = Cast<UARPlaneGeometry>(UARBlueprintLibrary::GetAllGeometries().Top());
 		spawnLocation = trackedGeometries[i]->GetCenter();
-	}
 
-	GetWorld()->SpawnActor<AActor>(builtManagerPawn->Floor, FVector(spawnLocation.X, spawnLocation.Y, spawnLocation.Z), FRotator(0, 0, 0), spawnParamFloor);
+	}*/
+
+	//GetWorld()->SpawnActor<AActor>(builtManagerPawn->Floor, FVector(spawnLocation.X, spawnLocation.Y, spawnLocation.Z), FRotator(0, 0, 0), spawnParamFloor);
 	//trackedGeometries[0] = Cast<UAppleARKitAnchor>( trackedGeometries.Top());
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Penis2")));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Penis2")));
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("ARHitTestResult: %f"), *GETENUMSTRING("EAppleARKitHitTestResultType", UseEnum)));
 	//bIsARSession = false;
 }

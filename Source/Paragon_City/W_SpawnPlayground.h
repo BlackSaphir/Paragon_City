@@ -4,19 +4,18 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "W_Building.generated.h"
+#include "W_SpawnPlayground.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class PARAGON_CITY_API UW_Building : public UUserWidget
+class PARAGON_CITY_API UW_SpawnPlayground : public UUserWidget
 {
 	GENERATED_BODY()
-
+	
 public:
 
-	UFUNCTION(BlueprintImplementableEvent)
-		void SetBuilt_Manger();
-		
+		UFUNCTION(BlueprintImplementableEvent)
+		void Set_PlayerController();
 };

@@ -10,7 +10,6 @@
 #include "Camera/CameraComponent.h"
 #include "Components/PrimitiveComponent.h"
 #include "ARBlueprintLibrary.h"
-#include "Public/AppleARKitPlaneAnchor.h"
 #include "Runtime/Engine/Classes/Engine/Engine.h"
 
 
@@ -32,8 +31,22 @@ AParagon_CityPlayerController::AParagon_CityPlayerController(/*const FObjectInit
 	const ConstructorHelpers::FObjectFinder<UClass> builtManager_BP(TEXT("Class'/Game/Blueprints/Character/BP_Built_Manager.BP_Built_Manager_C'"));
 	if (builtManager_BP.Succeeded())
 	{
-		builtManager = builtManager_BP.Object;
-		builtManagerSubClass = builtManager;
+		builtManager_Class = builtManager_BP.Object;
+		builtManagerSubClass = builtManager_Class;
+	}
+
+	const ConstructorHelpers::FObjectFinder<UClass> building_Widget_BP(TEXT("Class'/Game/Blueprints/Widgets/W_Buildings.W_Buildings_C'"));
+	if (building_Widget_BP.Succeeded())
+	{
+		built_Widget_Class = building_Widget_BP.Object;
+		building_Widget_SubClass = built_Widget_Class;
+	}
+
+	const ConstructorHelpers::FObjectFinder<UClass> spawnPlayground_Widget_BP(TEXT("Class'/Game/Blueprints/Widgets/W_SpawnPlayground.W_SpawnPlayground_C'"));
+	if (spawnPlayground_Widget_BP.Succeeded())
+	{
+		spawnPlayground_Widget_Class = spawnPlayground_Widget_BP.Object;
+		spawnPlayground_SubClass = spawnPlayground_Widget_Class;
 	}
 
 }
@@ -42,7 +55,7 @@ AParagon_CityPlayerController::AParagon_CityPlayerController(/*const FObjectInit
 void AParagon_CityPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-	building_Widget = NewObject<UW_Building>();
+
 	FTransform cubePlacement(FVector(0, 0, 0));
 	FActorSpawnParameters spawnParas;
 	myGameMode = (AParagon_CityGameMode*)GetWorld()->GetAuthGameMode();
@@ -57,6 +70,19 @@ void AParagon_CityPlayerController::BeginPlay()
 	FActorSpawnParameters SpawnParam;
 	gameViewCamera = GetWorld()->SpawnActor<AGameView_Camera>(gameViewCamera->GetClass(), FVector(0, 0, 900), FRotator(300, 0, 0), SpawnParam);
 	SetViewTarget(gameViewCamera);
+
+	if (UGameplayStatics::GetCurrentLevelName(GetWorld()) == "AR_Level")
+	{
+		spawnPlayground_Widget = CreateWidget<UW_SpawnPlayground>(this, spawnPlayground_SubClass.Get());
+		spawnPlayground_Widget->AddToViewport();
+		spawnPlayground_Widget->Set_PlayerController();
+	}
+	else
+	{
+		building_Widget = CreateWidget<UW_Building>(this, building_Widget_SubClass.Get());
+		building_Widget->AddToViewport();
+		building_Widget->SetBuilt_Manger();
+	}
 }
 
 // set InputVector and call MoveRight
@@ -103,12 +129,6 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 
 		fingerCount++;
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Penis1")));
-		if (UGameplayStatics::GetCurrentLevelName(GetWorld()) == "AR_Level")
-		{
-			//SpawnARFloor();
-
-			SpawnFloor();
-		}
 		if (fingerCount == 1)
 		{
 			firstFingerTouchStart = TouchLocation;
@@ -245,7 +265,8 @@ void AParagon_CityPlayerController::Move()
 	}
 }
 
-void AParagon_CityPlayerController::SpawnFloor()
+
+void AParagon_CityPlayerController::SpawnARFloor()
 {
 	FActorSpawnParameters spawnParamFloor;
 	for (int i = 0; i < UARBlueprintLibrary::GetAllGeometries().Max(); i++)
@@ -257,28 +278,13 @@ void AParagon_CityPlayerController::SpawnFloor()
 	GetWorld()->SpawnActor<AActor>(builtManagerPawn->Floor, FVector(spawnLocation.X, spawnLocation.Y, spawnLocation.Z), FRotator(0, 0, 0), spawnParamFloor);
 	//trackedGeometries[0] = Cast<UAppleARKitAnchor>( trackedGeometries.Top());
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Penis2")));
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("ARHitTestResult: %f"), *GETENUMSTRING("EAppleARKitHitTestResultType", UseEnum)));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("ARHitTestResult: %f"), *GETENUMSTRING("EAppleARKitHitTestResultType", UseEnum)));
 	//bIsARSession = false;
 }
 
-void AParagon_CityPlayerController::GetAppleARPlane()
-{
-	TArray<UAppleARKitPlaneAnchor*>PlaneGeometries;
-
-	//auto ARSystem = 
 
 
-}
 
-//const TSharedPtr<FARSystemBase, ESPMode::ThreadSafe>& AParagon_CityPlayerController::ARSystem()
-//{
-//	// TODO: insert return statement here
-//}
-//
-//TSharedPtr<FARSystemBase, ESPMode::ThreadSafe> AParagon_CityPlayerController::ThisARSystem()
-//{
-//	return TSharedPtr<FARSystemBase, ESPMode::ThreadSafe>();
-//}
 
 
 

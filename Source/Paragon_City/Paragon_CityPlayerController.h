@@ -8,7 +8,7 @@
 #include "GameView_Camera.h"
 #include "W_Building.h"
 #include "Paragon_CityGameMode.h"
-#include "Public/AppleARKitHitTestResult.h"
+#include "W_SpawnPlayground.h"
 #include "ARTrackable.h"
 #include "Paragon_CityPlayerController.generated.h"
 
@@ -24,7 +24,6 @@ public:
 
 private:
 
-
 	virtual void PlayerTick(float DeltaTime) override;
 	virtual void BeginPlay() override;
 	virtual bool InputTouch(uint32 Handle, ETouchType::Type Type, const FVector2D& TouchLocation, FDateTime DeviceTimestamp, uint32 TouchpadIndex) override;
@@ -34,21 +33,11 @@ private:
 	void MoveDownTouch();
 	void Zoom();
 	void Move();
-	void SpawnFloor();
-	void GetAppleARPlane();
-
-
-	//const TSharedPtr<FARSystemBase, ESPMode::ThreadSafe>& ARSystem();
-	//static TSharedPtr<FARSystemBase, ESPMode::ThreadSafe> ThisARSystem();
-
-
 
 public:
 
-	UFUNCTION(BlueprintImplementableEvent)
+	UFUNCTION(BlueprintCallable)
 		void SpawnARFloor();
-
-
 
 
 	// Variable
@@ -80,17 +69,23 @@ private:
 	FVector spawnLocation;
 
 
-	FAppleARKitHitTestResult ARHitTestResult;
 	class AParagon_CityGameMode *myGameMode;
 	APawn* defaultPawn;
 	AGameView_Camera * gameViewCamera;
-	UW_Building* building_Widget;
-	EAppleARKitHitTestResultType UseEnum = ARHitTestResult.Type;
 
-	// TSoftClassPtr? 
-	UClass* builtManager;
+	UClass* builtManager_Class;
 	TSubclassOf<APawn> builtManagerSubClass;
 	ABuilt_Manager* builtManagerPawn;
+
+	UClass* built_Widget_Class;
+	TSubclassOf<UUserWidget> building_Widget_SubClass;
+	UW_Building* building_Widget;
+
+	UClass* spawnPlayground_Widget_Class;
+	TSubclassOf<UUserWidget> spawnPlayground_SubClass;
+	UW_SpawnPlayground* spawnPlayground_Widget;
+
+
 	UPrimitiveComponent* primitive_Comp;
 	TArray<UARPlaneGeometry*> trackedGeometries;
 
@@ -110,9 +105,6 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		bool bIsARSession = false;
-
-	
-
 };
 
 

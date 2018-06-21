@@ -125,7 +125,7 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 
 		//UE_LOG(LogTemp, Warning, TEXT("ARHitTestResult: %f"), *GETENUMSTRING("EAppleARKitHitTestResultType", UseEnum));
 
-		
+
 
 		fingerCount++;
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Penis1")));
@@ -273,9 +273,12 @@ void AParagon_CityPlayerController::SpawnARFloor()
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Top: %s")), UARBlueprintLibrary::GetAllGeometries().Top());
 	for (int i = 0; i < UARBlueprintLibrary::GetAllGeometries().Max(); i++)
 	{
-		//trackedGeometries[i] = Cast<UARPlaneGeometry>(UARBlueprintLibrary::GetAllGeometries().Top());
-		//spawnLocation = trackedGeometries[i]->GetCenter();
-     GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Penis2")));
+		UARPlaneGeometry* plane = Cast<UARPlaneGeometry>(UARBlueprintLibrary::GetAllGeometries().Top());
+		if (plane)
+		{
+			trackedGeometries.Add(plane);
+		}
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Penis2")));
 
 	}
 

@@ -274,7 +274,7 @@ void AParagon_CityPlayerController::SpawnARFloor()
 	UARPlaneGeometry* plane;
 	for (int i = 0; i < UARBlueprintLibrary::GetAllGeometries().Max(); i++)
 	{
-		 plane = Cast<UARPlaneGeometry>(UARBlueprintLibrary::GetAllGeometries().Top());
+		plane = Cast<UARPlaneGeometry>(UARBlueprintLibrary::GetAllGeometries().Top());
 		if (plane)
 		{
 			trackedGeometries.Add(plane);
@@ -283,7 +283,11 @@ void AParagon_CityPlayerController::SpawnARFloor()
 
 	}
 
-	spawnLocation_Playground = plane->GetCenter();
+	spawnLocation_Playground.X = trackedGeometries[0]->GetCenter().X;
+	spawnLocation_Playground.Y = trackedGeometries[0]->GetCenter().Y;
+	spawnLocation_Playground.Z = trackedGeometries[0]->GetCenter().Z;
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Penis3")));
+
 
 	//GetWorld()->SpawnActor<AActor>(builtManagerPawn->Floor, FVector(spawnLocation.X, spawnLocation.Y, spawnLocation.Z), FRotator(0, 0, 0), spawnParamFloor);
 	//trackedGeometries[0] = Cast<UAppleARKitAnchor>( trackedGeometries.Top());

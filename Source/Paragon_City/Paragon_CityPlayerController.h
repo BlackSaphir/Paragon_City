@@ -66,7 +66,7 @@ private:
 	FVector worldDir;
 	FVector touchDIr;
 	FVector ForwardVectorManipulated;
-	FVector spawnLocation;
+	FVector spawnLocation_Playground;
 
 
 	class AParagon_CityGameMode *myGameMode;

@@ -289,7 +289,11 @@ void AParagon_CityPlayerController::SpawnARFloor()
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Penis3")));
 
 
-	//GetWorld()->SpawnActor<AActor>(builtManagerPawn->Floor, FVector(spawnLocation.X, spawnLocation.Y, spawnLocation.Z), FRotator(0, 0, 0), spawnParamFloor);
+	GetWorld()->SpawnActor<AActor>(builtManagerPawn->Floor, FVector(spawnLocation_Playground.X, spawnLocation_Playground.Y, spawnLocation_Playground.Z), FRotator(0, 0, 0), spawnParamFloor);
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Location %f"), spawnLocation_Playground.X));
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Location %f"), spawnLocation_Playground.Y));
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Location %f"), spawnLocation_Playground.Z));
+
 	//trackedGeometries[0] = Cast<UAppleARKitAnchor>( trackedGeometries.Top());
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("ARHitTestResult: %f"), *GETENUMSTRING("EAppleARKitHitTestResultType", UseEnum)));
 	//bIsARSession = false;

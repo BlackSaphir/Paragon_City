@@ -283,16 +283,19 @@ void AParagon_CityPlayerController::SpawnARFloor()
 
 	}
 
-	spawnLocation_Playground.X = trackedGeometries[0]->GetCenter().X;
-	spawnLocation_Playground.Y = trackedGeometries[0]->GetCenter().Y;
-	spawnLocation_Playground.Z = trackedGeometries[0]->GetCenter().Z;
+	if (trackedGeometries[0] != NULL)
+	{
+		spawnLocation_Playground.X = trackedGeometries[0]->GetCenter().X;
+		spawnLocation_Playground.Y = trackedGeometries[0]->GetCenter().Y;
+		spawnLocation_Playground.Z = trackedGeometries[0]->GetCenter().Z;
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Location X: %f"), spawnLocation_Playground.X));
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Location Y: %f"), spawnLocation_Playground.Y));
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Location Z: %f"), spawnLocation_Playground.Z));
+	}
+
+
+	//GetWorld()->SpawnActor<AActor>(builtManagerPawn->Floor, FVector(spawnLocation_Playground.X, spawnLocation_Playground.Y, spawnLocation_Playground.Z), FRotator(0, 0, 0), spawnParamFloor);
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Penis3")));
-
-
-	GetWorld()->SpawnActor<AActor>(builtManagerPawn->Floor, FVector(spawnLocation_Playground.X, spawnLocation_Playground.Y, spawnLocation_Playground.Z), FRotator(0, 0, 0), spawnParamFloor);
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Location %f"), spawnLocation_Playground.X));
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Location %f"), spawnLocation_Playground.Y));
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Location %f"), spawnLocation_Playground.Z));
 
 	//trackedGeometries[0] = Cast<UAppleARKitAnchor>( trackedGeometries.Top());
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("ARHitTestResult: %f"), *GETENUMSTRING("EAppleARKitHitTestResultType", UseEnum)));

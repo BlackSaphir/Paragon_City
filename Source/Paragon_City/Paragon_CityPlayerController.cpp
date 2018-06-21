@@ -278,23 +278,24 @@ void AParagon_CityPlayerController::SpawnARFloor()
 		if (plane)
 		{
 			trackedGeometries.Add(plane);
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Penis2")));
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Plane added")));
 		}
 
 	}
 
-	if (trackedGeometries[0] != NULL)
+	if (trackedGeometries[0] != nullptr)
 	{
-		spawnLocation_Playground.X = trackedGeometries[0]->GetCenter().X;
-		spawnLocation_Playground.Y = trackedGeometries[0]->GetCenter().Y;
-		spawnLocation_Playground.Z = trackedGeometries[0]->GetCenter().Z;
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Location X: %f"), spawnLocation_Playground.X));
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Location Y: %f"), spawnLocation_Playground.Y));
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Location Z: %f"), spawnLocation_Playground.Z));
+		spawnLocation_Playground.X = plane->GetCenter().X;
+		spawnLocation_Playground.Y = plane->GetCenter().Y;
+		spawnLocation_Playground.Z = plane->GetCenter().Z;
+        GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("trackedGeometries not null")));
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Location X: %f"), spawnLocation_Playground.X));
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Location Y: %f"), spawnLocation_Playground.Y));
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Location Z: %f"), spawnLocation_Playground.Z));
 	}
 
 
-	//GetWorld()->SpawnActor<AActor>(builtManagerPawn->Floor, FVector(spawnLocation_Playground.X, spawnLocation_Playground.Y, spawnLocation_Playground.Z), FRotator(0, 0, 0), spawnParamFloor);
+	GetWorld()->SpawnActor<AActor>(builtManagerPawn->Floor, FVector(spawnLocation_Playground.X, spawnLocation_Playground.Y, spawnLocation_Playground.Z), FRotator(0, 0, 0), spawnParamFloor);
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Penis3")));
 
 	//trackedGeometries[0] = Cast<UAppleARKitAnchor>( trackedGeometries.Top());

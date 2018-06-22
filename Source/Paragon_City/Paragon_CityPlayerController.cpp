@@ -270,37 +270,20 @@ void AParagon_CityPlayerController::SpawnARFloor()
 {
 	FActorSpawnParameters spawnParamFloor;
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(UARBlueprintLibrary::GetAllGeometries().Max()));
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Top: %s")), UARBlueprintLibrary::GetAllGeometries().Top());
 	UARPlaneGeometry* plane;
-	for (int i = 0; i < UARBlueprintLibrary::GetAllGeometries().Max(); i++)
-	{
-		plane = Cast<UARPlaneGeometry>(UARBlueprintLibrary::GetAllGeometries().Top());
-		if (plane)
-		{
-			trackedGeometries.Add(plane);
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Plane added")));
-		}
 
-	}
-
-	if (trackedGeometries[0] != nullptr)
+	plane = Cast<UARPlaneGeometry>(UARBlueprintLibrary::GetAllGeometries().Top());
+	if (plane)
 	{
 		spawnLocation_Playground.X = plane->GetCenter().X;
 		spawnLocation_Playground.Y = plane->GetCenter().Y;
 		spawnLocation_Playground.Z = plane->GetCenter().Z;
-        GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("trackedGeometries not null")));
-		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Location X: %f"), spawnLocation_Playground.X));
-		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Location Y: %f"), spawnLocation_Playground.Y));
-		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Location Z: %f"), spawnLocation_Playground.Z));
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("plane not null")));
+		GetWorld()->SpawnActor<AActor>(builtManagerPawn->Floor, FVector(spawnLocation_Playground.X, spawnLocation_Playground.Y, spawnLocation_Playground.Z), FRotator(90, 0, 0), spawnParamFloor);
 	}
 
-
-	GetWorld()->SpawnActor<AActor>(builtManagerPawn->Floor, FVector(spawnLocation_Playground.X, spawnLocation_Playground.Y, spawnLocation_Playground.Z), FRotator(0, 0, 0), spawnParamFloor);
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Penis3")));
 
-	//trackedGeometries[0] = Cast<UAppleARKitAnchor>( trackedGeometries.Top());
-	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("ARHitTestResult: %f"), *GETENUMSTRING("EAppleARKitHitTestResultType", UseEnum)));
-	//bIsARSession = false;
 }
 
 

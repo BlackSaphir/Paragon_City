@@ -88,6 +88,8 @@ private:
 
 	UPrimitiveComponent* primitive_Comp;
 	TArray<UARPlaneGeometry*> trackedGeometries;
+	UARPlaneGeometry* plane;
+
 
 public:
 

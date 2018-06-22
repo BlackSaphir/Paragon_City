@@ -270,7 +270,6 @@ void AParagon_CityPlayerController::SpawnARFloor()
 {
 	FActorSpawnParameters spawnParamFloor;
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(UARBlueprintLibrary::GetAllGeometries().Max()));
-	UARPlaneGeometry* plane;
 
 	plane = Cast<UARPlaneGeometry>(UARBlueprintLibrary::GetAllGeometries().Top());
 	if (plane)
@@ -279,11 +278,11 @@ void AParagon_CityPlayerController::SpawnARFloor()
 		spawnLocation_Playground.Y = plane->GetCenter().Y;
 		spawnLocation_Playground.Z = plane->GetCenter().Z;
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("plane not null")));
-		GetWorld()->SpawnActor<AActor>(builtManagerPawn->Floor, FVector(spawnLocation_Playground.X, spawnLocation_Playground.Y, spawnLocation_Playground.Z), FRotator(90, 0, 0), spawnParamFloor);
+		GetWorld()->SpawnActor<AActor>(builtManagerPawn->Floor, FVector(spawnLocation_Playground.X, spawnLocation_Playground.Y, spawnLocation_Playground.Z), FRotator(90, 0, 90), spawnParamFloor);
 	}
 
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Penis3")));
-
+	UARBlueprintLibrary::PauseARSession();
 }
 
 

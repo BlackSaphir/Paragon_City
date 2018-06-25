@@ -10,6 +10,7 @@
 #include "Camera/CameraComponent.h"
 #include "Components/PrimitiveComponent.h"
 #include "ARBlueprintLibrary.h"
+#include "Widget.h"
 #include "Runtime/Engine/Classes/Engine/Engine.h"
 
 
@@ -278,11 +279,15 @@ void AParagon_CityPlayerController::SpawnARFloor()
 		spawnLocation_Playground.Y = plane->GetCenter().Y;
 		spawnLocation_Playground.Z = plane->GetCenter().Z;
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("plane not null")));
-		GetWorld()->SpawnActor<AActor>(builtManagerPawn->Floor, FVector(spawnLocation_Playground.X, spawnLocation_Playground.Y, spawnLocation_Playground.Z), FRotator(0, 0, 90), spawnParamFloor);
+		GetWorld()->SpawnActor<AActor>(builtManagerPawn->Floor, FVector(spawnLocation_Playground.X, spawnLocation_Playground.Y, spawnLocation_Playground.Z), FRotator(0, 0, 45), spawnParamFloor);
 	}
 
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Penis3")));
 	UARBlueprintLibrary::PauseARSession();
+	
+	/*spawnPlayground_Widget->RemoveFromParent();
+	building_Widget = CreateWidget<UW_Building>(this, building_Widget_SubClass.Get());
+	building_Widget->AddToViewport();
+	building_Widget->SetBuilt_Manger();*/
 }
 
 

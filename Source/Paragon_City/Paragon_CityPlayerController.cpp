@@ -279,7 +279,7 @@ void AParagon_CityPlayerController::SpawnARFloor()
 		spawnLocation_Playground.Y = plane->GetCenter().Y;
 		spawnLocation_Playground.Z = plane->GetCenter().Z;
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("plane not null")));
-		GetWorld()->SpawnActor<AActor>(builtManagerPawn->Floor, FVector(spawnLocation_Playground.X, spawnLocation_Playground.Y, spawnLocation_Playground.Z), FRotator(0, 0, 45), spawnParamFloor);
+		GetWorld()->SpawnActor<AActor>(builtManagerPawn->Floor, FVector(spawnLocation_Playground.X, spawnLocation_Playground.Y, spawnLocation_Playground.Z), FRotator(0, 0, -45), spawnParamFloor);
 	}
 
 	UARBlueprintLibrary::PauseARSession();

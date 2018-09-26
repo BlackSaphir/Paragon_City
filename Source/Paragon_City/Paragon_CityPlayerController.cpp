@@ -11,6 +11,8 @@
 #include "Components/PrimitiveComponent.h"
 #include "ARBlueprintLibrary.h"
 #include "Widget.h"
+#include "AppleARKit/Public/AppleARKitBlueprintLibrary.h"
+#include "AppleARKit/Public/AppleARKitAnchor.h"
 #include "Runtime/Engine/Classes/Engine/Engine.h"
 
 
@@ -111,7 +113,7 @@ void AParagon_CityPlayerController::PlayerTick(float DeltaTime)
 }
 
 
-/*bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type Type, const FVector2D & TouchLocation, FDateTime DeviceTimestamp, uint32 TouchpadIndex)
+bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type Type, const FVector2D & TouchLocation, float Force, FDateTime DeviceTimestamp, uint32 TouchpadIndex)
 {
 	FHitResult hitResult;
 
@@ -182,7 +184,7 @@ void AParagon_CityPlayerController::PlayerTick(float DeltaTime)
 		break;
 	}
 	return false;
-}*/
+}
 
 
 // check if touch goes right
@@ -273,6 +275,8 @@ void AParagon_CityPlayerController::SpawnARFloor()
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(UARBlueprintLibrary::GetAllGeometries().Max()));
 
 	plane = Cast<UARPlaneGeometry>(UARBlueprintLibrary::GetAllGeometries().Top());
+	
+	
 	if (plane)
 	{
 		spawnLocation_Playground.X = plane->GetCenter().X;

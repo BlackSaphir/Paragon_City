@@ -8,11 +8,11 @@ public class Paragon_City : ModuleRules
     {
         PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
-        PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay"});
+        PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay", "AppleARKit" });
 
-        PublicIncludePaths.AddRange(new string[] { "AppleARKit/Public" });
+        PublicIncludePaths.AddRange(new string[] { "AppleARKit/Public", "AppleARKit/Classes" });
 
-        PrivateIncludePaths.AddRange(new string[] { "AppleARKit/Private" });
+        PrivateIncludePaths.AddRange(new string[] { "AppleARKit/Private", "AppleARKit/Classes" });
  
         PrivateDependencyModuleNames.AddRange(new string[] {
                 "CoreUObject",

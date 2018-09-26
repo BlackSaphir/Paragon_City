@@ -26,7 +26,7 @@ private:
 
 	virtual void PlayerTick(float DeltaTime) override;
 	virtual void BeginPlay() override;
-	//virtual bool InputTouch(uint32 Handle, ETouchType::Type Type, const FVector2D& TouchLocation, FDateTime DeviceTimestamp, uint32 TouchpadIndex) override;
+	virtual bool InputTouch(uint32 Handle, ETouchType::Type Type, const FVector2D& TouchLocation, float Force, FDateTime DeviceTimestamp, uint32 TouchpadIndex) override;
 	void MoveRightTouch();
 	void MoveLeftTouch();
 	void MoveUpTouch();

@@ -111,7 +111,7 @@ void AParagon_CityPlayerController::PlayerTick(float DeltaTime)
 }
 
 
-bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type Type, const FVector2D & TouchLocation, FDateTime DeviceTimestamp, uint32 TouchpadIndex)
+/*bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type Type, const FVector2D & TouchLocation, FDateTime DeviceTimestamp, uint32 TouchpadIndex)
 {
 	FHitResult hitResult;
 
@@ -182,7 +182,7 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 		break;
 	}
 	return false;
-}
+}*/
 
 
 // check if touch goes right

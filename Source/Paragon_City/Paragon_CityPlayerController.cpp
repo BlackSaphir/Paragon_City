@@ -13,6 +13,7 @@
 #include "Widget.h"
 #include "AppleARKit/Public/AppleARKitBlueprintLibrary.h"
 #include "AppleARKit/Public/AppleARKitAnchor.h"
+#include "AppleARKit/Public/AppleARKitPlaneAnchor.h"
 #include "Runtime/Engine/Classes/Engine/Engine.h"
 
 
@@ -271,7 +272,8 @@ void AParagon_CityPlayerController::Move()
 
 void AParagon_CityPlayerController::SpawnARFloor()
 {
-	FActorSpawnParameters spawnParamFloor;
+	static FActorSpawnParameters spawnParamFloor;
+	UAppleARKitPlaneAnchor* planeAnchor = NewObject<UAppleARKitPlaneAnchor>();
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(UARBlueprintLibrary::GetAllGeometries().Max()));
 
 	plane = Cast<UARPlaneGeometry>(UARBlueprintLibrary::GetAllGeometries().Top());
@@ -279,11 +281,14 @@ void AParagon_CityPlayerController::SpawnARFloor()
 	
 	if (plane)
 	{
-		spawnLocation_Playground.X = plane->GetCenter().X;
-		spawnLocation_Playground.Y = plane->GetCenter().Y;
-		spawnLocation_Playground.Z = plane->GetCenter().Z;
+		spawnLocation_Playground.X = planeAnchor->GetCenter().X;
+		spawnLocation_Playground.Y = planeAnchor->GetCenter().Y;
+		spawnLocation_Playground.Z = planeAnchor->GetCenter().Z;
+		//spawnLocation_Playground.X = plane->GetCenter().X;
+		//spawnLocation_Playground.Y = plane->GetCenter().Y;
+		//spawnLocation_Playground.Z = plane->GetCenter().Z;
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("plane not null")));
-		GetWorld()->SpawnActor<AActor>(builtManagerPawn->Floor, FVector(spawnLocation_Playground.X, spawnLocation_Playground.Y, spawnLocation_Playground.Z), FRotator(0, 0, -45), spawnParamFloor);
+		GetWorld()->SpawnActor<AActor>(builtManagerPawn->Floor, FVector(spawnLocation_Playground.X, spawnLocation_Playground.Y, spawnLocation_Playground.Z), FRotator(0, 0,planeAnchor->GetTransform().Rotator().Roll), spawnParamFloor);
 	}
 
 	UARBlueprintLibrary::PauseARSession();

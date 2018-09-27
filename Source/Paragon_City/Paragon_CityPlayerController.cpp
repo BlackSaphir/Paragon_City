@@ -269,30 +269,6 @@ void AParagon_CityPlayerController::Move()
 }
 
 
-void AParagon_CityPlayerController::SpawnARFloor()
-{
-	FActorSpawnParameters spawnParamFloor;
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(UARBlueprintLibrary::GetAllGeometries().Max()));
-
-	plane = Cast<UARPlaneGeometry>(UARBlueprintLibrary::GetAllGeometries().Top());
-	
-	
-	if (plane)
-	{
-		spawnLocation_Playground.X = plane->GetCenter().X;
-		spawnLocation_Playground.Y = plane->GetCenter().Y;
-		spawnLocation_Playground.Z = plane->GetCenter().Z;
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("plane not null")));
-		GetWorld()->SpawnActor<AActor>(builtManagerPawn->Floor, FVector(spawnLocation_Playground.X, spawnLocation_Playground.Y, spawnLocation_Playground.Z), FRotator(0, 0, -45), spawnParamFloor);
-	}
-
-	UARBlueprintLibrary::PauseARSession();
-	
-	/*spawnPlayground_Widget->RemoveFromParent();
-	building_Widget = CreateWidget<UW_Building>(this, building_Widget_SubClass.Get());
-	building_Widget->AddToViewport();
-	building_Widget->SetBuilt_Manger();*/
-}
 
 
 

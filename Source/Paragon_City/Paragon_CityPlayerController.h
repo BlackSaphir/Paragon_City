@@ -36,7 +36,7 @@ private:
 
 public:
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 		void SpawnARFloor();
 
 

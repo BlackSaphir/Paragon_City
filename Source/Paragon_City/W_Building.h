@@ -16,7 +16,7 @@ class PARAGON_CITY_API UW_Building : public UUserWidget
 
 public:
 
-	UFUNCTION(BlueprintImplementableEvent)
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 		void SetBuilt_Manger();
 		
 };

@@ -272,6 +272,7 @@ void AParagon_CityPlayerController::Move()
 void AParagon_CityPlayerController::CreateBuildingWidget()
 {
 	//spawnPlayground_Widget->RemoveFromParent();
+	UARBlueprintLibrary::PauseARSession();
 	building_Widget = CreateWidget<UW_Building>(this, building_Widget_SubClass.Get());
 	building_Widget->AddToViewport();
 	building_Widget->SetBuilt_Manger();

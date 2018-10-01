@@ -79,6 +79,7 @@ void AParagon_CityPlayerController::BeginPlay()
 		spawnPlayground_Widget = CreateWidget<UW_SpawnPlayground>(this, spawnPlayground_SubClass.Get());
 		spawnPlayground_Widget->AddToViewport();
 		spawnPlayground_Widget->Set_PlayerController();
+		bIsARSession = true;
 	}
 	else
 	{

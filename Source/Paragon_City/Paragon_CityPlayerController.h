@@ -65,6 +65,7 @@ private:
 
 	int fingerCount = 0;
 
+
 	FVector worldLoc;
 	FVector worldDir;
 	FVector touchDIr;
@@ -110,6 +111,7 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		bool bIsARSession = false;
+
 };
 
 

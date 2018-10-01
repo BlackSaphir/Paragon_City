@@ -39,6 +39,9 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 		void SpawnARFloor();
 
+	UFUNCTION(BlueprintCallable)
+		void CreateBuildingWidget();
+
 
 	// Variable
 

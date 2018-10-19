@@ -95,7 +95,7 @@ void AParagon_CityPlayerController::PlayerTick(float DeltaTime)
 	Super::PlayerTick(DeltaTime);
 
 
-	if (bIsPressed && !bMovingBuilding && fingerCount == 1)
+	if (bIsPressed && !bMovingBuilding && fingerCount == 1 && !bIsARSession)
 	{
 
 		MoveRightTouch();

@@ -191,48 +191,58 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 // check if touch goes right
 void AParagon_CityPlayerController::MoveRightTouch()
 {
-	dist = FVector2D::Distance(FVector2D(touchStart.X, 0), FVector2D(touchEnd.X, 0));
-	if (dist > distance && touchEnd.X > touchStart.X)
+	if (!bIsARSession)
 	{
+		dist = FVector2D::Distance(FVector2D(touchStart.X, 0), FVector2D(touchEnd.X, 0));
+		if (dist > distance && touchEnd.X > touchStart.X)
+		{
 
-		gameViewCamera->SetActorLocation(gameViewCamera->GetActorLocation() + (gameViewCamera->GetActorRightVector() * 10));
+			gameViewCamera->SetActorLocation(gameViewCamera->GetActorLocation() + (gameViewCamera->GetActorRightVector() * 10));
+		}
 	}
 }
 
 void AParagon_CityPlayerController::MoveLeftTouch()
 {
-	dist = FVector2D::Distance(FVector2D(touchStart.X, 0), FVector2D(touchEnd.X, 0));
-	if (dist > distance && touchEnd.X < touchStart.X)
+	if (!bIsARSession)
 	{
+		dist = FVector2D::Distance(FVector2D(touchStart.X, 0), FVector2D(touchEnd.X, 0));
+		if (dist > distance && touchEnd.X < touchStart.X)
+		{
 
-		gameViewCamera->SetActorLocation(gameViewCamera->GetActorLocation() - (gameViewCamera->GetActorRightVector() * 10));
+			gameViewCamera->SetActorLocation(gameViewCamera->GetActorLocation() - (gameViewCamera->GetActorRightVector() * 10));
+		}
 	}
 }
 
 void AParagon_CityPlayerController::MoveUpTouch()
 {
-	dist = FVector2D::Distance(FVector2D(0, touchStart.Y), FVector2D(0, touchEnd.Y));
-
-	if (dist > distance && touchEnd.Y < touchStart.Y)
+	if (!bIsARSession)
 	{
+		dist = FVector2D::Distance(FVector2D(0, touchStart.Y), FVector2D(0, touchEnd.Y));
+		if (dist > distance && touchEnd.Y < touchStart.Y)
+		{
 
 
-		angleDiff = 360 + gameViewCamera->GetActorRotation().Pitch;
-		ForwardVectorManipulated = UKismetMathLibrary::RotateAngleAxis(gameViewCamera->GetActorForwardVector(), angleDiff, FVector(0, 1, 0));
-		gameViewCamera->SetActorLocation(gameViewCamera->GetActorLocation() + (ForwardVectorManipulated * 10));
+			angleDiff = 360 + gameViewCamera->GetActorRotation().Pitch;
+			ForwardVectorManipulated = UKismetMathLibrary::RotateAngleAxis(gameViewCamera->GetActorForwardVector(), angleDiff, FVector(0, 1, 0));
+			gameViewCamera->SetActorLocation(gameViewCamera->GetActorLocation() + (ForwardVectorManipulated * 10));
+		}
 	}
 }
 
 void AParagon_CityPlayerController::MoveDownTouch()
 {
-	dist = FVector2D::Distance(FVector2D(0, touchStart.Y), FVector2D(0, touchEnd.Y));
-
-	if (dist > distance && touchEnd.Y > touchStart.Y)
+	if (!bIsARSession)
 	{
+		dist = FVector2D::Distance(FVector2D(0, touchStart.Y), FVector2D(0, touchEnd.Y));
+		if (dist > distance && touchEnd.Y > touchStart.Y)
+		{
 
-		angleDiff = 360 + gameViewCamera->GetActorRotation().Pitch;
-		ForwardVectorManipulated = UKismetMathLibrary::RotateAngleAxis(gameViewCamera->GetActorForwardVector(), angleDiff, FVector(0, 1, 0));
-		gameViewCamera->SetActorLocation(gameViewCamera->GetActorLocation() - (ForwardVectorManipulated * 10));
+			angleDiff = 360 + gameViewCamera->GetActorRotation().Pitch;
+			ForwardVectorManipulated = UKismetMathLibrary::RotateAngleAxis(gameViewCamera->GetActorForwardVector(), angleDiff, FVector(0, 1, 0));
+			gameViewCamera->SetActorLocation(gameViewCamera->GetActorLocation() - (ForwardVectorManipulated * 10));
+		}
 	}
 }
 

@@ -191,34 +191,31 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 // check if touch goes right
 void AParagon_CityPlayerController::MoveRightTouch()
 {
-	if (!bIsARSession)
-	{
+	
 		dist = FVector2D::Distance(FVector2D(touchStart.X, 0), FVector2D(touchEnd.X, 0));
 		if (dist > distance && touchEnd.X > touchStart.X)
 		{
 
 			gameViewCamera->SetActorLocation(gameViewCamera->GetActorLocation() + (gameViewCamera->GetActorRightVector() * 10));
 		}
-	}
+	
 }
 
 void AParagon_CityPlayerController::MoveLeftTouch()
 {
-	if (!bIsARSession)
-	{
+	
 		dist = FVector2D::Distance(FVector2D(touchStart.X, 0), FVector2D(touchEnd.X, 0));
 		if (dist > distance && touchEnd.X < touchStart.X)
 		{
 
 			gameViewCamera->SetActorLocation(gameViewCamera->GetActorLocation() - (gameViewCamera->GetActorRightVector() * 10));
 		}
-	}
+	
 }
 
 void AParagon_CityPlayerController::MoveUpTouch()
 {
-	if (!bIsARSession)
-	{
+	
 		dist = FVector2D::Distance(FVector2D(0, touchStart.Y), FVector2D(0, touchEnd.Y));
 		if (dist > distance && touchEnd.Y < touchStart.Y)
 		{
@@ -228,13 +225,12 @@ void AParagon_CityPlayerController::MoveUpTouch()
 			ForwardVectorManipulated = UKismetMathLibrary::RotateAngleAxis(gameViewCamera->GetActorForwardVector(), angleDiff, FVector(0, 1, 0));
 			gameViewCamera->SetActorLocation(gameViewCamera->GetActorLocation() + (ForwardVectorManipulated * 10));
 		}
-	}
+	
 }
 
 void AParagon_CityPlayerController::MoveDownTouch()
 {
-	if (!bIsARSession)
-	{
+	
 		dist = FVector2D::Distance(FVector2D(0, touchStart.Y), FVector2D(0, touchEnd.Y));
 		if (dist > distance && touchEnd.Y > touchStart.Y)
 		{
@@ -243,7 +239,7 @@ void AParagon_CityPlayerController::MoveDownTouch()
 			ForwardVectorManipulated = UKismetMathLibrary::RotateAngleAxis(gameViewCamera->GetActorForwardVector(), angleDiff, FVector(0, 1, 0));
 			gameViewCamera->SetActorLocation(gameViewCamera->GetActorLocation() - (ForwardVectorManipulated * 10));
 		}
-	}
+	
 }
 
 void AParagon_CityPlayerController::Zoom()
@@ -282,7 +278,7 @@ void AParagon_CityPlayerController::Move()
 void AParagon_CityPlayerController::CreateBuildingWidget()
 {
 	//spawnPlayground_Widget->RemoveFromParent();
-	UARBlueprintLibrary::PauseARSession();
+	//UARBlueprintLibrary::PauseARSession();
 	building_Widget = CreateWidget<UW_Building>(this, building_Widget_SubClass.Get());
 	building_Widget->AddToViewport();
 	building_Widget->SetBuilt_Manger();

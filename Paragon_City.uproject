@@ -28,14 +28,6 @@
 			"Enabled": true
 		},
 		{
-			"Name": "GoogleARCoreServices",
-			"Enabled": true
-		},
-		{
-			"Name": "AppleARKitFaceSupport",
-			"Enabled": true
-		},
-		{
 			"Name": "MagicLeapEmulator",
 			"Enabled": false,
 			"SupportedTargetPlatforms": [

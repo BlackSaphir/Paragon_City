@@ -79,7 +79,6 @@ private:
 
 	UClass* builtManager_Class;
 	TSubclassOf<APawn> builtManagerSubClass;
-	ABuilt_Manager* builtManagerPawn;
 
 	UClass* built_Widget_Class;
 	TSubclassOf<UUserWidget> building_Widget_SubClass;
@@ -111,6 +110,10 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		bool bIsARSession = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		ABuilt_Manager* BuiltManagerPawn;
+
 
 };
 

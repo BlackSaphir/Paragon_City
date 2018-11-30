@@ -64,11 +64,11 @@ void AParagon_CityPlayerController::BeginPlay()
 	myGameMode = (AParagon_CityGameMode*)GetWorld()->GetAuthGameMode();
 	defaultPawn = GetPawn();
 	UnPossess();
-	builtManagerPawn = GetWorld()->SpawnActor<ABuilt_Manager>(builtManagerSubClass, cubePlacement, spawnParas);
+	BuiltManagerPawn = GetWorld()->SpawnActor<ABuilt_Manager>(builtManagerSubClass, cubePlacement, spawnParas);
 	myGameMode->SetDefaultPawnClass(builtManagerSubClass);
-	Possess(builtManagerPawn);
+	Possess(BuiltManagerPawn);
 	defaultPawn->Destroy();
-	builtManagerPawn->SecondBeginPlay();
+	BuiltManagerPawn->SecondBeginPlay();
 	gameViewCamera = NewObject<AGameView_Camera>();
 	FActorSpawnParameters SpawnParam;
 	gameViewCamera = GetWorld()->SpawnActor<AGameView_Camera>(gameViewCamera->GetClass(), FVector(0, 0, 900), FRotator(300, 0, 0), SpawnParam);

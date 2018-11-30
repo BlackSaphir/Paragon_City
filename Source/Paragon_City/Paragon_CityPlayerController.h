@@ -114,6 +114,15 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		ABuilt_Manager* BuiltManagerPawn;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		FVector Plane_Location;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		FRotator Plane_Rotation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		UARTrackedGeometry* Plane;
+
 
 };
 

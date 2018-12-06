@@ -11,8 +11,6 @@
 #include "Components/PrimitiveComponent.h"
 #include "ARBlueprintLibrary.h"
 #include "Widget.h"
-#include "AppleARKit/Public/AppleARKitBlueprintLibrary.h"
-#include "AppleARKit/Public/AppleARKitAnchor.h"
 #include "Runtime/Engine/Classes/Engine/Engine.h"
 
 
@@ -38,11 +36,18 @@ AParagon_CityPlayerController::AParagon_CityPlayerController(/*const FObjectInit
 		builtManagerSubClass = builtManager_Class;
 	}
 
-	const ConstructorHelpers::FObjectFinder<UClass> building_Widget_BP(TEXT("Class'/Game/Blueprints/Widgets/W_Buildings.W_Buildings_C'"));
+	const ConstructorHelpers::FObjectFinder<UClass> building_Widget_BP(TEXT("Class'/Game/Blueprints/Widgets/W_Buildings_Right.W_Buildings_Right_C'"));
 	if (building_Widget_BP.Succeeded())
 	{
 		built_Widget_Class = building_Widget_BP.Object;
 		building_Widget_SubClass = built_Widget_Class;
+	}
+
+	const ConstructorHelpers::FObjectFinder<UClass>AR_Widget_BP(TEXT("Class'/Game/Blueprints/Widgets/W_AR_Right.W_AR_Right_C'"));
+	if (AR_Widget_BP.Succeeded())
+	{
+		AR_Widget_Class = AR_Widget_BP.Object;
+		AR_Widget_SubClass = AR_Widget_Class;
 	}
 
 	const ConstructorHelpers::FObjectFinder<UClass> spawnPlayground_Widget_BP(TEXT("Class'/Game/Blueprints/Widgets/W_SpawnPlayground.W_SpawnPlayground_C'"));
@@ -86,6 +91,9 @@ void AParagon_CityPlayerController::BeginPlay()
 		building_Widget = CreateWidget<UW_Building>(this, building_Widget_SubClass.Get());
 		building_Widget->AddToViewport();
 		building_Widget->SetBuilt_Manger();
+		AR_Widget = CreateWidget<UW_AR>(this, AR_Widget_SubClass.Get());
+		AR_Widget->AddToViewport();
+		AR_Widget->SetBuilt_Manger();
 	}
 }
 

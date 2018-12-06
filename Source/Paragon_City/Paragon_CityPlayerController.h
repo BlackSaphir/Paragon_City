@@ -10,6 +10,7 @@
 #include "Paragon_CityGameMode.h"
 #include "W_SpawnPlayground.h"
 #include "ARTrackable.h"
+#include "W_AR.h"
 #include "Paragon_CityPlayerController.generated.h"
 
 UCLASS()
@@ -83,6 +84,10 @@ private:
 	UClass* built_Widget_Class;
 	TSubclassOf<UUserWidget> building_Widget_SubClass;
 	UW_Building* building_Widget;
+
+	UClass* AR_Widget_Class;
+	TSubclassOf<UUserWidget> AR_Widget_SubClass;
+	UW_AR* AR_Widget;
 
 	UClass* spawnPlayground_Widget_Class;
 	TSubclassOf<UUserWidget> spawnPlayground_SubClass;

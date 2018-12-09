@@ -11,6 +11,8 @@
 #include "Components/PrimitiveComponent.h"
 #include "ARBlueprintLibrary.h"
 #include "Widget.h"
+#include "W_AR.h"
+#include "W_SpawnPlayground.h"
 #include "Runtime/Engine/Classes/Engine/Engine.h"
 
 
@@ -78,6 +80,10 @@ void AParagon_CityPlayerController::BeginPlay()
 	FActorSpawnParameters SpawnParam;
 	gameViewCamera = GetWorld()->SpawnActor<AGameView_Camera>(gameViewCamera->GetClass(), FVector(0, 0, 900), FRotator(300, 0, 0), SpawnParam);
 	SetViewTarget(gameViewCamera);
+
+	UW_AR* AR_Widget;
+	UW_SpawnPlayground* spawnPlayground_Widget;
+
 
 	if (UGameplayStatics::GetCurrentLevelName(GetWorld()) == "AR_Level")
 	{

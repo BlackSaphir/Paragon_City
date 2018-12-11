@@ -9,11 +9,11 @@
 #include "W_Building.h"
 #include "Paragon_CityGameMode.h"
 #include "ARTrackable.h"
-//#include "W_AR.h"
 #include "Paragon_CityPlayerController.generated.h"
 
 class UW_AR;
 class UW_SpawnPlayground;
+
 
 UCLASS()
 class AParagon_CityPlayerController : public APlayerController

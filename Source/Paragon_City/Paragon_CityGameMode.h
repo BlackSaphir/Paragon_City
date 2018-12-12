@@ -13,10 +13,11 @@ class AParagon_CityGameMode : public AGameModeBase
 
 public:
 	AParagon_CityGameMode();
+
 	void SetDefaultPawnClass(TSubclassOf<APawn> pawn);
 
 public:
-
+	UPROPERTY(BlueprintReadWrite)
 	bool support_AR = false;
 };
 

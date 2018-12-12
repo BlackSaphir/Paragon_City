@@ -46,5 +46,10 @@ private:
 	
 	// Variable
 private:
+
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		FRotator Plane_Rotation;
 	
 };

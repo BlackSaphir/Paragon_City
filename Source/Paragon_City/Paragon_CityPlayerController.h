@@ -8,9 +8,12 @@
 #include "GameView_Camera.h"
 #include "W_Building.h"
 #include "Paragon_CityGameMode.h"
-#include "W_SpawnPlayground.h"
 #include "ARTrackable.h"
 #include "Paragon_CityPlayerController.generated.h"
+
+class UW_AR;
+class UW_SpawnPlayground;
+
 
 UCLASS()
 class AParagon_CityPlayerController : public APlayerController
@@ -79,15 +82,16 @@ private:
 
 	UClass* builtManager_Class;
 	TSubclassOf<APawn> builtManagerSubClass;
-	ABuilt_Manager* builtManagerPawn;
 
 	UClass* built_Widget_Class;
 	TSubclassOf<UUserWidget> building_Widget_SubClass;
 	UW_Building* building_Widget;
 
+	UClass* AR_Widget_Class;
+	TSubclassOf<UUserWidget> AR_Widget_SubClass;
+
 	UClass* spawnPlayground_Widget_Class;
 	TSubclassOf<UUserWidget> spawnPlayground_SubClass;
-	UW_SpawnPlayground* spawnPlayground_Widget;
 
 
 	UPrimitiveComponent* primitive_Comp;
@@ -111,6 +115,19 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		bool bIsARSession = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		ABuilt_Manager* BuiltManagerPawn;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		FVector Plane_Location;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		FRotator Plane_Rotation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		UARTrackedGeometry* Plane;
+
 
 };
 

@@ -11,8 +11,8 @@
 #include "Components/PrimitiveComponent.h"
 #include "ARBlueprintLibrary.h"
 #include "Widget.h"
-#include "AppleARKit/Public/AppleARKitBlueprintLibrary.h"
-#include "AppleARKit/Public/AppleARKitAnchor.h"
+#include "W_AR.h"
+#include "W_SpawnPlayground.h"
 #include "Runtime/Engine/Classes/Engine/Engine.h"
 
 
@@ -29,6 +29,7 @@ AParagon_CityPlayerController::AParagon_CityPlayerController(/*const FObjectInit
 	bBlockInput = false;
 	bAutoManageActiveCameraTarget = false;
 
+
 	//PlayerCameraManager = nullptr;
 
 	const ConstructorHelpers::FObjectFinder<UClass> builtManager_BP(TEXT("Class'/Game/Blueprints/Character/BP_Built_Manager.BP_Built_Manager_C'"));
@@ -38,11 +39,18 @@ AParagon_CityPlayerController::AParagon_CityPlayerController(/*const FObjectInit
 		builtManagerSubClass = builtManager_Class;
 	}
 
-	const ConstructorHelpers::FObjectFinder<UClass> building_Widget_BP(TEXT("Class'/Game/Blueprints/Widgets/W_Buildings.W_Buildings_C'"));
+	const ConstructorHelpers::FObjectFinder<UClass> building_Widget_BP(TEXT("Class'/Game/Blueprints/Widgets/W_Buildings_Right.W_Buildings_Right_C'"));
 	if (building_Widget_BP.Succeeded())
 	{
 		built_Widget_Class = building_Widget_BP.Object;
 		building_Widget_SubClass = built_Widget_Class;
+	}
+
+	const ConstructorHelpers::FObjectFinder<UClass>AR_Widget_BP(TEXT("Class'/Game/Blueprints/Widgets/W_AR_Right.W_AR_Right_C'"));
+	if (AR_Widget_BP.Succeeded())
+	{
+		AR_Widget_Class = AR_Widget_BP.Object;
+		AR_Widget_SubClass = AR_Widget_Class;
 	}
 
 	const ConstructorHelpers::FObjectFinder<UClass> spawnPlayground_Widget_BP(TEXT("Class'/Game/Blueprints/Widgets/W_SpawnPlayground.W_SpawnPlayground_C'"));
@@ -64,15 +72,19 @@ void AParagon_CityPlayerController::BeginPlay()
 	myGameMode = (AParagon_CityGameMode*)GetWorld()->GetAuthGameMode();
 	defaultPawn = GetPawn();
 	UnPossess();
-	builtManagerPawn = GetWorld()->SpawnActor<ABuilt_Manager>(builtManagerSubClass, cubePlacement, spawnParas);
+	BuiltManagerPawn = GetWorld()->SpawnActor<ABuilt_Manager>(builtManagerSubClass, cubePlacement, spawnParas);
 	myGameMode->SetDefaultPawnClass(builtManagerSubClass);
-	Possess(builtManagerPawn);
+	Possess(BuiltManagerPawn);
 	defaultPawn->Destroy();
-	builtManagerPawn->SecondBeginPlay();
+	BuiltManagerPawn->SecondBeginPlay();
 	gameViewCamera = NewObject<AGameView_Camera>();
 	FActorSpawnParameters SpawnParam;
 	gameViewCamera = GetWorld()->SpawnActor<AGameView_Camera>(gameViewCamera->GetClass(), FVector(0, 0, 900), FRotator(300, 0, 0), SpawnParam);
 	SetViewTarget(gameViewCamera);
+
+	UW_AR* AR_Widget;
+	UW_SpawnPlayground* spawnPlayground_Widget;
+
 
 	if (UGameplayStatics::GetCurrentLevelName(GetWorld()) == "AR_Level")
 	{
@@ -87,6 +99,15 @@ void AParagon_CityPlayerController::BeginPlay()
 		building_Widget->AddToViewport();
 		building_Widget->SetBuilt_Manger();
 	}
+
+	if (myGameMode->support_AR == true)
+	{
+		AR_Widget = CreateWidget<UW_AR>(this, AR_Widget_SubClass.Get());
+		AR_Widget->AddToViewport();
+		AR_Widget->SetBuilt_Manger();
+	}
+
+
 }
 
 // set InputVector and call MoveRight

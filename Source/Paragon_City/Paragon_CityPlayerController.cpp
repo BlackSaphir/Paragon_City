@@ -29,6 +29,7 @@ AParagon_CityPlayerController::AParagon_CityPlayerController(/*const FObjectInit
 	bBlockInput = false;
 	bAutoManageActiveCameraTarget = false;
 
+
 	//PlayerCameraManager = nullptr;
 
 	const ConstructorHelpers::FObjectFinder<UClass> builtManager_BP(TEXT("Class'/Game/Blueprints/Character/BP_Built_Manager.BP_Built_Manager_C'"));
@@ -97,10 +98,16 @@ void AParagon_CityPlayerController::BeginPlay()
 		building_Widget = CreateWidget<UW_Building>(this, building_Widget_SubClass.Get());
 		building_Widget->AddToViewport();
 		building_Widget->SetBuilt_Manger();
+	}
+
+	if (myGameMode->support_AR == true)
+	{
 		AR_Widget = CreateWidget<UW_AR>(this, AR_Widget_SubClass.Get());
 		AR_Widget->AddToViewport();
 		AR_Widget->SetBuilt_Manger();
 	}
+
+
 }
 
 // set InputVector and call MoveRight

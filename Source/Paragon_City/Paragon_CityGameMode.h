@@ -14,6 +14,10 @@ class AParagon_CityGameMode : public AGameModeBase
 public:
 	AParagon_CityGameMode();
 	void SetDefaultPawnClass(TSubclassOf<APawn> pawn);
+
+public:
+
+	bool support_AR = false;
 };
 
 

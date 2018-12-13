@@ -3,6 +3,7 @@
 #include "Paragon_CityGameMode.h"
 #include "Paragon_CityCharacter.h"
 #include "Built_Manager.h"
+#include "Kismet/GameplayStatics.h"
 #include "Paragon_CityPlayerController.h"
 #include "UObject/ConstructorHelpers.h"
 
@@ -82,4 +83,18 @@ AParagon_CityGameMode::AParagon_CityGameMode()
 void AParagon_CityGameMode::SetDefaultPawnClass(TSubclassOf<APawn> pawn)
 {
 	DefaultPawnClass = pawn;
+}
+
+void AParagon_CityGameMode::PauseGame(bool PauseGameState)
+{
+	UWorld* world = GetWorld();
+
+	if (PauseGameState == true)
+	{
+		UGameplayStatics::SetGamePaused(world, true);
+	}
+	else if (PauseGameState == false)
+	{
+		UGameplayStatics::SetGamePaused(world, false);
+	}
 }

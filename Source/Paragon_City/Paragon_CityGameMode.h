@@ -16,6 +16,9 @@ public:
 
 	void SetDefaultPawnClass(TSubclassOf<APawn> pawn);
 
+	UFUNCTION(BlueprintCallable)
+		void PauseGame(bool PauseGameState);
+
 public:
 	UPROPERTY(BlueprintReadWrite)
 	bool support_AR = false;

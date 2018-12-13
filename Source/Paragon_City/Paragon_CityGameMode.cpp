@@ -6,6 +6,8 @@
 #include "Kismet/GameplayStatics.h"
 #include "Paragon_CityPlayerController.h"
 #include "UObject/ConstructorHelpers.h"
+#include "Runtime/Engine/Classes/Engine/Engine.h"
+
 
 AParagon_CityGameMode::AParagon_CityGameMode()
 {
@@ -92,9 +94,13 @@ void AParagon_CityGameMode::PauseGame(bool PauseGameState)
 	if (PauseGameState == true)
 	{
 		UGameplayStatics::SetGamePaused(world, true);
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("True Pause")));
+
 	}
 	else if (PauseGameState == false)
 	{
 		UGameplayStatics::SetGamePaused(world, false);
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("False Pause")));
+
 	}
 }

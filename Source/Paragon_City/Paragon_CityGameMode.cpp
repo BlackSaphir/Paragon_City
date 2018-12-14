@@ -93,13 +93,13 @@ void AParagon_CityGameMode::PauseGame(bool PauseGameState)
 
 	if (PauseGameState == true)
 	{
-		UGameplayStatics::SetGamePaused(world, true);
+		UGameplayStatics::SetGamePaused(world, PauseGameState);
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("True Pause")));
 
 	}
 	else if (PauseGameState == false)
 	{
-		UGameplayStatics::SetGamePaused(world, false);
+		UGameplayStatics::SetGamePaused(world, PauseGameState);
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("False Pause")));
 
 	}

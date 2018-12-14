@@ -28,6 +28,7 @@ AParagon_CityPlayerController::AParagon_CityPlayerController(/*const FObjectInit
 	bEnableTouchOverEvents = true;
 	bBlockInput = false;
 	bAutoManageActiveCameraTarget = false;
+	PrimaryActorTick.bTickEvenWhenPaused = true;
 
 
 	//PlayerCameraManager = nullptr;
@@ -138,8 +139,6 @@ void AParagon_CityPlayerController::PlayerTick(float DeltaTime)
 bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type Type, const FVector2D & TouchLocation, float Force, FDateTime DeviceTimestamp, uint32 TouchpadIndex)
 {
 	FHitResult hitResult;
-
-
 
 	switch (Type)
 	{

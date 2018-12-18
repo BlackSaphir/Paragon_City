@@ -201,7 +201,15 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 				DrawDebugLine(world, primitive_Comp->GetComponentLocation(), FVector(primitive_Comp->GetComponentLocation().X, primitive_Comp->GetComponentLocation().Y, primitive_Comp->GetComponentLocation().Z - 500), FColor::Green, true, 5, 0, 2.f);
 
 				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Building Grab")));
+				//FString PenisNamePenis = hitResult_Building.Last().GetActor()->GetName();
+				//UE_LOG(LogTemp, Warning, TEXT("MyCharacter's Name is %s"), PenisNamePenis);
 
+				if (hitResult_Building.Last().GetActor()->ActorHasTag("Floor"))
+				{
+					
+					GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Floor under Building")));
+
+				}
 			}
 			else
 			{

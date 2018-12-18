@@ -36,6 +36,7 @@ private:
 	void MoveDownTouch();
 	void Zoom();
 	void Move();
+	bool LineTrace(UWorld*, const FVector&, const FVector&, TArray<FHitResult>&, ECollisionChannel, bool);
 
 public:
 
@@ -68,6 +69,9 @@ private:
 
 	int fingerCount = 0;
 
+	UWorld* world;
+	ECollisionChannel collisionChannel = ECC_WorldDynamic;
+	TArray <FHitResult> hitResult_Building;
 
 	FVector worldLoc;
 	FVector worldDir;

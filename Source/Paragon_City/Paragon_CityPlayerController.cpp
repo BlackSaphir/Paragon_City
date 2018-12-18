@@ -14,6 +14,8 @@
 #include "W_AR.h"
 #include "W_SpawnPlayground.h"
 #include "Runtime/Engine/Classes/Engine/Engine.h"
+#include "Kismet/KismetSystemLibrary.h"
+#include "DrawDebugHelpers.h"
 
 
 #define GETENUMSTRING(etype, evalue) ( (FindObject<UEnum>(ANY_PACKAGE, TEXT(etype), true) != nullptr) ? FindObject<UEnum>(ANY_PACKAGE, TEXT(etype), true)->GetNameStringByIndex((int32)evalue) : FString("Invalid - are you sure enum uses UENUM() macro?") )
@@ -70,6 +72,7 @@ void AParagon_CityPlayerController::BeginPlay()
 
 	FTransform cubePlacement(FVector(0, 0, 0));
 	FActorSpawnParameters spawnParas;
+	world = GetWorld();
 	myGameMode = (AParagon_CityGameMode*)GetWorld()->GetAuthGameMode();
 	defaultPawn = GetPawn();
 	UnPossess();
@@ -135,24 +138,45 @@ void AParagon_CityPlayerController::PlayerTick(float DeltaTime)
 	}
 }
 
+bool AParagon_CityPlayerController::LineTrace(UWorld* World, const FVector&Start, const FVector&End, TArray<FHitResult>& HitOut, ECollisionChannel CollisionChannel = ECC_Pawn, bool ReturnPhysMat = false)
+{
+	if (!World)
+	{
+		return false;
+	}
+
+	FCollisionQueryParams TraceParams(FName(TEXT("LineTrace")), true);
+	TraceParams.bTraceComplex = true;
+	TraceParams.bReturnPhysicalMaterial = ReturnPhysMat;
+
+	
+
+	//Trace
+	World->LineTraceMultiByChannel(HitOut, Start, End, CollisionChannel, TraceParams);
+
+
+	return (&HitOut.Last() != NULL);
+}
+
 
 bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type Type, const FVector2D & TouchLocation, float Force, FDateTime DeviceTimestamp, uint32 TouchpadIndex)
 {
-	FHitResult hitResult;
+	FHitResult hitResult_Touch;
+	FHitResult hitResult_LineTrace;
 
 	switch (Type)
 	{
 	case ETouchType::Began:
 		// set Touchlocation
 
-		GetHitResultUnderCursorByChannel(ETraceTypeQuery::TraceTypeQuery1, true, hitResult);
+		GetHitResultUnderCursorByChannel(ETraceTypeQuery::TraceTypeQuery1, true, hitResult_Touch);
 
 		//UE_LOG(LogTemp, Warning, TEXT("ARHitTestResult: %f"), *GETENUMSTRING("EAppleARKitHitTestResultType", UseEnum));
 
 
 
 		fingerCount++;
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Penis1")));
+		GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Red, FString::Printf(TEXT("Penis1")));
 		if (fingerCount == 1)
 		{
 			firstFingerTouchStart = TouchLocation;
@@ -161,12 +185,23 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 		{
 			secondFingerTouchStart = TouchLocation;
 		}
-		if (hitResult.GetActor() != NULL)
+		if (hitResult_Touch.GetActor() != NULL)
 		{
-			if (hitResult.GetActor()->ActorHasTag("Building"))
+			if (hitResult_Touch.GetActor()->ActorHasTag("Floor"))
 			{
-				primitive_Comp = hitResult.GetComponent();
-				primitive_Comp->DispatchOnInputTouchBegin(ETouchIndex::Touch1);
+				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Floor")));
+			}
+
+			if (hitResult_Touch.GetActor()->ActorHasTag("Building"))
+			{
+				primitive_Comp = hitResult_Touch.GetComponent();
+
+				LineTrace(world, primitive_Comp->GetComponentLocation(), FVector(primitive_Comp->GetComponentLocation().X, primitive_Comp->GetComponentLocation().Y, primitive_Comp->GetComponentLocation().Z - 500), hitResult_Building, collisionChannel, false);
+
+				DrawDebugLine(world, primitive_Comp->GetComponentLocation(), FVector(primitive_Comp->GetComponentLocation().X, primitive_Comp->GetComponentLocation().Y, primitive_Comp->GetComponentLocation().Z - 500), FColor::Green, true, 5, 0, 2.f);
+
+				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Building Grab")));
+
 			}
 			else
 			{
@@ -182,7 +217,7 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 		{
 			firstFingerTouchEnd = TouchLocation;
 		}
-		if (Handle == 1)
+		else if (Handle == 1)
 		{
 			secondFingerTouchEnd = TouchLocation;
 		}
@@ -205,62 +240,62 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 		break;
 	}
 	return false;
-	
+
 }
 
 
 // check if touch goes right
 void AParagon_CityPlayerController::MoveRightTouch()
 {
-	
-		dist = FVector2D::Distance(FVector2D(touchStart.X, 0), FVector2D(touchEnd.X, 0));
-		if (dist > distance && touchEnd.X > touchStart.X)
-		{
 
-			gameViewCamera->SetActorLocation(gameViewCamera->GetActorLocation() + (gameViewCamera->GetActorRightVector() * 10));
-		}
-	
+	dist = FVector2D::Distance(FVector2D(touchStart.X, 0), FVector2D(touchEnd.X, 0));
+	if (dist > distance && touchEnd.X > touchStart.X)
+	{
+
+		gameViewCamera->SetActorLocation(gameViewCamera->GetActorLocation() + (gameViewCamera->GetActorRightVector() * 10));
+	}
+
 }
 
 void AParagon_CityPlayerController::MoveLeftTouch()
 {
-	
-		dist = FVector2D::Distance(FVector2D(touchStart.X, 0), FVector2D(touchEnd.X, 0));
-		if (dist > distance && touchEnd.X < touchStart.X)
-		{
 
-			gameViewCamera->SetActorLocation(gameViewCamera->GetActorLocation() - (gameViewCamera->GetActorRightVector() * 10));
-		}
-	
+	dist = FVector2D::Distance(FVector2D(touchStart.X, 0), FVector2D(touchEnd.X, 0));
+	if (dist > distance && touchEnd.X < touchStart.X)
+	{
+
+		gameViewCamera->SetActorLocation(gameViewCamera->GetActorLocation() - (gameViewCamera->GetActorRightVector() * 10));
+	}
+
 }
 
 void AParagon_CityPlayerController::MoveUpTouch()
 {
-	
-		dist = FVector2D::Distance(FVector2D(0, touchStart.Y), FVector2D(0, touchEnd.Y));
-		if (dist > distance && touchEnd.Y < touchStart.Y)
-		{
+
+	dist = FVector2D::Distance(FVector2D(0, touchStart.Y), FVector2D(0, touchEnd.Y));
+	if (dist > distance && touchEnd.Y < touchStart.Y)
+	{
 
 
-			angleDiff = 360 + gameViewCamera->GetActorRotation().Pitch;
-			ForwardVectorManipulated = UKismetMathLibrary::RotateAngleAxis(gameViewCamera->GetActorForwardVector(), angleDiff, FVector(0, 1, 0));
-			gameViewCamera->SetActorLocation(gameViewCamera->GetActorLocation() + (ForwardVectorManipulated * 10));
-		}
-	
+		angleDiff = 360 + gameViewCamera->GetActorRotation().Pitch;
+		ForwardVectorManipulated = UKismetMathLibrary::RotateAngleAxis(gameViewCamera->GetActorForwardVector(), angleDiff, FVector(0, 1, 0));
+		gameViewCamera->SetActorLocation(gameViewCamera->GetActorLocation() + (ForwardVectorManipulated * 10));
+	}
+
 }
 
 void AParagon_CityPlayerController::MoveDownTouch()
 {
-	
-		dist = FVector2D::Distance(FVector2D(0, touchStart.Y), FVector2D(0, touchEnd.Y));
-		if (dist > distance && touchEnd.Y > touchStart.Y)
-		{
 
-			angleDiff = 360 + gameViewCamera->GetActorRotation().Pitch;
-			ForwardVectorManipulated = UKismetMathLibrary::RotateAngleAxis(gameViewCamera->GetActorForwardVector(), angleDiff, FVector(0, 1, 0));
-			gameViewCamera->SetActorLocation(gameViewCamera->GetActorLocation() - (ForwardVectorManipulated * 10));
-		}
-	
+	dist = FVector2D::Distance(FVector2D(0, touchStart.Y), FVector2D(0, touchEnd.Y));
+	if (dist > distance && touchEnd.Y > touchStart.Y)
+	{
+
+		angleDiff = 360 + gameViewCamera->GetActorRotation().Pitch;
+		ForwardVectorManipulated = UKismetMathLibrary::RotateAngleAxis(gameViewCamera->GetActorForwardVector(), angleDiff, FVector(0, 1, 0));
+		gameViewCamera->SetActorLocation(gameViewCamera->GetActorLocation() - (ForwardVectorManipulated * 10));
+	}
+
 }
 
 void AParagon_CityPlayerController::Zoom()
@@ -295,6 +330,8 @@ void AParagon_CityPlayerController::Move()
 		gameViewCamera->SetActorRelativeLocation(gameViewCamera->GetActorLocation() + touchDIr * speedMultiplier);
 	}
 }
+
+
 
 void AParagon_CityPlayerController::CreateBuildingWidget()
 {

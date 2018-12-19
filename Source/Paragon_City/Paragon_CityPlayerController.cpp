@@ -195,6 +195,8 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 			if (hitResult_Touch.GetActor()->ActorHasTag("Building"))
 			{
 				primitive_Comp = hitResult_Touch.GetComponent();
+				primitive_Comp->DispatchOnInputTouchBegin(ETouchIndex::Touch1);
+
 
 				LineTrace(world, primitive_Comp->GetComponentLocation(), FVector(primitive_Comp->GetComponentLocation().X, primitive_Comp->GetComponentLocation().Y, primitive_Comp->GetComponentLocation().Z - 500), hitResult_Building, collisionChannel, false);
 
@@ -225,19 +227,14 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 		if (bMovingBuilding)
 		{
 			bStartMoveBuilding = true;
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Floor under Building")));
 			primitive_Comp->DispatchOnInputTouchBegin(ETouchIndex::Touch1);
+
+			LineTrace(world, primitive_Comp->GetComponentLocation(), FVector(primitive_Comp->GetComponentLocation().X, primitive_Comp->GetComponentLocation().Y, primitive_Comp->GetComponentLocation().Z - 500), hitResult_Building, collisionChannel, false);
+
+			DrawDebugLine(world, primitive_Comp->GetComponentLocation(), FVector(primitive_Comp->GetComponentLocation().X, primitive_Comp->GetComponentLocation().Y, primitive_Comp->GetComponentLocation().Z - 500), FColor::Green, true, 5, 0, 2.f);
 		}
 
-		//DeprojectScreenPositionToWorld(screenX, screenY, worldLoc, worldDir);
-		/*if (Handle == 0)
-		{
-			firstFingerTouchEnd = TouchLocation;
-		}
-		else if (Handle == 1)
-		{
-			secondFingerTouchEnd = TouchLocation;
-		}*/
+
 		touchEnd.X = TouchLocation.X;
 		touchEnd.Y = TouchLocation.Y;
 		break;

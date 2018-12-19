@@ -195,6 +195,7 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 			if (hitResult_Touch.GetActor()->ActorHasTag("Building"))
 			{
 				primitive_Comp = hitResult_Touch.GetComponent();
+				primitive_Comp->DispatchOnInputTouchBegin(ETouchIndex::Touch1);
 
 				LineTrace(world, primitive_Comp->GetComponentLocation(), FVector(primitive_Comp->GetComponentLocation().X, primitive_Comp->GetComponentLocation().Y, primitive_Comp->GetComponentLocation().Z - 500), hitResult_Building, collisionChannel, false);
 

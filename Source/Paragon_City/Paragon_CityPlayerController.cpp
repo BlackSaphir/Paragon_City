@@ -150,7 +150,6 @@ bool AParagon_CityPlayerController::LineTrace(UWorld* World, const FVector&Start
 	TraceParams.bReturnPhysicalMaterial = ReturnPhysMat;
 
 
-
 	//Trace
 	World->LineTraceMultiByChannel(HitOut, Start, End, CollisionChannel, TraceParams);
 
@@ -161,6 +160,7 @@ bool AParagon_CityPlayerController::LineTrace(UWorld* World, const FVector&Start
 
 bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type Type, const FVector2D & TouchLocation, float Force, FDateTime DeviceTimestamp, uint32 TouchpadIndex)
 {
+	FString lastHitResult;
 	FHitResult hitResult_Touch;
 	FHitResult hitResult_LineTrace;
 
@@ -198,8 +198,7 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 				primitive_Comp->DispatchOnInputTouchBegin(ETouchIndex::Touch1);
 
 
-				LineTrace(world, primitive_Comp->GetComponentLocation(), FVector(primitive_Comp->GetComponentLocation().X, primitive_Comp->GetComponentLocation().Y, primitive_Comp->GetComponentLocation().Z - 500), hitResult_Building, collisionChannel, false);
-
+				LineTrace(world, FVector(primitive_Comp->GetComponentLocation().X, primitive_Comp->GetComponentLocation().Y, primitive_Comp->GetComponentLocation().Z + 50), FVector(primitive_Comp->GetComponentLocation().X, primitive_Comp->GetComponentLocation().Y, primitive_Comp->GetComponentLocation().Z - 500), hitResult_Building, collisionChannel, false);
 				DrawDebugLine(world, primitive_Comp->GetComponentLocation(), FVector(primitive_Comp->GetComponentLocation().X, primitive_Comp->GetComponentLocation().Y, primitive_Comp->GetComponentLocation().Z - 500), FColor::Green, true, 5, 0, 2.f);
 
 				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Building Grab")));
@@ -229,9 +228,11 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 			bStartMoveBuilding = true;
 			primitive_Comp->DispatchOnInputTouchBegin(ETouchIndex::Touch1);
 
-			LineTrace(world, primitive_Comp->GetComponentLocation(), FVector(primitive_Comp->GetComponentLocation().X, primitive_Comp->GetComponentLocation().Y, primitive_Comp->GetComponentLocation().Z - 500), hitResult_Building, collisionChannel, false);
+			LineTrace(world, FVector(primitive_Comp->GetComponentLocation().X, primitive_Comp->GetComponentLocation().Y, primitive_Comp->GetComponentLocation().Z + 50), FVector(primitive_Comp->GetComponentLocation().X, primitive_Comp->GetComponentLocation().Y, primitive_Comp->GetComponentLocation().Z - 500), hitResult_Building, collisionChannel, false);
+			lastHitResult = hitResult_Building.Last().ToString();
+			UE_LOG(LogTemp, Warning, TEXT("%s"), *lastHitResult);
 
-			DrawDebugLine(world, primitive_Comp->GetComponentLocation(), FVector(primitive_Comp->GetComponentLocation().X, primitive_Comp->GetComponentLocation().Y, primitive_Comp->GetComponentLocation().Z - 500), FColor::Green, true, 5, 0, 2.f);
+			DrawDebugLine(world, FVector(primitive_Comp->GetComponentLocation().X, primitive_Comp->GetComponentLocation().Y, primitive_Comp->GetComponentLocation().Z + 50), FVector(primitive_Comp->GetComponentLocation().X, primitive_Comp->GetComponentLocation().Y, primitive_Comp->GetComponentLocation().Z - 500), FColor::Green, true, 5, 0, 2.f);
 		}
 
 

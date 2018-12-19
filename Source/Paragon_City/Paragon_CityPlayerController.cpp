@@ -149,7 +149,7 @@ bool AParagon_CityPlayerController::LineTrace(UWorld* World, const FVector&Start
 	TraceParams.bTraceComplex = true;
 	TraceParams.bReturnPhysicalMaterial = ReturnPhysMat;
 
-	
+
 
 	//Trace
 	World->LineTraceMultiByChannel(HitOut, Start, End, CollisionChannel, TraceParams);
@@ -187,15 +187,14 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 		}
 		if (hitResult_Touch.GetActor() != NULL)
 		{
-			if (hitResult_Touch.GetActor()->ActorHasTag("Floor"))
+			/*if (hitResult_Touch.GetActor()->ActorHasTag("Floor"))
 			{
 				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Floor")));
-			}
+			}*/
 
 			if (hitResult_Touch.GetActor()->ActorHasTag("Building"))
 			{
 				primitive_Comp = hitResult_Touch.GetComponent();
-				primitive_Comp->DispatchOnInputTouchBegin(ETouchIndex::Touch1);
 
 				LineTrace(world, primitive_Comp->GetComponentLocation(), FVector(primitive_Comp->GetComponentLocation().X, primitive_Comp->GetComponentLocation().Y, primitive_Comp->GetComponentLocation().Z - 500), hitResult_Building, collisionChannel, false);
 
@@ -207,29 +206,38 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 
 				if (hitResult_Building.Last().GetActor()->ActorHasTag("Floor"))
 				{
-					
+
 					GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Floor under Building")));
 
 				}
 			}
 			else
 			{
-				bIsPressed = true;
 				touchStart.X = TouchLocation.X;
 				touchStart.Y = TouchLocation.Y;
+				touchEnd.X = TouchLocation.X;
+				touchEnd.Y = TouchLocation.Y;
+				bIsPressed = true;
 			}
 		}
-
+		break;
 	case ETouchType::Moved:
-		DeprojectScreenPositionToWorld(screenX, screenY, worldLoc, worldDir);
-		if (Handle == 0)
+		if (bMovingBuilding)
+		{
+			bStartMoveBuilding = true;
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Floor under Building")));
+			primitive_Comp->DispatchOnInputTouchBegin(ETouchIndex::Touch1);
+		}
+
+		//DeprojectScreenPositionToWorld(screenX, screenY, worldLoc, worldDir);
+		/*if (Handle == 0)
 		{
 			firstFingerTouchEnd = TouchLocation;
 		}
 		else if (Handle == 1)
 		{
 			secondFingerTouchEnd = TouchLocation;
-		}
+		}*/
 		touchEnd.X = TouchLocation.X;
 		touchEnd.Y = TouchLocation.Y;
 		break;
@@ -239,6 +247,7 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 		fingerCount--;
 		if (primitive_Comp != nullptr)
 		{
+			bStartMoveBuilding = false;
 			primitive_Comp->DispatchOnInputTouchEnd(ETouchIndex::Touch1);
 		}
 		bIsPressed = false;

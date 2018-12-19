@@ -132,6 +132,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		UARTrackedGeometry* Plane;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool bStartMoveBuilding;
+
 
 };
 

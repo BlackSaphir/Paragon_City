@@ -85,6 +85,7 @@ void AParagon_CityPlayerController::BeginPlay()
 	FActorSpawnParameters SpawnParam;
 	gameViewCamera = GetWorld()->SpawnActor<AGameView_Camera>(gameViewCamera->GetClass(), FVector(0, 0, 900), FRotator(285, 0, 0), SpawnParam);
 	SetViewTarget(gameViewCamera);
+	
 
 	UW_AR* AR_Widget;
 	UW_SpawnPlayground* spawnPlayground_Widget;

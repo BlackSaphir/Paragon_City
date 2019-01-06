@@ -19,10 +19,13 @@ class PARAGON_CITY_API UParagon_GameInstance : public UGameInstance
 
 public:
 
-	UParagon_GameInstance(const FObjectInitializer& ObjectInitializer);
+	UParagon_GameInstance();
 
-	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	UFUNCTION(BlueprintCallable)
 		void CheckSaveGame();
+
+	UFUNCTION(BlueprintCallable)
+		void WriteSaveGame();
 
 
 
@@ -35,4 +38,7 @@ public:
 
 	UPROPERTY(BlueprintReadWrite)
 		int32 SaveUserIndex;
+
+	UPROPERTY()
+		UParagon_SaveGame* CurrentSaveGame;
 };

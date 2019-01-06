@@ -3,6 +3,7 @@
 #include "Paragon_GameInstance.h"
 #include "Paragon_SaveGame.h"
 #include "Kismet/GameplayStatics.h"
+#include "Runtime/Engine/Classes/Engine/Engine.h"
 
 
 
@@ -18,7 +19,12 @@ void UParagon_GameInstance::CheckSaveGame()
 
 	if (UGameplayStatics::DoesSaveGameExist(SaveSlot, SaveUserIndex))
 	{
-		CurrentSaveGame = Cast<UParagon_SaveGame>(UGameplayStatics::LoadGameFromSlot(SaveSlot, SaveUserIndex));
+		CurrentSaveGame = Cast<UParagon_SaveGame>(UGameplayStatics::LoadGameFromSlot(SaveSlot, SaveUserIndex));		
+		if (CurrentSaveGame == NULL)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("No Save Game")));
+
+		}
 	}
 	else
 	{

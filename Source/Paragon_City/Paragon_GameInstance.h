@@ -39,6 +39,6 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 		int32 SaveUserIndex;
 
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY()
 		UParagon_SaveGame* CurrentSaveGame;
 };

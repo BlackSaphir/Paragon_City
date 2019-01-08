@@ -41,8 +41,7 @@ void ABuilt_Manager::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	gameInstance = GetGameInstance();
-	//gameInstance->SetVariables();
+	
 	
 }
 

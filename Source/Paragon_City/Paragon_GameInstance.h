@@ -27,6 +27,11 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void WriteSaveGame();
 
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
+		void GetInformation();
+
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
+		void SaveStruct();
 
 
 		// Variable
@@ -39,6 +44,6 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 		int32 SaveUserIndex;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite)
 		UParagon_SaveGame* CurrentSaveGame;
 };

@@ -37,9 +37,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Floor")
 		TSubclassOf<class AActor> Floor;
 
-private:
-
-	UGameInstance * gameInstance;
 
 
 	// Function

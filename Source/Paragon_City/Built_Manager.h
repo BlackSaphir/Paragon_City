@@ -7,6 +7,8 @@
 #include "Camera/CameraActor.h"
 #include "Built_Manager.generated.h"
 
+class UParagon_GameInstance;
+
 UCLASS()
 class PARAGON_CITY_API ABuilt_Manager : public APawn
 {
@@ -34,6 +36,10 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Floor")
 		TSubclassOf<class AActor> Floor;
+
+private:
+
+	UGameInstance * gameInstance;
 
 
 	// Function

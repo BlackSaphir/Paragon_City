@@ -8,6 +8,7 @@
 #include "Engine/World.h"
 #include "GameFramework/GameUserSettings.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Paragon_GameInstance.h"
 
 
 
@@ -40,6 +41,8 @@ void ABuilt_Manager::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	gameInstance = GetGameInstance();
+	//gameInstance->SetVariables();
 	
 }
 

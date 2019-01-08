@@ -4,8 +4,9 @@
 #include "Paragon_GameInstance.h"
 #include "Paragon_SaveGame.h"
 #include "Kismet/GameplayStatics.h"
-#include "Built_Manager.h"
 #include "Runtime/Engine/Classes/Engine/Engine.h"
+#include "Built_Manager.h"
+
 
 
 
@@ -41,7 +42,3 @@ void UParagon_GameInstance::WriteSaveGame()
 	UGameplayStatics::SaveGameToSlot(CurrentSaveGame, SaveSlot, SaveUserIndex);
 }
 
-void UParagon_GameInstance::SetVariables()
-{
-	//builtManager =
-}

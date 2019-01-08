@@ -37,9 +37,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Floor")
 		TSubclassOf<class AActor> Floor;
 
-private:
-
-	UGameInstance * gameInstance;
+	UPROPERTY(BlueprintReadWrite)
+		UGameInstance * gameInstance_Ref;
 
 
 	// Function
@@ -49,7 +48,7 @@ protected:
 	virtual void Tick(float DeltaTime) override;
 private:
 	void SpawnCamera();
-	
+
 	// Variable
 private:
 
@@ -57,5 +56,5 @@ private:
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		FRotator Plane_Rotation;
-	
+
 };

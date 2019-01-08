@@ -7,7 +7,7 @@
 #include "Paragon_GameInstance.generated.h"
 
 class UParagon_SaveGame;
-class UBuilt_Manager;
+class ABuilt_Manager;
 
 UCLASS()
 class PARAGON_CITY_API UParagon_GameInstance : public UGameInstance
@@ -33,7 +33,7 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
 		void SaveStruct();
 
-	void SetVariables();
+	
 
 
 		// Variable
@@ -49,6 +49,6 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 		UParagon_SaveGame* CurrentSaveGame;
 
-	UPROPERTY(BlueprintReadWrite)
-		UBuilt_Manager* builtManager;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		ABuilt_Manager* builtManager_Ref;
 };

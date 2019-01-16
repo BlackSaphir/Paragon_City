@@ -77,6 +77,8 @@ AParagon_CityGameMode::AParagon_CityGameMode()
 
 	PlayerControllerClass = playerController_BP.Object;
 
+	support_AR = true;
+
 #endif
 
 }

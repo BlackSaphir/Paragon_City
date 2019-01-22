@@ -15,26 +15,26 @@ UParagon_GameInstance::UParagon_GameInstance()
 {
 }
 
-void UParagon_GameInstance::CheckSaveGame()
-{
-	CurrentSaveGame = nullptr;
-
-	if (UGameplayStatics::DoesSaveGameExist(SaveSlot, SaveUserIndex))
-	{
-		CurrentSaveGame = Cast<UParagon_SaveGame>(UGameplayStatics::LoadGameFromSlot(SaveSlot, SaveUserIndex));		
-		if (CurrentSaveGame == NULL)
-		{
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("No Save Game")));
-
-		}
-	}
-	else
-	{
-		CurrentSaveGame = Cast<UParagon_SaveGame>(UGameplayStatics::CreateSaveGameObject(UParagon_SaveGame::StaticClass()));
-	}
-
-
-}
+//void UParagon_GameInstance::CheckSaveGame()
+//{
+//	CurrentSaveGame = nullptr;
+//
+//	if (UGameplayStatics::DoesSaveGameExist(SaveSlot, SaveUserIndex))
+//	{
+//		CurrentSaveGame = Cast<UParagon_SaveGame>(UGameplayStatics::LoadGameFromSlot(SaveSlot, SaveUserIndex));		
+//		if (CurrentSaveGame == NULL)
+//		{
+//			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("No Save Game")));
+//
+//		}
+//	}
+//	else
+//	{
+//		CurrentSaveGame = Cast<UParagon_SaveGame>(UGameplayStatics::CreateSaveGameObject(UParagon_SaveGame::StaticClass()));
+//	}
+//
+//
+//}
 
 void UParagon_GameInstance::WriteSaveGame()
 {

@@ -20,7 +20,7 @@ public:
 
 	UParagon_GameInstance();
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
 		void CheckSaveGame();
 
 	UFUNCTION(BlueprintCallable)

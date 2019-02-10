@@ -12,7 +12,6 @@
 #include "ARBlueprintLibrary.h"
 #include "Widget.h"
 #include "W_AR.h"
-#include "W_SpawnPlayground.h"
 #include "Runtime/Engine/Classes/Engine/Engine.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "DrawDebugHelpers.h"
@@ -88,7 +87,7 @@ void AParagon_CityPlayerController::BeginPlay()
 	
 
 	UW_AR* AR_Widget;
-	UW_SpawnPlayground* spawnPlayground_Widget;
+	
 
 
 	if (UGameplayStatics::GetCurrentLevelName(GetWorld()) == "AR_Level")
@@ -357,6 +356,11 @@ void AParagon_CityPlayerController::CreateBuildingWidget()
 	building_Widget = CreateWidget<UW_Building>(this, building_Widget_SubClass.Get());
 	building_Widget->AddToViewport();
 	building_Widget->SetBuilt_Manger();
+}
+
+void AParagon_CityPlayerController::RemoveFloorWidget()
+{
+	spawnPlayground_Widget->RemoveFromViewport();
 }
 
 

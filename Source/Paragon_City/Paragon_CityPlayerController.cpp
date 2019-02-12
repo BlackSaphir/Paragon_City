@@ -97,12 +97,12 @@ void AParagon_CityPlayerController::BeginPlay()
 		spawnPlayground_Widget->Set_PlayerController();
 		bIsARSession = true;
 	}
-	else
+	/*else
 	{
 		building_Widget = CreateWidget<UW_Building>(this, building_Widget_SubClass.Get());
 		building_Widget->AddToViewport();
 		building_Widget->SetBuilt_Manger();
-	}
+	}*/
 
 	if (myGameMode->support_AR == true)
 	{

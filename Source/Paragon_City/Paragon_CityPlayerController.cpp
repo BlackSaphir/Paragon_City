@@ -119,14 +119,23 @@ void AParagon_CityPlayerController::PlayerTick(float DeltaTime)
 {
 	Super::PlayerTick(DeltaTime);
 
+	/*if (bBuildingStreet)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Building Street = true")));
+	}
+	else
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Building Street = false")));
+	}*/
 
-	if (bIsPressed && !bMovingBuilding && fingerCount == 1 && !bIsARSession)
+	if (bIsPressed && !bMovingBuilding && /*fingerCount == 1 &&*/ !bIsARSession && !bBuildingStreet)
 	{
 
 		MoveRightTouch();
 		MoveLeftTouch();
 		MoveUpTouch();
 		MoveDownTouch();
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Move Camera")));
 
 		//Move();
 

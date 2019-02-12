@@ -135,7 +135,7 @@ void AParagon_CityPlayerController::PlayerTick(float DeltaTime)
 		MoveLeftTouch();
 		MoveUpTouch();
 		MoveDownTouch();
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Move Camera")));
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Move Camera")));
 
 		//Move();
 

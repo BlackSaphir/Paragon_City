@@ -185,7 +185,7 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 
 
 		fingerCount++;
-		GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Red, FString::Printf(TEXT("Penis1")));
+		//GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Red, FString::Printf(TEXT("Penis1")));
 		if (fingerCount == 1)
 		{
 			firstFingerTouchStart = TouchLocation;
@@ -208,16 +208,16 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 
 
 				LineTrace(world, FVector(primitive_Comp->GetComponentLocation().X, primitive_Comp->GetComponentLocation().Y, primitive_Comp->GetComponentLocation().Z + 50), FVector(primitive_Comp->GetComponentLocation().X, primitive_Comp->GetComponentLocation().Y, primitive_Comp->GetComponentLocation().Z - 500), hitResult_Building, collisionChannel, false);
-				DrawDebugLine(world, primitive_Comp->GetComponentLocation(), FVector(primitive_Comp->GetComponentLocation().X, primitive_Comp->GetComponentLocation().Y, primitive_Comp->GetComponentLocation().Z - 500), FColor::Green, true, 5, 0, 2.f);
+				//DrawDebugLine(world, primitive_Comp->GetComponentLocation(), FVector(primitive_Comp->GetComponentLocation().X, primitive_Comp->GetComponentLocation().Y, primitive_Comp->GetComponentLocation().Z - 500), FColor::Green, true, 5, 0, 2.f);
 
-				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Building Grab")));
+				//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Building Grab")));
 				//FString PenisNamePenis = hitResult_Building.Last().GetActor()->GetName();
 				//UE_LOG(LogTemp, Warning, TEXT("MyCharacter's Name is %s"), PenisNamePenis);
 
 				if (hitResult_Building.Last().GetActor()->ActorHasTag("Floor"))
 				{
 
-					GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Floor under Building")));
+					//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Floor under Building")));
 
 				}
 			}
@@ -241,7 +241,7 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 			lastHitResult = hitResult_Building.Last().ToString();
 			UE_LOG(LogTemp, Warning, TEXT("%s"), *lastHitResult);
 
-			DrawDebugLine(world, FVector(primitive_Comp->GetComponentLocation().X, primitive_Comp->GetComponentLocation().Y, primitive_Comp->GetComponentLocation().Z + 50), FVector(primitive_Comp->GetComponentLocation().X, primitive_Comp->GetComponentLocation().Y, primitive_Comp->GetComponentLocation().Z - 500), FColor::Green, true, 5, 0, 2.f);
+			//DrawDebugLine(world, FVector(primitive_Comp->GetComponentLocation().X, primitive_Comp->GetComponentLocation().Y, primitive_Comp->GetComponentLocation().Z + 50), FVector(primitive_Comp->GetComponentLocation().X, primitive_Comp->GetComponentLocation().Y, primitive_Comp->GetComponentLocation().Z - 500), FColor::Green, true, 5, 0, 2.f);
 		}
 
 

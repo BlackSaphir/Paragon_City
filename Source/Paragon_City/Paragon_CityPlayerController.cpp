@@ -12,7 +12,6 @@
 #include "ARBlueprintLibrary.h"
 #include "Widget.h"
 #include "W_AR.h"
-#include "W_SpawnPlayground.h"
 #include "Runtime/Engine/Classes/Engine/Engine.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "DrawDebugHelpers.h"
@@ -88,7 +87,7 @@ void AParagon_CityPlayerController::BeginPlay()
 	
 
 	UW_AR* AR_Widget;
-	UW_SpawnPlayground* spawnPlayground_Widget;
+	
 
 
 	if (UGameplayStatics::GetCurrentLevelName(GetWorld()) == "AR_Level")
@@ -98,12 +97,12 @@ void AParagon_CityPlayerController::BeginPlay()
 		spawnPlayground_Widget->Set_PlayerController();
 		bIsARSession = true;
 	}
-	else
+	/*else
 	{
 		building_Widget = CreateWidget<UW_Building>(this, building_Widget_SubClass.Get());
 		building_Widget->AddToViewport();
 		building_Widget->SetBuilt_Manger();
-	}
+	}*/
 
 	if (myGameMode->support_AR == true)
 	{
@@ -120,14 +119,23 @@ void AParagon_CityPlayerController::PlayerTick(float DeltaTime)
 {
 	Super::PlayerTick(DeltaTime);
 
+	/*if (bBuildingStreet)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Building Street = true")));
+	}
+	else
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Building Street = false")));
+	}*/
 
-	if (bIsPressed && !bMovingBuilding && fingerCount == 1 && !bIsARSession)
+	if (bIsPressed && !bMovingBuilding && /*fingerCount == 1 &&*/ !bIsARSession && !bBuildingStreet)
 	{
 
 		MoveRightTouch();
 		MoveLeftTouch();
 		MoveUpTouch();
 		MoveDownTouch();
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Move Camera")));
 
 		//Move();
 
@@ -177,7 +185,7 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 
 
 		fingerCount++;
-		GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Red, FString::Printf(TEXT("Penis1")));
+		//GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Red, FString::Printf(TEXT("Penis1")));
 		if (fingerCount == 1)
 		{
 			firstFingerTouchStart = TouchLocation;
@@ -200,16 +208,16 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 
 
 				LineTrace(world, FVector(primitive_Comp->GetComponentLocation().X, primitive_Comp->GetComponentLocation().Y, primitive_Comp->GetComponentLocation().Z + 50), FVector(primitive_Comp->GetComponentLocation().X, primitive_Comp->GetComponentLocation().Y, primitive_Comp->GetComponentLocation().Z - 500), hitResult_Building, collisionChannel, false);
-				DrawDebugLine(world, primitive_Comp->GetComponentLocation(), FVector(primitive_Comp->GetComponentLocation().X, primitive_Comp->GetComponentLocation().Y, primitive_Comp->GetComponentLocation().Z - 500), FColor::Green, true, 5, 0, 2.f);
+				//DrawDebugLine(world, primitive_Comp->GetComponentLocation(), FVector(primitive_Comp->GetComponentLocation().X, primitive_Comp->GetComponentLocation().Y, primitive_Comp->GetComponentLocation().Z - 500), FColor::Green, true, 5, 0, 2.f);
 
-				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Building Grab")));
+				//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Building Grab")));
 				//FString PenisNamePenis = hitResult_Building.Last().GetActor()->GetName();
 				//UE_LOG(LogTemp, Warning, TEXT("MyCharacter's Name is %s"), PenisNamePenis);
 
 				if (hitResult_Building.Last().GetActor()->ActorHasTag("Floor"))
 				{
 
-					GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Floor under Building")));
+					//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Floor under Building")));
 
 				}
 			}
@@ -233,7 +241,7 @@ bool AParagon_CityPlayerController::InputTouch(uint32 Handle, ETouchType::Type T
 			lastHitResult = hitResult_Building.Last().ToString();
 			UE_LOG(LogTemp, Warning, TEXT("%s"), *lastHitResult);
 
-			DrawDebugLine(world, FVector(primitive_Comp->GetComponentLocation().X, primitive_Comp->GetComponentLocation().Y, primitive_Comp->GetComponentLocation().Z + 50), FVector(primitive_Comp->GetComponentLocation().X, primitive_Comp->GetComponentLocation().Y, primitive_Comp->GetComponentLocation().Z - 500), FColor::Green, true, 5, 0, 2.f);
+			//DrawDebugLine(world, FVector(primitive_Comp->GetComponentLocation().X, primitive_Comp->GetComponentLocation().Y, primitive_Comp->GetComponentLocation().Z + 50), FVector(primitive_Comp->GetComponentLocation().X, primitive_Comp->GetComponentLocation().Y, primitive_Comp->GetComponentLocation().Z - 500), FColor::Green, true, 5, 0, 2.f);
 		}
 
 
@@ -357,6 +365,11 @@ void AParagon_CityPlayerController::CreateBuildingWidget()
 	building_Widget = CreateWidget<UW_Building>(this, building_Widget_SubClass.Get());
 	building_Widget->AddToViewport();
 	building_Widget->SetBuilt_Manger();
+}
+
+void AParagon_CityPlayerController::RemoveFloorWidget()
+{
+	spawnPlayground_Widget->RemoveFromViewport();
 }
 
 

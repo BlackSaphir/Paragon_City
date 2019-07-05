@@ -9,10 +9,12 @@
 #include "W_Building.h"
 #include "Paragon_CityGameMode.h"
 #include "ARTrackable.h"
+#include "W_SpawnPlayground.h"
 #include "Paragon_CityPlayerController.generated.h"
 
+
 class UW_AR;
-class UW_SpawnPlayground;
+//class UW_SpawnPlayground;
 
 
 UCLASS()
@@ -45,6 +47,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 		void CreateBuildingWidget();
+
+	UFUNCTION(BlueprintCallable)
+		void RemoveFloorWidget();
 
 
 	// Variable
@@ -96,6 +101,7 @@ private:
 
 	UClass* spawnPlayground_Widget_Class;
 	TSubclassOf<UUserWidget> spawnPlayground_SubClass;
+	UW_SpawnPlayground* spawnPlayground_Widget;
 
 
 	UPrimitiveComponent* primitive_Comp;
@@ -110,6 +116,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		bool bMovingBuilding;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		bool bBuildingStreet;
 
 	UPROPERTY(EditAnywhere, Category = Touch)
 		float distance = 20.0f;
